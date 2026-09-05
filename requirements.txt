@@ -1,0 +1,26 @@
+# Runtime for the DLRSD point-prompt harness.
+#
+# These are the versions resolved in /home/cse-sdpl/pytorch-env on this machine,
+# pinned so a rerun reproduces the numbers in artifacts/. torch is listed for the
+# record but was already present -- reinstalling it pulls ~4 GB and this machine
+# has ~13 GB free, so install the rest into that environment rather than a new one:
+#
+#   /home/cse-sdpl/pytorch-env/bin/pip install -r requirements.txt
+#
+numpy==2.5.2
+opencv-python==5.0.0.93
+pillow==12.3.0
+scipy==1.18.1
+matplotlib==3.11.1
+pytest==8.4.2
+
+# torch==2.13.0+cu130   # pre-existing; CUDA 13.0 wheel, from the PyTorch index
+
+# SAM 1, built from the local clone at commit dca509fe793f601edb92606367a655c15ac00fdf.
+# Not on PyPI under this name; install with:
+#   pip install git+https://github.com/facebookresearch/segment-anything.git@dca509fe793f601edb92606367a655c15ac00fdf
+segment-anything==1.0
+
+# SAM 3 (optional, and currently unusable here -- facebook/sam3 is gated).
+# Uncomment once access is approved; Sam3Backend then activates automatically.
+# transformers>=5.0.0

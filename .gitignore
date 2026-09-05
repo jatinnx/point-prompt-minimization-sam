@@ -1,0 +1,26 @@
+# DLRSD itself: 264 MB extracted from dlrsd.zip. Reproduce with
+# scripts/00_extract_data.py rather than cloning it.
+data/
+
+# Automatic-mask cache: regenerable, machine- and backend-specific, and keyed by
+# the settings that produced it. artifacts/step0 and artifacts/step1 ARE tracked
+# because artifacts/step1 is the hand-off.
+artifacts/auto_masks/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+*.egg-info/
+
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.zip
+
+.vscode/
+.idea/
+.DS_Store
