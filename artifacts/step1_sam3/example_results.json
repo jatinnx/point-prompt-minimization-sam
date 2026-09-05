@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "note": "format example written by scripts/04_handoff_check.py, not a result",
+  "results": [
+    {
+      "image_id": "agric_1901",
+      "region_id": 0,
+      "points": [
+        [
+          57,
+          0
+        ]
+      ],
+      "final_coverage": 0.027111,
+      "final_iou": 0.027075,
+      "num_sam_calls": 1
+    }
+  ]
+}

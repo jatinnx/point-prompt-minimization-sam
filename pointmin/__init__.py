@@ -5,9 +5,11 @@ See INTERFACE.md for the contract the point-selection half codes against.
 """
 from .class_map import CLASS_NAMES, DLRSD_COLORS, NUM_CLASSES, PALETTE
 from .compat import prompt_sam3
+from .concepts import ConceptMasks, class_prompts, concept_masks
 from .config import Config, resolve
 from .harness import Harness
-from .metrics import coverage, iou, is_recognized, score, score_regions
+from .metrics import (coverage, iou, is_recognized, score, score_regions,
+                      score_regions_by_class)
 from .regions import (RECOGNIZED, SPEC_FIELDS, UNRECOGNIZED, Region,
                       extract_regions, interior_mask)
 from .results import (PointSelectionResult, load_results, points_by_image,
@@ -20,6 +22,7 @@ __all__ = [
     "CLASS_NAMES", "DLRSD_COLORS", "NUM_CLASSES", "PALETTE",
     "Config", "resolve", "Harness",
     "coverage", "iou", "is_recognized", "score", "score_regions",
+    "score_regions_by_class", "ConceptMasks", "class_prompts", "concept_masks",
     "Region", "extract_regions", "interior_mask", "RECOGNIZED", "UNRECOGNIZED",
     "SPEC_FIELDS",
     "BackendUnavailable", "build_backend", "SamSession", "FakeSession",

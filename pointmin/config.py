@@ -11,13 +11,12 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-# The ViT-B checkpoint already exists in several places on this machine. We
-# reference one in place rather than adding a seventh 375 MB copy.
-SAM1_CHECKPOINT_CANDIDATES = (
-    "/home/cse-sdpl/Documents/123ad0032-paper/PointonlySAM-R03/checkpoints/sam_vit_b_01ec64.pth",
-    "/home/cse-sdpl/Downloads/point_only_semseg/sam_vit_b_01ec64.pth",
-    "/home/cse-sdpl/Documents/123ad0032-paper/Geminisam/weights/sam_vit_b_01ec64.pth",
-)
+# SAM 3 lives in the project rather than in the Hugging Face cache. The cache is
+# outside the tree, is shared with unrelated work, and holds the weights behind
+# symlinked blobs; a `hf cache prune` elsewhere on this machine would break a run
+# here. SAM-modals/sam3/REVISION.txt records which revision the copy is.
+SAM3_LOCAL_DIR = "SAM-modals/sam3"
+SAM3_HUB_ID = "facebook/sam3"        # fallback: gated, needs `hf auth login`
 
 
 def resolve(path: str | Path) -> Path:
@@ -33,19 +32,21 @@ def resolve(path: str | Path) -> Path:
     return anchored
 
 
-def _first_existing(candidates) -> str:
-    """First checkpoint that exists here.
+def sam3_source(local_dir: str | Path = SAM3_LOCAL_DIR,
+                hub_id: str = SAM3_HUB_ID) -> str:
+    """Where ``from_pretrained`` should load SAM 3 from.
 
-    ``POINTMIN_SAM1_CHECKPOINT`` wins if set, since the paths below are this
-    machine's and a clone elsewhere needs a way to say where its copy is.
+    The in-project copy if it is there, the hub id otherwise, and
+    ``POINTMIN_SAM3_PATH`` ahead of both -- a clone elsewhere needs a way to say
+    where its copy is without editing this file. Presence is decided by
+    ``config.json``, not by the directory existing, so a half-finished copy falls
+    through to the hub instead of failing deep inside transformers.
     """
-    override = os.environ.get("POINTMIN_SAM1_CHECKPOINT")
+    override = os.environ.get("POINTMIN_SAM3_PATH")
     if override:
         return override
-    for c in candidates:
-        if Path(c).is_file():
-            return c
-    return candidates[0]
+    local = resolve(local_dir)
+    return str(local) if (local / "config.json").is_file() else hub_id
 
 
 @dataclass
@@ -71,21 +72,46 @@ class Config:
     iou_threshold: float = 0.75
     match_mode: str = "greedy_union"   # "best_single" | "greedy_union"
 
-    # ---- SAM backend ------------------------------------------------------
-    backend: str = "auto"           # "auto" | "sam3" | "sam1" | "fake"
+    # How SAM is asked what it can already find, before any point prompt.
+    #
+    #   "text"       image + the 17 DLRSD class names, nothing else. A region
+    #                counts as recognised only if the masks returned for *its
+    #                own* class name cover it. This is the project's design:
+    #                SAM has to name the thing, not just outline it.
+    #   "automatic"  the image and nothing else -- segment-everything on a
+    #                point grid, no class names. Class-agnostic, so a region is
+    #                credited for any overlapping blob: it asks whether SAM can
+    #                outline the thing, not whether it can name it.
+    #   "auto"       "text" if the model can be prompted with a phrase, else
+    #                "automatic". Resolved by the harness, since only it knows
+    #                what actually built.
+    #
+    # Both sides are SAM 3. Their numbers differ by a lot (see README), so the
+    # mode is recorded in every artifact and never averaged across.
+    recognition: str = "auto"          # "auto" | "text" | "automatic"
+
+    # ---- SAM 3 ------------------------------------------------------------
     device: str = "cuda"
-    sam1_model_type: str = "vit_b"
-    sam1_checkpoint: str = field(
-        default_factory=lambda: _first_existing(SAM1_CHECKPOINT_CANDIDATES))
-    sam3_model_id: str = "facebook/sam3"
+    # Path or hub id; both SAM 3 branches load from it. Defaults to the copy
+    # under SAM-modals/sam3, so a run needs neither the HF cache nor the network.
+    sam3_model_id: str = field(default_factory=sam3_source)
+
+    # ---- text ("concept") prompting, SAM 3 only ---------------------------
+    # One prompt per class name per image. The template exists so Step 6 can
+    # try "an aerial photo of {name}" against the bare name without a code
+    # change; the bare name is what the project promises SAM, so it is default.
+    sam3_prompt_template: str = "{name}"
+    sam3_score_threshold: float = 0.5   # drop instances below this confidence
+    sam3_mask_threshold: float = 0.5    # logit -> binary mask cut
 
     # ---- automatic ("segment everything") mode ----------------------------
-    # Chosen from scripts/03_auto_sweep.py, not carried over. The stricter
-    # values used by prior work on this machine (24 / 0.84 / 0.90) reached mean
-    # coverage 0.575 on the Step 1 pilot against 0.765 here, which would have
-    # overstated how much of the dataset needs point prompts. Loosening further
-    # (48 / 0.60 / 0.80) buys 0.043 more coverage for roughly twice the runtime.
-    auto_points_per_side: int = 32
+    # These govern recognition="automatic" only; the hand-off runs in text mode
+    # and never sees a point grid. 16 is what produced artifacts/step0_sam3 and
+    # artifacts/step1_sam3, so a bare image-only run reproduces them instead of
+    # spending an hour recomputing at a density nothing on disk was measured at.
+    # Cost is quadratic in this number: SAM 3 gets points_per_side**2 prompts per
+    # tile. scripts/03_auto_sweep.py re-derives the trade-off if Step 6 wants it.
+    auto_points_per_side: int = 16
     auto_pred_iou_thresh: float = 0.70
     auto_stability_score_thresh: float = 0.85
     auto_box_nms_thresh: float = 0.70
@@ -95,7 +121,13 @@ class Config:
 
     seed: int = 42
 
+    RECOGNITION_MODES = ("auto", "text", "automatic")
+
     def __post_init__(self) -> None:
+        if self.recognition not in self.RECOGNITION_MODES:
+            raise ValueError(
+                f"recognition must be one of {list(self.RECOGNITION_MODES)}, "
+                f"got {self.recognition!r}")
         if self.device.startswith("cuda"):
             try:
                 import torch

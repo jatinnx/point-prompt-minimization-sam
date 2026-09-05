@@ -5,9 +5,9 @@ actually loadable and shaped the way Section 5 of point-plan.md says?* Run it
 before writing any point-selection code, and again after any pull, so an
 interface drift shows up here instead of at Step 7.
 
-    python scripts/04_handoff_check.py                 # no GPU, no checkpoint
+    python scripts/04_handoff_check.py                 # no GPU, no weights
     python scripts/04_handoff_check.py --with-sam      # also exercise prompting
-    python scripts/04_handoff_check.py --in artifacts/step1
+    python scripts/04_handoff_check.py --in artifacts/step1_sam3   # image-only side
 
 Where a point is needed for the prompting smoke test it is the region's first
 interior pixel in raster order -- deliberately the dumbest possible choice, so
@@ -17,6 +17,7 @@ Steps 2-5 and belongs to Raven.
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -103,7 +104,7 @@ def first_interior_point(region) -> tuple[int, int]:
 def check_prompting(image_ids: list[str], data: dict, cfg: Config) -> dict:
     """Open a real session and prompt it, the way Raven's loop will.
 
-    Needs the SAM checkpoint and the DLRSD tiles under data/, unlike everything
+    Needs the SAM 3 weights and the DLRSD tiles under data/, unlike everything
     else here.
     """
     from pointmin import Harness
@@ -160,7 +161,7 @@ def check_fake_session(data: dict) -> None:
         require(mask.shape == region.gt_mask.shape, "fake session shape")
         require(fake.num_sam_calls == 1, "fake session call count")
     print(f"\nmodel-free check  FakeSession on {region.key} at ({cx}, {cy}): "
-          f"cov={cov:.3f} iou={iou:.3f}  (no checkpoint, no GPU, no image files)")
+          f"cov={cov:.3f} iou={iou:.3f}  (no weights, no GPU, no image files)")
 
 
 def check_result_format(data: dict, out_dir: Path) -> Path:
@@ -190,24 +191,38 @@ def check_result_format(data: dict, out_dir: Path) -> Path:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--in", dest="in_dir", default="artifacts/step1",
-                    help="hand-off directory containing index.json")
+    ap.add_argument("--in", dest="in_dir", default="artifacts/step1_sam3_text",
+                    help="hand-off directory containing index.json (default: the "
+                         "text-mode hand-off; artifacts/step1_sam3 is the "
+                         "image-only side of the same 10 images)")
     ap.add_argument("--with-sam", action="store_true",
-                    help="also open a real session (needs the checkpoint)")
-    ap.add_argument("--backend", default="auto", choices=["auto", "sam3", "sam1"])
+                    help="also open a real session (needs the SAM 3 weights)")
     args = ap.parse_args()
 
     in_dir = resolve(args.in_dir)
     if not (in_dir / "index.json").is_file():
         print(f"no hand-off at {in_dir} -- run scripts/02_harness_report.py first")
+        siblings = sorted(p.parent.name for p in
+                          resolve("artifacts").glob("*/index.json"))
+        if siblings:
+            print(f"  hand-offs that do exist: {', '.join(siblings)}")
+            print(f"  pass one with --in artifacts/<name>")
         return 1
 
-    cfg = Config(backend=args.backend)
+    cfg = Config()
     data = load_dataset(in_dir)
+    index = json.loads((in_dir / "index.json").read_text())
     image_ids = sorted(data)
     all_regions = [r for image_id in image_ids for r in data[image_id]]
+    # Which recognition mode produced these scores decides what the numbers mean:
+    # text mode credits a region only via its own class name, automatic mode via
+    # any overlapping mask, and the two differ by a factor of three. Printing it
+    # keeps a saved console log from being quoted against the wrong baseline.
+    recognition = index.get("recognition", "automatic")
 
     print(f"hand-off: {in_dir}")
+    print(f"  backend={index.get('backend', '?')} recognition={recognition} "
+          f"match_mode={index.get('match_mode', '?')}")
     print(f"  {len(image_ids)} images, {len(all_regions)} regions, "
           f"{sum(1 for r in all_regions if r.status == 'unrecognized')} unrecognized")
 
@@ -227,8 +242,10 @@ def main() -> int:
               f"{np.mean([r.iou for r in rs]):>9.3f}")
 
     no_match = [r.key for r in all_regions if r.matched_sam_mask is None]
-    print(f"\n{len(no_match)} regions have no matching automatic mask at all "
-          f"(SAM found nothing there): {', '.join(no_match) or 'none'}")
+    why = ("SAM returned nothing under this region's own class name"
+           if recognition == "text" else "SAM's automatic pass found nothing there")
+    print(f"\n{len(no_match)} regions have no matching mask at all "
+          f"({why}): {', '.join(no_match) or 'none'}")
     print("the rest are partial failures -- a mask exists, it is just wrong")
 
     check_fake_session(data)
@@ -236,7 +253,7 @@ def main() -> int:
         check_prompting(image_ids, data, cfg)
     else:
         print("\nprompting check   skipped (pass --with-sam to run it; it needs "
-              "the checkpoint and the DLRSD tiles under data/)")
+              "the SAM 3 weights and the DLRSD tiles under data/)")
 
     check_result_format(data, in_dir)
     print("\nhand-off OK")

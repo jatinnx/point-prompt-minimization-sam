@@ -8,6 +8,12 @@ exactly those regions and would mark them unrecognised for the wrong reason.
     best_single   the single automatic mask with the highest IoU
     greedy_union  start from that mask, then keep adding whichever remaining
                   mask improves IoU most, until none does
+
+The same two matchers serve both recognition modes. ``score_regions`` pools every
+mask and lets any of them match any region (class-agnostic, automatic mode);
+``score_regions_by_class`` restricts each region to the masks SAM returned for
+that region's own class name (text mode). Same thresholds, same matchers, so the
+only thing that differs between the two numbers is what SAM was told.
 """
 from __future__ import annotations
 
@@ -136,6 +142,44 @@ def score_regions(
         region.coverage = cov
         region.iou = region_iou
         region.matched_mask_indices = indices
+        region.status = (RECOGNIZED
+                         if is_recognized(cov, region_iou,
+                                          coverage_threshold, iou_threshold)
+                         else UNRECOGNIZED)
+    return regions
+
+
+def score_regions_by_class(
+    regions: list[Region],
+    concept,
+    coverage_threshold: float,
+    iou_threshold: float,
+    match_mode: str = "greedy_union",
+) -> list[Region]:
+    """Score every region against only the masks for its own class name.
+
+    ``concept`` is a ``concepts.ConceptMasks``. A region of class "buildings" is
+    matched against what SAM returned for the phrase "buildings" and nothing
+    else, so a building covered by a mask SAM called "pavement" stays
+    unrecognised. ``matched_mask_indices`` indexes the full ``concept.masks``
+    array, not the per-class subset, so it still identifies a specific mask.
+
+    Mutates and returns the same Region objects.
+    """
+    try:
+        matcher = MATCHERS[match_mode]
+    except KeyError:
+        raise ValueError(f"match_mode must be one of {sorted(MATCHERS)}, "
+                         f"got {match_mode!r}") from None
+
+    for region in regions:
+        where = concept.indices_for_class(region.class_id)
+        subset = concept.masks[where]
+        mask, cov, region_iou, local = matcher(region.gt_mask, subset)
+        region.matched_sam_mask = mask
+        region.coverage = cov
+        region.iou = region_iou
+        region.matched_mask_indices = tuple(int(where[i]) for i in local)
         region.status = (RECOGNIZED
                          if is_recognized(cov, region_iou,
                                           coverage_threshold, iou_threshold)

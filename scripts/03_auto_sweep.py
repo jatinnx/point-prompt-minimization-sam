@@ -1,14 +1,15 @@
 """How much of the unrecognized rate is the task, and how much is our settings?
 
-Section 4 item 2 is "a wrapper around SAM's automatic mode". The wrapper's
-thresholds were initially carried over from a grid-prompt partitioner tuned on
-DLRSD for a different purpose, and it turns out they suppress a large share of
-the coverage that automatic mode can actually reach. Handing the point-selection
-half a workload figure produced by needlessly strict settings would have made
-the task look harder than it is, so the settings get chosen from this sweep.
+Section 4 item 2 is "a wrapper around SAM's automatic mode", and the wrapper has
+a point grid and two score filters that decide how much it finds. Handing the
+point-selection half a workload figure produced by needlessly strict settings
+would make the task look harder than it is, so this sweeps them.
 
-Nothing here touches the *recognition* thresholds (coverage/IoU) -- those are
-Step 6 and belong to both of us.
+This is the *image-only* side of the toggle only: text mode has no point grid.
+It is also the expensive script here -- cost is quadratic in points_per_side and
+nothing is cached below the preset -- so it is a tool for Step 6 rather than part
+of the Step 0/1 run. Nothing here touches the *recognition* thresholds
+(coverage/IoU); those are Step 6 and belong to both of us.
 
     python scripts/03_auto_sweep.py
     python scripts/03_auto_sweep.py --n 21
@@ -28,15 +29,17 @@ from pointmin.autoseg import settings_key                   # noqa: E402
 from pointmin.config import resolve                         # noqa: E402
 from pointmin.metrics import distribution, score_regions    # noqa: E402
 
-# points_per_side, pred_iou_thresh, stability_score_thresh
+# points_per_side, pred_iou_thresh, stability_score_thresh. "default" is what
+# Config ships and what artifacts/step0_sam3 and artifacts/step1_sam3 were run
+# at, so it is the only row that is free on a machine with the cache.
 SETTINGS = {
     "strict": dict(auto_points_per_side=16, auto_pred_iou_thresh=0.88,
                    auto_stability_score_thresh=0.92),
-    "prior_work": dict(auto_points_per_side=24, auto_pred_iou_thresh=0.84,
-                       auto_stability_score_thresh=0.90),
-    "moderate": dict(auto_points_per_side=32, auto_pred_iou_thresh=0.70,
-                     auto_stability_score_thresh=0.85),
-    "loose": dict(auto_points_per_side=48, auto_pred_iou_thresh=0.60,
+    "default": dict(auto_points_per_side=16, auto_pred_iou_thresh=0.70,
+                    auto_stability_score_thresh=0.85),
+    "denser": dict(auto_points_per_side=24, auto_pred_iou_thresh=0.70,
+                   auto_stability_score_thresh=0.85),
+    "loose": dict(auto_points_per_side=32, auto_pred_iou_thresh=0.60,
                   auto_stability_score_thresh=0.80),
 }
 
@@ -89,17 +92,16 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--n", type=int, default=10)
     ap.add_argument("--images", nargs="*", default=None)
-    ap.add_argument("--backend", default="auto", choices=["auto", "sam3", "sam1"])
-    ap.add_argument("--out", default="artifacts/step1")
+    ap.add_argument("--out", default="artifacts/step1_sam3")
     args = ap.parse_args()
 
-    probe = Harness(Config(backend=args.backend))
+    probe = Harness(Config(recognition="automatic"))
     image_ids = args.images or pick_images(probe, args.n)
     out_dir = resolve(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"automatic-mode sweep on {len(image_ids)} images, "
-          f"backend={probe.backend_name}")
+          f"backend={probe.backend_name} (image only, no class names)")
     print("timings include a cached pass as 0s, so re-runs look free")
     print(f"\n  {'preset':<11} {'pps':>4} {'iou':>5} {'stab':>5} {'masks/img':>10} "
           f"{'recog':>7} {'cov':>6} {'IoU':>6} {'s/img':>7}")
@@ -117,8 +119,8 @@ def main() -> int:
 
     best = max(rows, key=lambda r: r["mean_coverage"])
     print(f"\nhighest mean coverage: {best['name']} at {best['mean_coverage']:.3f}")
-    print("cost grows faster than coverage past the moderate preset, which is why "
-          "moderate is the Config default")
+    print("coverage buys less per preset than runtime costs -- read the s/img "
+          "column beside it before moving Config.auto_points_per_side")
 
     (out_dir / "auto_mode_sweep.json").write_text(json.dumps({
         "backend": probe.backend_name,

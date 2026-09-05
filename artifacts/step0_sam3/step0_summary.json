@@ -1,0 +1,4459 @@
+{
+  "backend": "sam3",
+  "recognition": "automatic",
+  "class_names": [
+    "airplane",
+    "bare soil",
+    "buildings",
+    "cars",
+    "chaparral",
+    "court",
+    "dock",
+    "field",
+    "grass",
+    "mobile home",
+    "pavement",
+    "sand",
+    "sea",
+    "ship",
+    "tanks",
+    "trees",
+    "water"
+  ],
+  "config": {
+    "min_region_area": 24,
+    "connectivity": 8,
+    "coverage_threshold": 0.9,
+    "iou_threshold": 0.75,
+    "match_mode": "greedy_union",
+    "recognition": "automatic",
+    "sam3_prompt_template": "{name}",
+    "sam3_score_threshold": 0.5,
+    "sam3_mask_threshold": 0.5,
+    "auto_points_per_side": 16,
+    "auto_pred_iou_thresh": 0.7,
+    "auto_stability_score_thresh": 0.85
+  },
+  "n_images": 10,
+  "n_regions": 179,
+  "n_unrecognized": 149,
+  "area_stats": {
+    "count": 179,
+    "min": 28,
+    "p25": 188,
+    "median": 808,
+    "p75": 2816,
+    "max": 61782,
+    "mean": 3661.122905027933
+  },
+  "min_area_sweep": {
+    "0": {
+      "regions_total": 184,
+      "per_image_mean": 18.4,
+      "per_image_max": 33,
+      "gt_pixels_retained": 1.0
+    },
+    "8": {
+      "regions_total": 180,
+      "per_image_mean": 18.0,
+      "per_image_max": 32,
+      "gt_pixels_retained": 1.0
+    },
+    "16": {
+      "regions_total": 179,
+      "per_image_mean": 17.9,
+      "per_image_max": 32,
+      "gt_pixels_retained": 1.0
+    },
+    "24": {
+      "regions_total": 179,
+      "per_image_mean": 17.9,
+      "per_image_max": 32,
+      "gt_pixels_retained": 1.0
+    },
+    "48": {
+      "regions_total": 174,
+      "per_image_mean": 17.4,
+      "per_image_max": 32,
+      "gt_pixels_retained": 0.9997
+    },
+    "96": {
+      "regions_total": 159,
+      "per_image_mean": 15.9,
+      "per_image_max": 28,
+      "gt_pixels_retained": 0.998
+    }
+  },
+  "regions_eroding_to_nothing": [],
+  "images": [
+    {
+      "image_id": "agric_1901",
+      "why_chosen": "agricultural -- one large homogeneous field",
+      "n_sam_masks": 12,
+      "n_regions": 2,
+      "n_unrecognized": 1,
+      "gt_fraction_in_regions": 1.0,
+      "figure": "artifacts/step0_sam3/agric_1901.png",
+      "regions": [
+        {
+          "image_id": "agric_1901",
+          "region_id": 0,
+          "class_id": 8,
+          "class_name": "field",
+          "class_region_index": 0,
+          "area_px": 61782,
+          "bbox": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "coverage": 0.0271,
+          "iou": 0.0271,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            1,
+            2,
+            3,
+            4,
+            10,
+            11
+          ],
+          "fill_ratio": 0.943,
+          "interior_px": 61610,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "agric_1901",
+          "region_id": 1,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 0,
+          "area_px": 3754,
+          "bbox": [
+            0,
+            0,
+            58,
+            78
+          ],
+          "coverage": 0.9291,
+          "iou": 0.9282,
+          "status": "recognized",
+          "matched_mask_indices": [
+            0,
+            5,
+            6
+          ],
+          "fill_ratio": 0.83,
+          "interior_px": 3586,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 12
+    },
+    {
+      "image_id": "baseb_1000",
+      "why_chosen": "baseb -- explicit list, no stress rationale",
+      "n_sam_masks": 79,
+      "n_regions": 16,
+      "n_unrecognized": 13,
+      "gt_fraction_in_regions": 1.0,
+      "figure": "artifacts/step0_sam3/baseb_1000.png",
+      "regions": [
+        {
+          "image_id": "baseb_1000",
+          "region_id": 9,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 0,
+          "area_px": 27163,
+          "bbox": [
+            32,
+            29,
+            224,
+            227
+          ],
+          "coverage": 0.9266,
+          "iou": 0.9188,
+          "status": "recognized",
+          "matched_mask_indices": [
+            1,
+            51,
+            71
+          ],
+          "fill_ratio": 0.534,
+          "interior_px": 26091,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 0,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 0,
+          "area_px": 24276,
+          "bbox": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "coverage": 0.5323,
+          "iou": 0.5312,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0,
+            24,
+            27,
+            28,
+            29,
+            30,
+            35,
+            64
+          ],
+          "fill_ratio": 0.37,
+          "interior_px": 23042,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 1,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 1,
+          "area_px": 6005,
+          "bbox": [
+            175,
+            101,
+            81,
+            155
+          ],
+          "coverage": 0.0651,
+          "iou": 0.0637,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            11,
+            32,
+            48,
+            75
+          ],
+          "fill_ratio": 0.478,
+          "interior_px": 5599,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 15,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 5,
+          "area_px": 4861,
+          "bbox": [
+            102,
+            187,
+            106,
+            69
+          ],
+          "coverage": 0.8926,
+          "iou": 0.887,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            3,
+            31
+          ],
+          "fill_ratio": 0.665,
+          "interior_px": 4563,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 3,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 0,
+          "area_px": 719,
+          "bbox": [
+            0,
+            0,
+            29,
+            35
+          ],
+          "coverage": 0.9666,
+          "iou": 0.9073,
+          "status": "recognized",
+          "matched_mask_indices": [
+            4
+          ],
+          "fill_ratio": 0.708,
+          "interior_px": 638,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 5,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 2,
+          "area_px": 488,
+          "bbox": [
+            24,
+            76,
+            19,
+            32
+          ],
+          "coverage": 0.5389,
+          "iou": 0.5067,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            54
+          ],
+          "fill_ratio": 0.803,
+          "interior_px": 386,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 10,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 0,
+          "area_px": 356,
+          "bbox": [
+            16,
+            56,
+            12,
+            42
+          ],
+          "coverage": 0.2472,
+          "iou": 0.2424,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            78
+          ],
+          "fill_ratio": 0.706,
+          "interior_px": 238,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 4,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 1,
+          "area_px": 246,
+          "bbox": [
+            99,
+            17,
+            31,
+            10
+          ],
+          "coverage": 1.0,
+          "iou": 0.7235,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            7
+          ],
+          "fill_ratio": 0.794,
+          "interior_px": 168,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 6,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 3,
+          "area_px": 234,
+          "bbox": [
+            2,
+            151,
+            18,
+            18
+          ],
+          "coverage": 0.9487,
+          "iou": 0.7425,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            18
+          ],
+          "fill_ratio": 0.722,
+          "interior_px": 164,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 8,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 1,
+          "area_px": 227,
+          "bbox": [
+            235,
+            225,
+            20,
+            13
+          ],
+          "coverage": 0.8062,
+          "iou": 0.8026,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            5
+          ],
+          "fill_ratio": 0.873,
+          "interior_px": 164,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 14,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 4,
+          "area_px": 202,
+          "bbox": [
+            7,
+            161,
+            20,
+            20
+          ],
+          "coverage": 0.0446,
+          "iou": 0.0156,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            13,
+            66
+          ],
+          "fill_ratio": 0.505,
+          "interior_px": 113,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 13,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 3,
+          "area_px": 190,
+          "bbox": [
+            24,
+            150,
+            15,
+            24
+          ],
+          "coverage": 0.0737,
+          "iou": 0.047,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            60,
+            66
+          ],
+          "fill_ratio": 0.528,
+          "interior_px": 116,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 2,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 2,
+          "area_px": 164,
+          "bbox": [
+            88,
+            223,
+            13,
+            22
+          ],
+          "coverage": 0.878,
+          "iou": 0.7784,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            19
+          ],
+          "fill_ratio": 0.573,
+          "interior_px": 94,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 7,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 0,
+          "area_px": 146,
+          "bbox": [
+            232,
+            199,
+            20,
+            8
+          ],
+          "coverage": 0.8973,
+          "iou": 0.6238,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            11
+          ],
+          "fill_ratio": 0.912,
+          "interior_px": 92,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 12,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 2,
+          "area_px": 137,
+          "bbox": [
+            4,
+            120,
+            15,
+            16
+          ],
+          "coverage": 0.9854,
+          "iou": 0.8544,
+          "status": "recognized",
+          "matched_mask_indices": [
+            26
+          ],
+          "fill_ratio": 0.571,
+          "interior_px": 82,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "baseb_1000",
+          "region_id": 11,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 1,
+          "area_px": 122,
+          "bbox": [
+            15,
+            106,
+            11,
+            14
+          ],
+          "coverage": 0.8443,
+          "iou": 0.8047,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            44
+          ],
+          "fill_ratio": 0.792,
+          "interior_px": 77,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 79
+    },
+    {
+      "image_id": "build_1601",
+      "why_chosen": "build -- explicit list, no stress rationale",
+      "n_sam_masks": 46,
+      "n_regions": 18,
+      "n_unrecognized": 15,
+      "gt_fraction_in_regions": 1.0,
+      "figure": "artifacts/step0_sam3/build_1601.png",
+      "regions": [
+        {
+          "image_id": "build_1601",
+          "region_id": 4,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 4,
+          "area_px": 20265,
+          "bbox": [
+            51,
+            120,
+            205,
+            136
+          ],
+          "coverage": 0.7077,
+          "iou": 0.7077,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0,
+            1,
+            3,
+            11,
+            14,
+            15,
+            19,
+            25
+          ],
+          "fill_ratio": 0.727,
+          "interior_px": 19757,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 15,
+          "class_id": 11,
+          "class_name": "pavement",
+          "class_region_index": 0,
+          "area_px": 16885,
+          "bbox": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "coverage": 0.0461,
+          "iou": 0.0434,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            10,
+            29,
+            32,
+            33,
+            38,
+            41,
+            42,
+            44
+          ],
+          "fill_ratio": 0.258,
+          "interior_px": 15635,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 0,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 0,
+          "area_px": 16201,
+          "bbox": [
+            0,
+            0,
+            249,
+            127
+          ],
+          "coverage": 0.5039,
+          "iou": 0.501,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            6,
+            7,
+            22,
+            28,
+            30,
+            31,
+            35,
+            43
+          ],
+          "fill_ratio": 0.512,
+          "interior_px": 15291,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 16,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 0,
+          "area_px": 4101,
+          "bbox": [
+            3,
+            0,
+            129,
+            71
+          ],
+          "coverage": 0.0768,
+          "iou": 0.0646,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            16,
+            24,
+            28,
+            34
+          ],
+          "fill_ratio": 0.448,
+          "interior_px": 3315,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 17,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 1,
+          "area_px": 4097,
+          "bbox": [
+            90,
+            93,
+            166,
+            85
+          ],
+          "coverage": 0.0022,
+          "iou": 0.0011,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            4,
+            33
+          ],
+          "fill_ratio": 0.29,
+          "interior_px": 3583,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 2,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 2,
+          "area_px": 1604,
+          "bbox": [
+            15,
+            3,
+            79,
+            54
+          ],
+          "coverage": 0.8965,
+          "iou": 0.8424,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2,
+            34
+          ],
+          "fill_ratio": 0.376,
+          "interior_px": 1302,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 5,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 5,
+          "area_px": 1047,
+          "bbox": [
+            0,
+            183,
+            23,
+            73
+          ],
+          "coverage": 0.32,
+          "iou": 0.32,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            5,
+            17
+          ],
+          "fill_ratio": 0.624,
+          "interior_px": 900,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 13,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 7,
+          "area_px": 170,
+          "bbox": [
+            14,
+            224,
+            18,
+            32
+          ],
+          "coverage": 0.4941,
+          "iou": 0.4098,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            39
+          ],
+          "fill_ratio": 0.295,
+          "interior_px": 73,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 3,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 3,
+          "area_px": 167,
+          "bbox": [
+            117,
+            4,
+            13,
+            17
+          ],
+          "coverage": 1.0,
+          "iou": 0.6523,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            16
+          ],
+          "fill_ratio": 0.756,
+          "interior_px": 111,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 1,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 1,
+          "area_px": 139,
+          "bbox": [
+            15,
+            0,
+            29,
+            7
+          ],
+          "coverage": 0.9712,
+          "iou": 0.7895,
+          "status": "recognized",
+          "matched_mask_indices": [
+            21
+          ],
+          "fill_ratio": 0.685,
+          "interior_px": 98,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 7,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 1,
+          "area_px": 139,
+          "bbox": [
+            122,
+            92,
+            18,
+            12
+          ],
+          "coverage": 0.8705,
+          "iou": 0.716,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            20
+          ],
+          "fill_ratio": 0.644,
+          "interior_px": 83,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 14,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 8,
+          "area_px": 133,
+          "bbox": [
+            62,
+            235,
+            13,
+            18
+          ],
+          "coverage": 0.9323,
+          "iou": 0.3196,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            32
+          ],
+          "fill_ratio": 0.568,
+          "interior_px": 71,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 10,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 4,
+          "area_px": 121,
+          "bbox": [
+            97,
+            150,
+            16,
+            13
+          ],
+          "coverage": 1.0,
+          "iou": 0.6142,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            37
+          ],
+          "fill_ratio": 0.582,
+          "interior_px": 65,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 9,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 3,
+          "area_px": 116,
+          "bbox": [
+            47,
+            121,
+            17,
+            11
+          ],
+          "coverage": 0.9655,
+          "iou": 0.7517,
+          "status": "recognized",
+          "matched_mask_indices": [
+            23
+          ],
+          "fill_ratio": 0.62,
+          "interior_px": 64,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 8,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 2,
+          "area_px": 115,
+          "bbox": [
+            65,
+            112,
+            14,
+            12
+          ],
+          "coverage": 0.9826,
+          "iou": 0.7958,
+          "status": "recognized",
+          "matched_mask_indices": [
+            13
+          ],
+          "fill_ratio": 0.685,
+          "interior_px": 67,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 11,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 5,
+          "area_px": 86,
+          "bbox": [
+            0,
+            161,
+            9,
+            14
+          ],
+          "coverage": 0.9884,
+          "iou": 0.6489,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            27
+          ],
+          "fill_ratio": 0.683,
+          "interior_px": 48,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 12,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 6,
+          "area_px": 76,
+          "bbox": [
+            8,
+            208,
+            9,
+            14
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.603,
+          "interior_px": 34,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "build_1601",
+          "region_id": 6,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 0,
+          "area_px": 73,
+          "bbox": [
+            145,
+            83,
+            15,
+            10
+          ],
+          "coverage": 0.9452,
+          "iou": 0.5267,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            26
+          ],
+          "fill_ratio": 0.487,
+          "interior_px": 28,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 46
+    },
+    {
+      "image_id": "dense_1401",
+      "why_chosen": "dense residential -- many small buildings packed together",
+      "n_sam_masks": 73,
+      "n_regions": 32,
+      "n_unrecognized": 29,
+      "gt_fraction_in_regions": 1.0,
+      "figure": "artifacts/step0_sam3/dense_1401.png",
+      "regions": [
+        {
+          "image_id": "dense_1401",
+          "region_id": 11,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 4,
+          "area_px": 12055,
+          "bbox": [
+            0,
+            17,
+            122,
+            212
+          ],
+          "coverage": 0.4544,
+          "iou": 0.4527,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            1,
+            3,
+            6,
+            14,
+            15,
+            31,
+            40,
+            64
+          ],
+          "fill_ratio": 0.466,
+          "interior_px": 11166,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 4,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 4,
+          "area_px": 6959,
+          "bbox": [
+            77,
+            121,
+            116,
+            135
+          ],
+          "coverage": 0.1795,
+          "iou": 0.1765,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            19,
+            21,
+            29,
+            34,
+            39,
+            52,
+            57
+          ],
+          "fill_ratio": 0.444,
+          "interior_px": 6157,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 8,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 1,
+          "area_px": 6534,
+          "bbox": [
+            51,
+            0,
+            153,
+            72
+          ],
+          "coverage": 0.6723,
+          "iou": 0.6566,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2,
+            8,
+            9,
+            22,
+            26,
+            45,
+            70,
+            71
+          ],
+          "fill_ratio": 0.593,
+          "interior_px": 5943,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 2,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 2,
+          "area_px": 6215,
+          "bbox": [
+            74,
+            31,
+            182,
+            101
+          ],
+          "coverage": 0.3046,
+          "iou": 0.3005,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            16,
+            18,
+            36,
+            48,
+            53,
+            56,
+            61,
+            69
+          ],
+          "fill_ratio": 0.338,
+          "interior_px": 5251,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 23,
+          "class_id": 11,
+          "class_name": "pavement",
+          "class_region_index": 0,
+          "area_px": 4955,
+          "bbox": [
+            0,
+            0,
+            256,
+            234
+          ],
+          "coverage": 0.0139,
+          "iou": 0.0125,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            11,
+            49,
+            61,
+            67
+          ],
+          "fill_ratio": 0.083,
+          "interior_px": 3739,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 29,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 5,
+          "area_px": 4610,
+          "bbox": [
+            0,
+            142,
+            103,
+            114
+          ],
+          "coverage": 0.038,
+          "iou": 0.0338,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            23,
+            52
+          ],
+          "fill_ratio": 0.393,
+          "interior_px": 4017,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 17,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 10,
+          "area_px": 3198,
+          "bbox": [
+            165,
+            203,
+            91,
+            53
+          ],
+          "coverage": 0.4403,
+          "iou": 0.4318,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0,
+            30,
+            32
+          ],
+          "fill_ratio": 0.663,
+          "interior_px": 2970,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 28,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 4,
+          "area_px": 2891,
+          "bbox": [
+            182,
+            113,
+            74,
+            105
+          ],
+          "coverage": 0.2992,
+          "iou": 0.2976,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            42
+          ],
+          "fill_ratio": 0.372,
+          "interior_px": 2470,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 16,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 9,
+          "area_px": 2581,
+          "bbox": [
+            45,
+            202,
+            84,
+            54
+          ],
+          "coverage": 0.6788,
+          "iou": 0.6325,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            10,
+            17,
+            23
+          ],
+          "fill_ratio": 0.569,
+          "interior_px": 2238,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 25,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 1,
+          "area_px": 1813,
+          "bbox": [
+            189,
+            0,
+            67,
+            38
+          ],
+          "coverage": 0.1081,
+          "iou": 0.0982,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            41,
+            44,
+            60
+          ],
+          "fill_ratio": 0.712,
+          "interior_px": 1550,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 12,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 5,
+          "area_px": 1634,
+          "bbox": [
+            184,
+            31,
+            61,
+            52
+          ],
+          "coverage": 0.9688,
+          "iou": 0.9124,
+          "status": "recognized",
+          "matched_mask_indices": [
+            7
+          ],
+          "fill_ratio": 0.515,
+          "interior_px": 1390,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 15,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 8,
+          "area_px": 1422,
+          "bbox": [
+            155,
+            93,
+            52,
+            57
+          ],
+          "coverage": 0.9698,
+          "iou": 0.8966,
+          "status": "recognized",
+          "matched_mask_indices": [
+            4
+          ],
+          "fill_ratio": 0.48,
+          "interior_px": 1195,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 31,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 7,
+          "area_px": 1352,
+          "bbox": [
+            160,
+            186,
+            53,
+            50
+          ],
+          "coverage": 0.0651,
+          "iou": 0.0409,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            32,
+            57
+          ],
+          "fill_ratio": 0.51,
+          "interior_px": 1132,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 13,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 6,
+          "area_px": 1320,
+          "bbox": [
+            111,
+            65,
+            48,
+            52
+          ],
+          "coverage": 0.8864,
+          "iou": 0.8211,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            11,
+            12
+          ],
+          "fill_ratio": 0.529,
+          "interior_px": 1105,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 7,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 0,
+          "area_px": 1183,
+          "bbox": [
+            20,
+            0,
+            43,
+            45
+          ],
+          "coverage": 0.5993,
+          "iou": 0.5903,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            25
+          ],
+          "fill_ratio": 0.611,
+          "interior_px": 1022,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 27,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 3,
+          "area_px": 784,
+          "bbox": [
+            207,
+            75,
+            35,
+            39
+          ],
+          "coverage": 0.0268,
+          "iou": 0.0156,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            5
+          ],
+          "fill_ratio": 0.574,
+          "interior_px": 635,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 3,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 3,
+          "area_px": 773,
+          "bbox": [
+            212,
+            105,
+            44,
+            49
+          ],
+          "coverage": 0.0505,
+          "iou": 0.0236,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            5,
+            38,
+            66
+          ],
+          "fill_ratio": 0.359,
+          "interior_px": 498,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 30,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 6,
+          "area_px": 727,
+          "bbox": [
+            2,
+            146,
+            47,
+            47
+          ],
+          "coverage": 0.0083,
+          "iou": 0.0034,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            3
+          ],
+          "fill_ratio": 0.329,
+          "interior_px": 537,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 20,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 1,
+          "area_px": 711,
+          "bbox": [
+            203,
+            100,
+            41,
+            44
+          ],
+          "coverage": 0.6709,
+          "iou": 0.6268,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            37,
+            38,
+            66
+          ],
+          "fill_ratio": 0.394,
+          "interior_px": 501,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 14,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 7,
+          "area_px": 656,
+          "bbox": [
+            234,
+            72,
+            22,
+            51
+          ],
+          "coverage": 0.8323,
+          "iou": 0.7845,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            5
+          ],
+          "fill_ratio": 0.585,
+          "interior_px": 554,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 1,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 1,
+          "area_px": 575,
+          "bbox": [
+            47,
+            0,
+            27,
+            54
+          ],
+          "coverage": 0.2417,
+          "iou": 0.2298,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            72
+          ],
+          "fill_ratio": 0.394,
+          "interior_px": 382,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 6,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 6,
+          "area_px": 555,
+          "bbox": [
+            208,
+            166,
+            33,
+            33
+          ],
+          "coverage": 0.7261,
+          "iou": 0.6877,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            46,
+            59
+          ],
+          "fill_ratio": 0.51,
+          "interior_px": 408,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 22,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 3,
+          "area_px": 403,
+          "bbox": [
+            135,
+            191,
+            24,
+            37
+          ],
+          "coverage": 0.5533,
+          "iou": 0.5386,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            20,
+            50
+          ],
+          "fill_ratio": 0.454,
+          "interior_px": 286,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 5,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 5,
+          "area_px": 391,
+          "bbox": [
+            173,
+            137,
+            22,
+            28
+          ],
+          "coverage": 0.4399,
+          "iou": 0.4311,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            35
+          ],
+          "fill_ratio": 0.635,
+          "interior_px": 292,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 19,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 0,
+          "area_px": 285,
+          "bbox": [
+            66,
+            53,
+            23,
+            18
+          ],
+          "coverage": 0.8842,
+          "iou": 0.7304,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            61,
+            67
+          ],
+          "fill_ratio": 0.688,
+          "interior_px": 199,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 0,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 0,
+          "area_px": 233,
+          "bbox": [
+            13,
+            0,
+            18,
+            23
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.563,
+          "interior_px": 164,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 24,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 0,
+          "area_px": 211,
+          "bbox": [
+            108,
+            0,
+            24,
+            28
+          ],
+          "coverage": 0.0332,
+          "iou": 0.0196,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            71
+          ],
+          "fill_ratio": 0.314,
+          "interior_px": 102,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 26,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 2,
+          "area_px": 192,
+          "bbox": [
+            0,
+            74,
+            13,
+            20
+          ],
+          "coverage": 0.75,
+          "iou": 0.6154,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            63
+          ],
+          "fill_ratio": 0.738,
+          "interior_px": 135,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 10,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 3,
+          "area_px": 94,
+          "bbox": [
+            233,
+            0,
+            19,
+            12
+          ],
+          "coverage": 0.3936,
+          "iou": 0.3524,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            60
+          ],
+          "fill_ratio": 0.412,
+          "interior_px": 49,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 18,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 11,
+          "area_px": 86,
+          "bbox": [
+            133,
+            247,
+            15,
+            9
+          ],
+          "coverage": 0.9302,
+          "iou": 0.8602,
+          "status": "recognized",
+          "matched_mask_indices": [
+            58
+          ],
+          "fill_ratio": 0.637,
+          "interior_px": 55,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 9,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 2,
+          "area_px": 70,
+          "bbox": [
+            214,
+            0,
+            12,
+            8
+          ],
+          "coverage": 0.4429,
+          "iou": 0.4133,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            41
+          ],
+          "fill_ratio": 0.729,
+          "interior_px": 43,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "dense_1401",
+          "region_id": 21,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 2,
+          "area_px": 67,
+          "bbox": [
+            224,
+            146,
+            12,
+            9
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.62,
+          "interior_px": 30,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 73
+    },
+    {
+      "image_id": "freew_301",
+      "why_chosen": "freeway -- sprawling pavement, the connected-component worry",
+      "n_sam_masks": 20,
+      "n_regions": 21,
+      "n_unrecognized": 20,
+      "gt_fraction_in_regions": 1.0,
+      "figure": "artifacts/step0_sam3/freew_301.png",
+      "regions": [
+        {
+          "image_id": "freew_301",
+          "region_id": 13,
+          "class_id": 11,
+          "class_name": "pavement",
+          "class_region_index": 0,
+          "area_px": 50060,
+          "bbox": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "coverage": 0.0124,
+          "iou": 0.0123,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0,
+            1,
+            2,
+            4,
+            6,
+            7,
+            15,
+            19
+          ],
+          "fill_ratio": 0.764,
+          "interior_px": 48722,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 11,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 3,
+          "area_px": 4885,
+          "bbox": [
+            0,
+            100,
+            115,
+            156
+          ],
+          "coverage": 0.0119,
+          "iou": 0.0115,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            11
+          ],
+          "fill_ratio": 0.272,
+          "interior_px": 3942,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 14,
+          "class_id": 11,
+          "class_name": "pavement",
+          "class_region_index": 1,
+          "area_px": 2842,
+          "bbox": [
+            0,
+            171,
+            68,
+            85
+          ],
+          "coverage": 0.9163,
+          "iou": 0.9105,
+          "status": "recognized",
+          "matched_mask_indices": [
+            3,
+            9,
+            18
+          ],
+          "fill_ratio": 0.492,
+          "interior_px": 2690,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 8,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 0,
+          "area_px": 2790,
+          "bbox": [
+            138,
+            0,
+            107,
+            174
+          ],
+          "coverage": 0.0133,
+          "iou": 0.0131,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            19
+          ],
+          "fill_ratio": 0.15,
+          "interior_px": 1872,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 15,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 0,
+          "area_px": 1158,
+          "bbox": [
+            139,
+            0,
+            58,
+            76
+          ],
+          "coverage": 0.0026,
+          "iou": 0.0024,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            19
+          ],
+          "fill_ratio": 0.263,
+          "interior_px": 890,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 17,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 2,
+          "area_px": 829,
+          "bbox": [
+            192,
+            92,
+            44,
+            51
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.369,
+          "interior_px": 532,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 18,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 3,
+          "area_px": 808,
+          "bbox": [
+            0,
+            160,
+            81,
+            94
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.106,
+          "interior_px": 432,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 19,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 4,
+          "area_px": 636,
+          "bbox": [
+            67,
+            210,
+            51,
+            46
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.271,
+          "interior_px": 381,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 9,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 1,
+          "area_px": 289,
+          "bbox": [
+            238,
+            0,
+            18,
+            23
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.698,
+          "interior_px": 240,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 16,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 1,
+          "area_px": 193,
+          "bbox": [
+            243,
+            15,
+            13,
+            30
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.495,
+          "interior_px": 122,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 6,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 6,
+          "area_px": 187,
+          "bbox": [
+            88,
+            79,
+            15,
+            19
+          ],
+          "coverage": 0.877,
+          "iou": 0.8454,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            5
+          ],
+          "fill_ratio": 0.656,
+          "interior_px": 124,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 20,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 5,
+          "area_px": 150,
+          "bbox": [
+            83,
+            246,
+            21,
+            10
+          ],
+          "coverage": 0.9933,
+          "iou": 0.7163,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            11
+          ],
+          "fill_ratio": 0.714,
+          "interior_px": 87,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 3,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 3,
+          "area_px": 145,
+          "bbox": [
+            243,
+            52,
+            13,
+            17
+          ],
+          "coverage": 0.8552,
+          "iou": 0.8435,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            8
+          ],
+          "fill_ratio": 0.656,
+          "interior_px": 97,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 12,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 4,
+          "area_px": 113,
+          "bbox": [
+            201,
+            104,
+            17,
+            22
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.302,
+          "interior_px": 31,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 4,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 4,
+          "area_px": 94,
+          "bbox": [
+            17,
+            56,
+            11,
+            17
+          ],
+          "coverage": 1.0,
+          "iou": 0.5497,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            1
+          ],
+          "fill_ratio": 0.503,
+          "interior_px": 41,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 7,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 7,
+          "area_px": 87,
+          "bbox": [
+            101,
+            189,
+            11,
+            14
+          ],
+          "coverage": 1.0,
+          "iou": 0.6744,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            6
+          ],
+          "fill_ratio": 0.565,
+          "interior_px": 41,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 1,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 1,
+          "area_px": 83,
+          "bbox": [
+            197,
+            24,
+            12,
+            14
+          ],
+          "coverage": 0.9157,
+          "iou": 0.5938,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            12
+          ],
+          "fill_ratio": 0.494,
+          "interior_px": 31,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 0,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 0,
+          "area_px": 60,
+          "bbox": [
+            10,
+            24,
+            8,
+            13
+          ],
+          "coverage": 1.0,
+          "iou": 0.4724,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2
+          ],
+          "fill_ratio": 0.577,
+          "interior_px": 22,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 5,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 5,
+          "area_px": 59,
+          "bbox": [
+            90,
+            61,
+            11,
+            11
+          ],
+          "coverage": 1.0,
+          "iou": 0.5,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            14
+          ],
+          "fill_ratio": 0.488,
+          "interior_px": 16,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 10,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 2,
+          "area_px": 40,
+          "bbox": [
+            249,
+            41,
+            7,
+            9
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.635,
+          "interior_px": 19,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "freew_301",
+          "region_id": 2,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 2,
+          "area_px": 28,
+          "bbox": [
+            235,
+            37,
+            5,
+            6
+          ],
+          "coverage": 1.0,
+          "iou": 0.2295,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            10
+          ],
+          "fill_ratio": 0.933,
+          "interior_px": 10,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 20
+    },
+    {
+      "image_id": "harbo_401",
+      "why_chosen": "harbour -- ships and docks, thin repeated structures",
+      "n_sam_masks": 24,
+      "n_regions": 24,
+      "n_unrecognized": 12,
+      "gt_fraction_in_regions": 1.0,
+      "figure": "artifacts/step0_sam3/harbo_401.png",
+      "regions": [
+        {
+          "image_id": "harbo_401",
+          "region_id": 17,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 1,
+          "area_px": 19118,
+          "bbox": [
+            53,
+            0,
+            203,
+            206
+          ],
+          "coverage": 0.0133,
+          "iou": 0.0106,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2,
+            3,
+            4,
+            12,
+            14,
+            18
+          ],
+          "fill_ratio": 0.457,
+          "interior_px": 17712,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 20,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 4,
+          "area_px": 14881,
+          "bbox": [
+            0,
+            90,
+            190,
+            166
+          ],
+          "coverage": 0.0085,
+          "iou": 0.0061,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            6,
+            10,
+            13
+          ],
+          "fill_ratio": 0.472,
+          "interior_px": 13869,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 0,
+          "class_id": 7,
+          "class_name": "dock",
+          "class_region_index": 0,
+          "area_px": 9907,
+          "bbox": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "coverage": 0.2517,
+          "iou": 0.1573,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0,
+            1,
+            2,
+            13,
+            17,
+            18,
+            21,
+            23
+          ],
+          "fill_ratio": 0.151,
+          "interior_px": 7101,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 11,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 10,
+          "area_px": 2020,
+          "bbox": [
+            57,
+            128,
+            69,
+            65
+          ],
+          "coverage": 0.9738,
+          "iou": 0.8356,
+          "status": "recognized",
+          "matched_mask_indices": [
+            10
+          ],
+          "fill_ratio": 0.45,
+          "interior_px": 1756,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 6,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 5,
+          "area_px": 1827,
+          "bbox": [
+            0,
+            59,
+            63,
+            62
+          ],
+          "coverage": 0.9568,
+          "iou": 0.76,
+          "status": "recognized",
+          "matched_mask_indices": [
+            13
+          ],
+          "fill_ratio": 0.468,
+          "interior_px": 1594,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 7,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 6,
+          "area_px": 1721,
+          "bbox": [
+            24,
+            82,
+            59,
+            61
+          ],
+          "coverage": 0.9564,
+          "iou": 0.9411,
+          "status": "recognized",
+          "matched_mask_indices": [
+            5
+          ],
+          "fill_ratio": 0.478,
+          "interior_px": 1483,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 13,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 12,
+          "area_px": 1677,
+          "bbox": [
+            103,
+            177,
+            60,
+            58
+          ],
+          "coverage": 0.9744,
+          "iou": 0.8423,
+          "status": "recognized",
+          "matched_mask_indices": [
+            7
+          ],
+          "fill_ratio": 0.482,
+          "interior_px": 1442,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 9,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 8,
+          "area_px": 1518,
+          "bbox": [
+            157,
+            95,
+            62,
+            56
+          ],
+          "coverage": 0.9592,
+          "iou": 0.91,
+          "status": "recognized",
+          "matched_mask_indices": [
+            3
+          ],
+          "fill_ratio": 0.437,
+          "interior_px": 1280,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 10,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 9,
+          "area_px": 1417,
+          "bbox": [
+            42,
+            107,
+            60,
+            63
+          ],
+          "coverage": 0.9591,
+          "iou": 0.8596,
+          "status": "recognized",
+          "matched_mask_indices": [
+            6
+          ],
+          "fill_ratio": 0.375,
+          "interior_px": 1173,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 8,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 7,
+          "area_px": 1278,
+          "bbox": [
+            136,
+            82,
+            56,
+            54
+          ],
+          "coverage": 0.9358,
+          "iou": 0.8549,
+          "status": "recognized",
+          "matched_mask_indices": [
+            4
+          ],
+          "fill_ratio": 0.423,
+          "interior_px": 1057,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 5,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 4,
+          "area_px": 1171,
+          "bbox": [
+            103,
+            49,
+            51,
+            50
+          ],
+          "coverage": 0.9257,
+          "iou": 0.9018,
+          "status": "recognized",
+          "matched_mask_indices": [
+            9
+          ],
+          "fill_ratio": 0.459,
+          "interior_px": 968,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 23,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 7,
+          "area_px": 1126,
+          "bbox": [
+            186,
+            211,
+            63,
+            45
+          ],
+          "coverage": 0.0311,
+          "iou": 0.0306,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            23
+          ],
+          "fill_ratio": 0.397,
+          "interior_px": 935,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 22,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 6,
+          "area_px": 1040,
+          "bbox": [
+            223,
+            184,
+            33,
+            61
+          ],
+          "coverage": 0.0394,
+          "iou": 0.0257,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            18,
+            19
+          ],
+          "fill_ratio": 0.517,
+          "interior_px": 874,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 12,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 11,
+          "area_px": 1023,
+          "bbox": [
+            191,
+            138,
+            51,
+            46
+          ],
+          "coverage": 0.9658,
+          "iou": 0.7351,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0
+          ],
+          "fill_ratio": 0.436,
+          "interior_px": 829,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 4,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 3,
+          "area_px": 904,
+          "bbox": [
+            0,
+            40,
+            37,
+            47
+          ],
+          "coverage": 0.9524,
+          "iou": 0.915,
+          "status": "recognized",
+          "matched_mask_indices": [
+            11
+          ],
+          "fill_ratio": 0.52,
+          "interior_px": 763,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 15,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 14,
+          "area_px": 781,
+          "bbox": [
+            154,
+            226,
+            49,
+            30
+          ],
+          "coverage": 0.886,
+          "iou": 0.8564,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            16
+          ],
+          "fill_ratio": 0.531,
+          "interior_px": 658,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 19,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 3,
+          "area_px": 773,
+          "bbox": [
+            0,
+            35,
+            64,
+            62
+          ],
+          "coverage": 0.0103,
+          "iou": 0.0048,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            11
+          ],
+          "fill_ratio": 0.195,
+          "interior_px": 515,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 2,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 1,
+          "area_px": 759,
+          "bbox": [
+            81,
+            13,
+            40,
+            42
+          ],
+          "coverage": 0.9631,
+          "iou": 0.9058,
+          "status": "recognized",
+          "matched_mask_indices": [
+            14
+          ],
+          "fill_ratio": 0.452,
+          "interior_px": 597,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 16,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 0,
+          "area_px": 730,
+          "bbox": [
+            17,
+            0,
+            58,
+            23
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.547,
+          "interior_px": 625,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 18,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 2,
+          "area_px": 642,
+          "bbox": [
+            0,
+            6,
+            25,
+            44
+          ],
+          "coverage": 0.9128,
+          "iou": 0.8919,
+          "status": "recognized",
+          "matched_mask_indices": [
+            20
+          ],
+          "fill_ratio": 0.584,
+          "interior_px": 537,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 3,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 2,
+          "area_px": 519,
+          "bbox": [
+            98,
+            29,
+            37,
+            34
+          ],
+          "coverage": 1.0,
+          "iou": 0.7159,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2
+          ],
+          "fill_ratio": 0.413,
+          "interior_px": 382,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 1,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 0,
+          "area_px": 370,
+          "bbox": [
+            61,
+            3,
+            28,
+            25
+          ],
+          "coverage": 1.0,
+          "iou": 0.689,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            12
+          ],
+          "fill_ratio": 0.529,
+          "interior_px": 268,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 14,
+          "class_id": 14,
+          "class_name": "ship",
+          "class_region_index": 13,
+          "area_px": 207,
+          "bbox": [
+            242,
+            221,
+            14,
+            24
+          ],
+          "coverage": 0.9372,
+          "iou": 0.8546,
+          "status": "recognized",
+          "matched_mask_indices": [
+            19
+          ],
+          "fill_ratio": 0.616,
+          "interior_px": 155,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "harbo_401",
+          "region_id": 21,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 5,
+          "area_px": 126,
+          "bbox": [
+            92,
+            109,
+            16,
+            24
+          ],
+          "coverage": 0.0794,
+          "iou": 0.0061,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            6
+          ],
+          "fill_ratio": 0.328,
+          "interior_px": 56,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 24
+    },
+    {
+      "image_id": "mediu_1201",
+      "why_chosen": "mediu -- explicit list, no stress rationale",
+      "n_sam_masks": 88,
+      "n_regions": 22,
+      "n_unrecognized": 22,
+      "gt_fraction_in_regions": 0.9998,
+      "figure": "artifacts/step0_sam3/mediu_1201.png",
+      "regions": [
+        {
+          "image_id": "mediu_1201",
+          "region_id": 13,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 0,
+          "area_px": 34769,
+          "bbox": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "coverage": 0.1176,
+          "iou": 0.1123,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            14,
+            19,
+            31,
+            32,
+            37,
+            46,
+            62,
+            82
+          ],
+          "fill_ratio": 0.531,
+          "interior_px": 32726,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 19,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 0,
+          "area_px": 5072,
+          "bbox": [
+            169,
+            0,
+            87,
+            116
+          ],
+          "coverage": 0.7224,
+          "iou": 0.6759,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            21,
+            49
+          ],
+          "fill_ratio": 0.503,
+          "interior_px": 4296,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 7,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 7,
+          "area_px": 4895,
+          "bbox": [
+            167,
+            132,
+            89,
+            100
+          ],
+          "coverage": 0.8386,
+          "iou": 0.7075,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            4,
+            12,
+            17
+          ],
+          "fill_ratio": 0.55,
+          "interior_px": 4355,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 1,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 1,
+          "area_px": 4122,
+          "bbox": [
+            113,
+            0,
+            94,
+            72
+          ],
+          "coverage": 0.6972,
+          "iou": 0.6402,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            23,
+            24,
+            36,
+            78
+          ],
+          "fill_ratio": 0.609,
+          "interior_px": 3627,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 6,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 6,
+          "area_px": 3772,
+          "bbox": [
+            115,
+            129,
+            50,
+            127
+          ],
+          "coverage": 0.8664,
+          "iou": 0.7473,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            1,
+            3,
+            34
+          ],
+          "fill_ratio": 0.594,
+          "interior_px": 3244,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 0,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 0,
+          "area_px": 3281,
+          "bbox": [
+            19,
+            0,
+            88,
+            57
+          ],
+          "coverage": 0.7674,
+          "iou": 0.7059,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            27,
+            30,
+            72
+          ],
+          "fill_ratio": 0.654,
+          "interior_px": 2891,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 4,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 4,
+          "area_px": 2067,
+          "bbox": [
+            166,
+            38,
+            61,
+            76
+          ],
+          "coverage": 0.7847,
+          "iou": 0.7485,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            8,
+            22
+          ],
+          "fill_ratio": 0.446,
+          "interior_px": 1661,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 21,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 2,
+          "area_px": 1945,
+          "bbox": [
+            0,
+            216,
+            81,
+            40
+          ],
+          "coverage": 0.8833,
+          "iou": 0.7021,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            14,
+            18
+          ],
+          "fill_ratio": 0.6,
+          "interior_px": 1741,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 18,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 5,
+          "area_px": 1780,
+          "bbox": [
+            202,
+            192,
+            54,
+            64
+          ],
+          "coverage": 0.6489,
+          "iou": 0.6438,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            5,
+            26,
+            33,
+            35,
+            44,
+            56
+          ],
+          "fill_ratio": 0.515,
+          "interior_px": 1499,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 20,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 1,
+          "area_px": 1449,
+          "bbox": [
+            154,
+            212,
+            54,
+            44
+          ],
+          "coverage": 0.7909,
+          "iou": 0.7876,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0
+          ],
+          "fill_ratio": 0.61,
+          "interior_px": 1276,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 2,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 2,
+          "area_px": 592,
+          "bbox": [
+            237,
+            1,
+            19,
+            43
+          ],
+          "coverage": 0.8108,
+          "iou": 0.8,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            10
+          ],
+          "fill_ratio": 0.725,
+          "interior_px": 508,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 9,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 9,
+          "area_px": 507,
+          "bbox": [
+            223,
+            217,
+            33,
+            25
+          ],
+          "coverage": 0.86,
+          "iou": 0.1576,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2
+          ],
+          "fill_ratio": 0.615,
+          "interior_px": 399,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 5,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 5,
+          "area_px": 394,
+          "bbox": [
+            227,
+            115,
+            29,
+            21
+          ],
+          "coverage": 0.5685,
+          "iou": 0.5091,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            42
+          ],
+          "fill_ratio": 0.647,
+          "interior_px": 302,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 8,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 8,
+          "area_px": 169,
+          "bbox": [
+            0,
+            198,
+            11,
+            25
+          ],
+          "coverage": 0.8994,
+          "iou": 0.6414,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            87
+          ],
+          "fill_ratio": 0.615,
+          "interior_px": 124,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 11,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 0,
+          "area_px": 165,
+          "bbox": [
+            51,
+            3,
+            10,
+            24
+          ],
+          "coverage": 0.7576,
+          "iou": 0.6868,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            15
+          ],
+          "fill_ratio": 0.688,
+          "interior_px": 94,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 16,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 3,
+          "area_px": 165,
+          "bbox": [
+            245,
+            41,
+            11,
+            29
+          ],
+          "coverage": 0.1333,
+          "iou": 0.0054,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            21
+          ],
+          "fill_ratio": 0.517,
+          "interior_px": 105,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 14,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 1,
+          "area_px": 122,
+          "bbox": [
+            171,
+            0,
+            29,
+            19
+          ],
+          "coverage": 0.1311,
+          "iou": 0.0131,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            9
+          ],
+          "fill_ratio": 0.221,
+          "interior_px": 51,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 12,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 1,
+          "area_px": 73,
+          "bbox": [
+            247,
+            128,
+            7,
+            15
+          ],
+          "coverage": 0.8767,
+          "iou": 0.7805,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            38
+          ],
+          "fill_ratio": 0.695,
+          "interior_px": 32,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 17,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 4,
+          "area_px": 64,
+          "bbox": [
+            178,
+            70,
+            13,
+            12
+          ],
+          "coverage": 0.7344,
+          "iou": 0.6528,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            28
+          ],
+          "fill_ratio": 0.41,
+          "interior_px": 18,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 10,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 10,
+          "area_px": 45,
+          "bbox": [
+            0,
+            225,
+            7,
+            10
+          ],
+          "coverage": 0.9556,
+          "iou": 0.134,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            13
+          ],
+          "fill_ratio": 0.643,
+          "interior_px": 22,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 15,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 2,
+          "area_px": 42,
+          "bbox": [
+            49,
+            11,
+            4,
+            12
+          ],
+          "coverage": 0.2857,
+          "iou": 0.0698,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            15
+          ],
+          "fill_ratio": 0.875,
+          "interior_px": 14,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "mediu_1201",
+          "region_id": 3,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 3,
+          "area_px": 31,
+          "bbox": [
+            109,
+            14,
+            3,
+            14
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.738,
+          "interior_px": 3,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 88
+    },
+    {
+      "image_id": "overp_1501",
+      "why_chosen": "overp -- explicit list, no stress rationale",
+      "n_sam_masks": 15,
+      "n_regions": 11,
+      "n_unrecognized": 8,
+      "gt_fraction_in_regions": 1.0,
+      "figure": "artifacts/step0_sam3/overp_1501.png",
+      "regions": [
+        {
+          "image_id": "overp_1501",
+          "region_id": 6,
+          "class_id": 11,
+          "class_name": "pavement",
+          "class_region_index": 0,
+          "area_px": 43047,
+          "bbox": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "coverage": 0.4218,
+          "iou": 0.421,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0
+          ],
+          "fill_ratio": 0.657,
+          "interior_px": 42096,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 10,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 3,
+          "area_px": 5818,
+          "bbox": [
+            153,
+            185,
+            103,
+            71
+          ],
+          "coverage": 0.0026,
+          "iou": 0.0024,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            6
+          ],
+          "fill_ratio": 0.796,
+          "interior_px": 5531,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 9,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 2,
+          "area_px": 5320,
+          "bbox": [
+            0,
+            182,
+            81,
+            74
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.888,
+          "interior_px": 5113,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 3,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 1,
+          "area_px": 3816,
+          "bbox": [
+            153,
+            0,
+            103,
+            63
+          ],
+          "coverage": 0.832,
+          "iou": 0.5301,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            1
+          ],
+          "fill_ratio": 0.588,
+          "interior_px": 3402,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 4,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 2,
+          "area_px": 2440,
+          "bbox": [
+            0,
+            7,
+            79,
+            55
+          ],
+          "coverage": 0.9988,
+          "iou": 0.5061,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2
+          ],
+          "fill_ratio": 0.562,
+          "interior_px": 2104,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 7,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 0,
+          "area_px": 2192,
+          "bbox": [
+            0,
+            0,
+            79,
+            51
+          ],
+          "coverage": 1.0,
+          "iou": 0.4551,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2,
+            3
+          ],
+          "fill_ratio": 0.544,
+          "interior_px": 1984,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 8,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 1,
+          "area_px": 2157,
+          "bbox": [
+            156,
+            0,
+            100,
+            35
+          ],
+          "coverage": 0.9866,
+          "iou": 0.3958,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            1
+          ],
+          "fill_ratio": 0.616,
+          "interior_px": 1949,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 5,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 3,
+          "area_px": 341,
+          "bbox": [
+            215,
+            242,
+            41,
+            14
+          ],
+          "coverage": 0.9648,
+          "iou": 0.9242,
+          "status": "recognized",
+          "matched_mask_indices": [
+            6
+          ],
+          "fill_ratio": 0.594,
+          "interior_px": 287,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 0,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 0,
+          "area_px": 198,
+          "bbox": [
+            207,
+            76,
+            18,
+            15
+          ],
+          "coverage": 0.9798,
+          "iou": 0.8509,
+          "status": "recognized",
+          "matched_mask_indices": [
+            5
+          ],
+          "fill_ratio": 0.733,
+          "interior_px": 120,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 1,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 1,
+          "area_px": 147,
+          "bbox": [
+            114,
+            214,
+            8,
+            22
+          ],
+          "coverage": 0.9388,
+          "iou": 0.8679,
+          "status": "recognized",
+          "matched_mask_indices": [
+            4
+          ],
+          "fill_ratio": 0.835,
+          "interior_px": 91,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "overp_1501",
+          "region_id": 2,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 0,
+          "area_px": 60,
+          "bbox": [
+            68,
+            0,
+            10,
+            7
+          ],
+          "coverage": 1.0,
+          "iou": 0.0125,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2
+          ],
+          "fill_ratio": 0.857,
+          "interior_px": 38,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 15
+    },
+    {
+      "image_id": "river_1301",
+      "why_chosen": "river -- explicit list, no stress rationale",
+      "n_sam_masks": 7,
+      "n_regions": 12,
+      "n_unrecognized": 12,
+      "gt_fraction_in_regions": 1.0,
+      "figure": "artifacts/step0_sam3/river_1301.png",
+      "regions": [
+        {
+          "image_id": "river_1301",
+          "region_id": 9,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 1,
+          "area_px": 38099,
+          "bbox": [
+            0,
+            0,
+            256,
+            256
+          ],
+          "coverage": 0.0052,
+          "iou": 0.0047,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "fill_ratio": 0.581,
+          "interior_px": 35930,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 8,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 0,
+          "area_px": 5984,
+          "bbox": [
+            26,
+            0,
+            133,
+            76
+          ],
+          "coverage": 0.5643,
+          "iou": 0.5542,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0
+          ],
+          "fill_ratio": 0.592,
+          "interior_px": 5186,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 11,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 1,
+          "area_px": 4788,
+          "bbox": [
+            5,
+            74,
+            186,
+            182
+          ],
+          "coverage": 0.0198,
+          "iou": 0.0105,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            3,
+            6
+          ],
+          "fill_ratio": 0.141,
+          "interior_px": 3703,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 7,
+          "class_id": 12,
+          "class_name": "sand",
+          "class_region_index": 0,
+          "area_px": 4563,
+          "bbox": [
+            0,
+            99,
+            137,
+            157
+          ],
+          "coverage": 0.8876,
+          "iou": 0.8671,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            3,
+            4
+          ],
+          "fill_ratio": 0.212,
+          "interior_px": 3901,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 4,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 0,
+          "area_px": 3283,
+          "bbox": [
+            0,
+            0,
+            46,
+            94
+          ],
+          "coverage": 0.046,
+          "iou": 0.0226,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0,
+            1
+          ],
+          "fill_ratio": 0.759,
+          "interior_px": 3031,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 10,
+          "class_id": 17,
+          "class_name": "water",
+          "class_region_index": 0,
+          "area_px": 2122,
+          "bbox": [
+            131,
+            0,
+            64,
+            83
+          ],
+          "coverage": 0.6541,
+          "iou": 0.6462,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2
+          ],
+          "fill_ratio": 0.399,
+          "interior_px": 1779,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 2,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 2,
+          "area_px": 1506,
+          "bbox": [
+            76,
+            43,
+            74,
+            62
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.328,
+          "interior_px": 1085,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 1,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 1,
+          "area_px": 1256,
+          "bbox": [
+            0,
+            37,
+            96,
+            67
+          ],
+          "coverage": 0.0104,
+          "iou": 0.0027,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            0
+          ],
+          "fill_ratio": 0.195,
+          "interior_px": 859,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 0,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 0,
+          "area_px": 1246,
+          "bbox": [
+            104,
+            0,
+            56,
+            48
+          ],
+          "coverage": 0.0016,
+          "iou": 0.0008,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            2
+          ],
+          "fill_ratio": 0.464,
+          "interior_px": 1032,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 5,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 1,
+          "area_px": 1156,
+          "bbox": [
+            18,
+            51,
+            79,
+            68
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.215,
+          "interior_px": 791,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 3,
+          "class_id": 2,
+          "class_name": "bare soil",
+          "class_region_index": 3,
+          "area_px": 827,
+          "bbox": [
+            228,
+            159,
+            28,
+            54
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.547,
+          "interior_px": 560,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "river_1301",
+          "region_id": 6,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 2,
+          "area_px": 705,
+          "bbox": [
+            0,
+            100,
+            56,
+            36
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.35,
+          "interior_px": 409,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 7
+    },
+    {
+      "image_id": "spars_101",
+      "why_chosen": "spars -- explicit list, no stress rationale",
+      "n_sam_masks": 54,
+      "n_regions": 21,
+      "n_unrecognized": 17,
+      "gt_fraction_in_regions": 1.0,
+      "figure": "artifacts/step0_sam3/spars_101.png",
+      "regions": [
+        {
+          "image_id": "spars_101",
+          "region_id": 4,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 0,
+          "area_px": 16415,
+          "bbox": [
+            0,
+            0,
+            256,
+            173
+          ],
+          "coverage": 0.0783,
+          "iou": 0.0738,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            11,
+            26,
+            28,
+            38,
+            46,
+            48,
+            51
+          ],
+          "fill_ratio": 0.371,
+          "interior_px": 14826,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 0,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 0,
+          "area_px": 15203,
+          "bbox": [
+            45,
+            54,
+            163,
+            174
+          ],
+          "coverage": 0.3637,
+          "iou": 0.3603,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            4,
+            27,
+            29,
+            35,
+            42,
+            50
+          ],
+          "fill_ratio": 0.536,
+          "interior_px": 14151,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 17,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 5,
+          "area_px": 8087,
+          "bbox": [
+            141,
+            80,
+            115,
+            176
+          ],
+          "coverage": 0.2234,
+          "iou": 0.223,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            22,
+            25,
+            30
+          ],
+          "fill_ratio": 0.4,
+          "interior_px": 7392,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 14,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 2,
+          "area_px": 6513,
+          "bbox": [
+            0,
+            9,
+            82,
+            247
+          ],
+          "coverage": 0.1842,
+          "iou": 0.1842,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            41,
+            45
+          ],
+          "fill_ratio": 0.322,
+          "interior_px": 5888,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 8,
+          "class_id": 11,
+          "class_name": "pavement",
+          "class_region_index": 0,
+          "area_px": 5285,
+          "bbox": [
+            26,
+            71,
+            177,
+            185
+          ],
+          "coverage": 0.3733,
+          "iou": 0.3614,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            8,
+            15,
+            17,
+            37
+          ],
+          "fill_ratio": 0.161,
+          "interior_px": 4306,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 18,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 6,
+          "area_px": 2390,
+          "bbox": [
+            63,
+            184,
+            76,
+            65
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.484,
+          "interior_px": 2020,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 13,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 1,
+          "area_px": 1896,
+          "bbox": [
+            159,
+            5,
+            50,
+            66
+          ],
+          "coverage": 0.0,
+          "iou": 0.0,
+          "status": "unrecognized",
+          "matched_mask_indices": [],
+          "fill_ratio": 0.575,
+          "interior_px": 1642,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 12,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 0,
+          "area_px": 1592,
+          "bbox": [
+            192,
+            0,
+            53,
+            60
+          ],
+          "coverage": 0.9284,
+          "iou": 0.8947,
+          "status": "recognized",
+          "matched_mask_indices": [
+            1,
+            13,
+            31
+          ],
+          "fill_ratio": 0.501,
+          "interior_px": 1380,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 11,
+          "class_id": 11,
+          "class_name": "pavement",
+          "class_region_index": 3,
+          "area_px": 1414,
+          "bbox": [
+            0,
+            152,
+            36,
+            104
+          ],
+          "coverage": 0.6945,
+          "iou": 0.6749,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            40
+          ],
+          "fill_ratio": 0.378,
+          "interior_px": 1122,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 19,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 7,
+          "area_px": 918,
+          "bbox": [
+            0,
+            208,
+            25,
+            48
+          ],
+          "coverage": 0.8497,
+          "iou": 0.8497,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            9
+          ],
+          "fill_ratio": 0.765,
+          "interior_px": 845,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 16,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 4,
+          "area_px": 908,
+          "bbox": [
+            64,
+            57,
+            28,
+            50
+          ],
+          "coverage": 0.5826,
+          "iou": 0.5807,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            21
+          ],
+          "fill_ratio": 0.649,
+          "interior_px": 718,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 7,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 3,
+          "area_px": 840,
+          "bbox": [
+            152,
+            197,
+            68,
+            59
+          ],
+          "coverage": 0.7857,
+          "iou": 0.7534,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            23
+          ],
+          "fill_ratio": 0.209,
+          "interior_px": 582,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 10,
+          "class_id": 11,
+          "class_name": "pavement",
+          "class_region_index": 2,
+          "area_px": 780,
+          "bbox": [
+            240,
+            101,
+            16,
+            73
+          ],
+          "coverage": 0.9859,
+          "iou": 0.9401,
+          "status": "recognized",
+          "matched_mask_indices": [
+            2
+          ],
+          "fill_ratio": 0.668,
+          "interior_px": 655,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 15,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 3,
+          "area_px": 761,
+          "bbox": [
+            75,
+            14,
+            44,
+            37
+          ],
+          "coverage": 0.933,
+          "iou": 0.7811,
+          "status": "recognized",
+          "matched_mask_indices": [
+            14
+          ],
+          "fill_ratio": 0.467,
+          "interior_px": 516,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 6,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 2,
+          "area_px": 650,
+          "bbox": [
+            55,
+            163,
+            28,
+            34
+          ],
+          "coverage": 0.0015,
+          "iou": 0.0004,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            4
+          ],
+          "fill_ratio": 0.683,
+          "interior_px": 508,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 20,
+          "class_id": 16,
+          "class_name": "trees",
+          "class_region_index": 8,
+          "area_px": 639,
+          "bbox": [
+            113,
+            240,
+            76,
+            16
+          ],
+          "coverage": 0.6808,
+          "iou": 0.6797,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            33,
+            39
+          ],
+          "fill_ratio": 0.525,
+          "interior_px": 504,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 5,
+          "class_id": 9,
+          "class_name": "grass",
+          "class_region_index": 1,
+          "area_px": 566,
+          "bbox": [
+            79,
+            102,
+            27,
+            34
+          ],
+          "coverage": 0.03,
+          "iou": 0.0072,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            4
+          ],
+          "fill_ratio": 0.617,
+          "interior_px": 442,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 1,
+          "class_id": 3,
+          "class_name": "buildings",
+          "class_region_index": 1,
+          "area_px": 337,
+          "bbox": [
+            0,
+            154,
+            14,
+            32
+          ],
+          "coverage": 0.8368,
+          "iou": 0.8368,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            5
+          ],
+          "fill_ratio": 0.752,
+          "interior_px": 279,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 9,
+          "class_id": 11,
+          "class_name": "pavement",
+          "class_region_index": 1,
+          "area_px": 140,
+          "bbox": [
+            81,
+            80,
+            13,
+            26
+          ],
+          "coverage": 0.1643,
+          "iou": 0.0067,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            29
+          ],
+          "fill_ratio": 0.414,
+          "interior_px": 65,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 2,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 0,
+          "area_px": 105,
+          "bbox": [
+            28,
+            109,
+            9,
+            15
+          ],
+          "coverage": 0.7619,
+          "iou": 0.6452,
+          "status": "unrecognized",
+          "matched_mask_indices": [
+            53
+          ],
+          "fill_ratio": 0.778,
+          "interior_px": 57,
+          "erodes_to_nothing": false
+        },
+        {
+          "image_id": "spars_101",
+          "region_id": 3,
+          "class_id": 4,
+          "class_name": "cars",
+          "class_region_index": 1,
+          "area_px": 97,
+          "bbox": [
+            10,
+            165,
+            10,
+            17
+          ],
+          "coverage": 0.9175,
+          "iou": 0.8641,
+          "status": "recognized",
+          "matched_mask_indices": [
+            16
+          ],
+          "fill_ratio": 0.571,
+          "interior_px": 49,
+          "erodes_to_nothing": false
+        }
+      ],
+      "n_auto_masks": 54
+    }
+  ]
+}

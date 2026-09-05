@@ -1,0 +1,249 @@
+Step 0 inspection: 10 images
+[backend] using sam3 on cuda from /home/cse-sdpl/Videos/Point-project/SAM-modals/sam3
+backend=sam3 device=cuda recognition=automatic
+  SAM gets the image and a 16x16 point grid, no class names; matching is class-agnostic
+thresholds (PROVISIONAL, Step 6 calibrates them): coverage >= 0.9, IoU >= 0.75, match_mode=greedy_union
+
+agric_1901  (agricultural -- one large homogeneous field)
+  12 automatic masks, 2 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+    0 field         61782  0.94  0.027  0.027     6  unrecognized
+    1 trees          3754  0.83  0.929  0.928     3  recognized
+
+baseb_1000  (baseb -- explicit list, no stress rationale)
+  79 automatic masks, 16 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+    9 grass         27163  0.53  0.927  0.919     3  recognized
+    0 bare soil     24276  0.37  0.532  0.531     8  unrecognized
+    1 bare soil      6005  0.48  0.065  0.064     4  unrecognized
+   15 trees          4861  0.67  0.893  0.887     2  unrecognized
+    3 buildings       719  0.71  0.967  0.907     1  recognized
+    5 buildings       488  0.80  0.539  0.507     1  unrecognized
+   10 trees           356  0.71  0.247  0.242     1  unrecognized
+    4 buildings       246  0.79  1.000  0.724     1  unrecognized
+    6 buildings       234  0.72  0.949  0.742     1  unrecognized
+    8 cars            227  0.87  0.806  0.803     1  unrecognized
+   14 trees           202  0.51  0.045  0.016     2  unrecognized
+   13 trees           190  0.53  0.074  0.047     2  unrecognized
+    2 bare soil       164  0.57  0.878  0.778     1  unrecognized
+    7 cars            146  0.91  0.897  0.624     1  unrecognized
+   12 trees           137  0.57  0.985  0.854     1  recognized
+   11 trees           122  0.79  0.844  0.805     1  unrecognized
+
+build_1601  (build -- explicit list, no stress rationale)
+  46 automatic masks, 18 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+    4 buildings     20265  0.73  0.708  0.708     8  unrecognized
+   15 pavement      16885  0.26  0.046  0.043     8  unrecognized
+    0 buildings     16201  0.51  0.504  0.501     8  unrecognized
+   16 trees          4101  0.45  0.077  0.065     4  unrecognized
+   17 trees          4097  0.29  0.002  0.001     2  unrecognized
+    2 buildings      1604  0.38  0.897  0.842     2  unrecognized
+    5 buildings      1047  0.62  0.320  0.320     2  unrecognized
+   13 cars            170  0.29  0.494  0.410     1  unrecognized
+    3 buildings       167  0.76  1.000  0.652     1  unrecognized
+    1 buildings       139  0.69  0.971  0.789     1  recognized
+    7 cars            139  0.64  0.871  0.716     1  unrecognized
+   14 cars            133  0.57  0.932  0.320     1  unrecognized
+   10 cars            121  0.58  1.000  0.614     1  unrecognized
+    9 cars            116  0.62  0.966  0.752     1  recognized
+    8 cars            115  0.69  0.983  0.796     1  recognized
+   11 cars             86  0.68  0.988  0.649     1  unrecognized
+   12 cars             76  0.60  0.000  0.000     0  unrecognized
+    6 cars             73  0.49  0.945  0.527     1  unrecognized
+
+dense_1401  (dense residential -- many small buildings packed together)
+  73 automatic masks, 32 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+   11 buildings     12055  0.47  0.454  0.453     8  unrecognized
+    4 bare soil      6959  0.44  0.179  0.176     7  unrecognized
+    8 buildings      6534  0.59  0.672  0.657     8  unrecognized
+    2 bare soil      6215  0.34  0.305  0.301     8  unrecognized
+   23 pavement       4955  0.08  0.014  0.012     4  unrecognized
+   29 trees          4610  0.39  0.038  0.034     2  unrecognized
+   17 buildings      3198  0.66  0.440  0.432     3  unrecognized
+   28 trees          2891  0.37  0.299  0.298     1  unrecognized
+   16 buildings      2581  0.57  0.679  0.632     3  unrecognized
+   25 trees          1813  0.71  0.108  0.098     3  unrecognized
+   12 buildings      1634  0.52  0.969  0.912     1  recognized
+   15 buildings      1422  0.48  0.970  0.897     1  recognized
+   31 trees          1352  0.51  0.065  0.041     2  unrecognized
+   13 buildings      1320  0.53  0.886  0.821     2  unrecognized
+    7 buildings      1183  0.61  0.599  0.590     1  unrecognized
+   27 trees           784  0.57  0.027  0.016     1  unrecognized
+    3 bare soil       773  0.36  0.050  0.024     3  unrecognized
+   30 trees           727  0.33  0.008  0.003     1  unrecognized
+   20 cars            711  0.39  0.671  0.627     3  unrecognized
+   14 buildings       656  0.58  0.832  0.784     1  unrecognized
+    1 bare soil       575  0.39  0.242  0.230     1  unrecognized
+    6 bare soil       555  0.51  0.726  0.688     2  unrecognized
+   22 cars            403  0.45  0.553  0.539     2  unrecognized
+    5 bare soil       391  0.64  0.440  0.431     1  unrecognized
+   19 cars            285  0.69  0.884  0.730     2  unrecognized
+    0 bare soil       233  0.56  0.000  0.000     0  unrecognized
+   24 trees           211  0.31  0.033  0.020     1  unrecognized
+   26 trees           192  0.74  0.750  0.615     1  unrecognized
+   10 buildings        94  0.41  0.394  0.352     1  unrecognized
+   18 buildings        86  0.64  0.930  0.860     1  recognized
+    9 buildings        70  0.73  0.443  0.413     1  unrecognized
+   21 cars             67  0.62  0.000  0.000     0  unrecognized
+
+freew_301  (freeway -- sprawling pavement, the connected-component worry)
+  20 automatic masks, 21 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+   13 pavement      50060  0.76  0.012  0.012     8  unrecognized
+   11 grass          4885  0.27  0.012  0.012     1  unrecognized
+   14 pavement       2842  0.49  0.916  0.910     3  recognized
+    8 grass          2790  0.15  0.013  0.013     1  unrecognized
+   15 trees          1158  0.26  0.003  0.002     1  unrecognized
+   17 trees           829  0.37  0.000  0.000     0  unrecognized
+   18 trees           808  0.11  0.000  0.000     0  unrecognized
+   19 trees           636  0.27  0.000  0.000     0  unrecognized
+    9 grass           289  0.70  0.000  0.000     0  unrecognized
+   16 trees           193  0.49  0.000  0.000     0  unrecognized
+    6 cars            187  0.66  0.877  0.845     1  unrecognized
+   20 trees           150  0.71  0.993  0.716     1  unrecognized
+    3 cars            145  0.66  0.855  0.844     1  unrecognized
+   12 grass           113  0.30  0.000  0.000     0  unrecognized
+    4 cars             94  0.50  1.000  0.550     1  unrecognized
+    7 cars             87  0.56  1.000  0.674     1  unrecognized
+    1 cars             83  0.49  0.916  0.594     1  unrecognized
+    0 cars             60  0.58  1.000  0.472     1  unrecognized
+    5 cars             59  0.49  1.000  0.500     1  unrecognized
+   10 grass            40  0.64  0.000  0.000     0  unrecognized
+    2 cars             28  0.93  1.000  0.230     1  unrecognized
+
+harbo_401  (harbour -- ships and docks, thin repeated structures)
+  24 automatic masks, 24 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+   17 water         19118  0.46  0.013  0.011     6  unrecognized
+   20 water         14881  0.47  0.008  0.006     3  unrecognized
+    0 dock           9907  0.15  0.252  0.157     8  unrecognized
+   11 ship           2020  0.45  0.974  0.836     1  recognized
+    6 ship           1827  0.47  0.957  0.760     1  recognized
+    7 ship           1721  0.48  0.956  0.941     1  recognized
+   13 ship           1677  0.48  0.974  0.842     1  recognized
+    9 ship           1518  0.44  0.959  0.910     1  recognized
+   10 ship           1417  0.38  0.959  0.860     1  recognized
+    8 ship           1278  0.42  0.936  0.855     1  recognized
+    5 ship           1171  0.46  0.926  0.902     1  recognized
+   23 water          1126  0.40  0.031  0.031     1  unrecognized
+   22 water          1040  0.52  0.039  0.026     2  unrecognized
+   12 ship           1023  0.44  0.966  0.735     1  unrecognized
+    4 ship            904  0.52  0.952  0.915     1  recognized
+   15 ship            781  0.53  0.886  0.856     1  unrecognized
+   19 water           773  0.20  0.010  0.005     1  unrecognized
+    2 ship            759  0.45  0.963  0.906     1  recognized
+   16 water           730  0.55  0.000  0.000     0  unrecognized
+   18 water           642  0.58  0.913  0.892     1  recognized
+    3 ship            519  0.41  1.000  0.716     1  unrecognized
+    1 ship            370  0.53  1.000  0.689     1  unrecognized
+   14 ship            207  0.62  0.937  0.855     1  recognized
+   21 water           126  0.33  0.079  0.006     1  unrecognized
+
+mediu_1201  (mediu -- explicit list, no stress rationale)
+  88 automatic masks, 22 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+   13 grass         34769  0.53  0.118  0.112     8  unrecognized
+   19 trees          5072  0.50  0.722  0.676     2  unrecognized
+    7 buildings      4895  0.55  0.839  0.708     3  unrecognized
+    1 buildings      4122  0.61  0.697  0.640     4  unrecognized
+    6 buildings      3772  0.59  0.866  0.747     3  unrecognized
+    0 buildings      3281  0.65  0.767  0.706     3  unrecognized
+    4 buildings      2067  0.45  0.785  0.749     2  unrecognized
+   21 trees          1945  0.60  0.883  0.702     2  unrecognized
+   18 grass          1780  0.52  0.649  0.644     6  unrecognized
+   20 trees          1449  0.61  0.791  0.788     1  unrecognized
+    2 buildings       592  0.72  0.811  0.800     1  unrecognized
+    9 buildings       507  0.61  0.860  0.158     1  unrecognized
+    5 buildings       394  0.65  0.569  0.509     1  unrecognized
+    8 buildings       169  0.61  0.899  0.641     1  unrecognized
+   11 cars            165  0.69  0.758  0.687     1  unrecognized
+   16 grass           165  0.52  0.133  0.005     1  unrecognized
+   14 grass           122  0.22  0.131  0.013     1  unrecognized
+   12 cars             73  0.69  0.877  0.780     1  unrecognized
+   17 grass            64  0.41  0.734  0.653     1  unrecognized
+   10 buildings        45  0.64  0.956  0.134     1  unrecognized
+   15 grass            42  0.88  0.286  0.070     1  unrecognized
+    3 buildings        31  0.74  0.000  0.000     0  unrecognized
+
+overp_1501  (overp -- explicit list, no stress rationale)
+  15 automatic masks, 11 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+    6 pavement      43047  0.66  0.422  0.421     1  unrecognized
+   10 trees          5818  0.80  0.003  0.002     1  unrecognized
+    9 trees          5320  0.89  0.000  0.000     0  unrecognized
+    3 grass          3816  0.59  0.832  0.530     1  unrecognized
+    4 grass          2440  0.56  0.999  0.506     1  unrecognized
+    7 trees          2192  0.54  1.000  0.455     2  unrecognized
+    8 trees          2157  0.62  0.987  0.396     1  unrecognized
+    5 grass           341  0.59  0.965  0.924     1  recognized
+    0 cars            198  0.73  0.980  0.851     1  recognized
+    1 cars            147  0.83  0.939  0.868     1  recognized
+    2 grass            60  0.86  1.000  0.012     1  unrecognized
+
+river_1301  (river -- explicit list, no stress rationale)
+  7 automatic masks, 12 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+    9 trees         38099  0.58  0.005  0.005     4  unrecognized
+    8 trees          5984  0.59  0.564  0.554     1  unrecognized
+   11 water          4788  0.14  0.020  0.011     2  unrecognized
+    7 sand           4563  0.21  0.888  0.867     2  unrecognized
+    4 grass          3283  0.76  0.046  0.023     2  unrecognized
+   10 water          2122  0.40  0.654  0.646     1  unrecognized
+    2 bare soil      1506  0.33  0.000  0.000     0  unrecognized
+    1 bare soil      1256  0.20  0.010  0.003     1  unrecognized
+    0 bare soil      1246  0.46  0.002  0.001     1  unrecognized
+    5 grass          1156  0.21  0.000  0.000     0  unrecognized
+    3 bare soil       827  0.55  0.000  0.000     0  unrecognized
+    6 grass           705  0.35  0.000  0.000     0  unrecognized
+
+spars_101  (spars -- explicit list, no stress rationale)
+  54 automatic masks, 21 regions at min_area=24 px
+   id class          area  fill    cov    IoU masks  status
+    4 grass         16415  0.37  0.078  0.074     7  unrecognized
+    0 buildings     15203  0.54  0.364  0.360     6  unrecognized
+   17 trees          8087  0.40  0.223  0.223     3  unrecognized
+   14 trees          6513  0.32  0.184  0.184     2  unrecognized
+    8 pavement       5285  0.16  0.373  0.361     4  unrecognized
+   18 trees          2390  0.48  0.000  0.000     0  unrecognized
+   13 trees          1896  0.57  0.000  0.000     0  unrecognized
+   12 trees          1592  0.50  0.928  0.895     3  recognized
+   11 pavement       1414  0.38  0.694  0.675     1  unrecognized
+   19 trees           918  0.77  0.850  0.850     1  unrecognized
+   16 trees           908  0.65  0.583  0.581     1  unrecognized
+    7 grass           840  0.21  0.786  0.753     1  unrecognized
+   10 pavement        780  0.67  0.986  0.940     1  recognized
+   15 trees           761  0.47  0.933  0.781     1  recognized
+    6 grass           650  0.68  0.002  0.000     1  unrecognized
+   20 trees           639  0.53  0.681  0.680     2  unrecognized
+    5 grass           566  0.62  0.030  0.007     1  unrecognized
+    1 buildings       337  0.75  0.837  0.837     1  unrecognized
+    9 pavement        140  0.41  0.164  0.007     1  unrecognized
+    2 cars            105  0.78  0.762  0.645     1  unrecognized
+    3 cars             97  0.57  0.918  0.864     1  recognized
+
+minimum-area sweep -- is 24 px sensible?
+  floor  regions  per img   max  GT px kept
+      0      184     18.4    33      1.0000
+      8      180     18.0    32      1.0000
+     16      179     17.9    32      1.0000
+     24      179     17.9    32      1.0000
+     48      174     17.4    32      0.9997
+     96      159     15.9    28      0.9980
+
+sprawl check -- does one component per class hold up?
+  0/179 regions erode to nothing under a 3x3 kernel, i.e. they are one pixel wide everywhere
+  eight lowest bbox fill ratios:
+    dense_1401#23    pavement     area=  4955 fill=0.08 cov=0.014 iou=0.012
+    freew_301#18     trees        area=   808 fill=0.11 cov=0.000 iou=0.000
+    river_1301#11    water        area=  4788 fill=0.14 cov=0.020 iou=0.011
+    freew_301#8      grass        area=  2790 fill=0.15 cov=0.013 iou=0.013
+    harbo_401#0      dock         area=  9907 fill=0.15 cov=0.252 iou=0.157
+    spars_101#8      pavement     area=  5285 fill=0.16 cov=0.373 iou=0.361
+    harbo_401#19     water        area=   773 fill=0.20 cov=0.010 iou=0.005
+    river_1301#1     bare soil    area=  1256 fill=0.20 cov=0.010 iou=0.003
+
+149/179 regions unrecognized -- these are what the point selector has to fix
+
+wrote 10 figures, coverage_vs_iou.png and step0_summary.json to /home/cse-sdpl/Videos/Point-project/artifacts/step0_sam3

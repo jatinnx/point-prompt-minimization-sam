@@ -1,8 +1,8 @@
 """The automatic-mask cache must not outlive the settings that produced it.
 
-Step 6 of the plan tunes the automatic-mode thresholds. A cache keyed only on
-image and backend would keep serving the old masks, and the tuning would look
-like it had no effect at all.
+Step 6 of the plan tunes the automatic-mode thresholds. A cache keyed only on the
+image would keep serving the old masks, and the tuning would look like it had no
+effect at all.
 """
 from __future__ import annotations
 
@@ -74,10 +74,10 @@ def test_settings_key_ignores_unrelated_fields(tmp_path):
                                                                 device="cpu"))
 
 
-def test_cache_path_includes_backend_and_settings(tmp_path):
+def test_cache_path_includes_the_model_and_the_settings(tmp_path):
     cfg = cfg_in(tmp_path)
-    path = cache_path(cfg, "beach_01", "sam1_vit_b")
-    assert path.parent.name == f"sam1_vit_b-{settings_key(cfg)}"
+    path = cache_path(cfg, "beach_01", "sam3")
+    assert path.parent.name == f"sam3-{settings_key(cfg)}"
     assert path.name == "beach_01.npz"
 
 

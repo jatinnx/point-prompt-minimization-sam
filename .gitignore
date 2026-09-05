@@ -2,10 +2,16 @@
 # scripts/00_extract_data.py rather than cloning it.
 data/
 
-# Automatic-mask cache: regenerable, machine- and backend-specific, and keyed by
-# the settings that produced it. artifacts/step0 and artifacts/step1 ARE tracked
-# because artifacts/step1 is the hand-off.
+# Recognition caches: regenerable and keyed by the settings that produced them.
+# artifacts/step0* and artifacts/step1* ARE tracked because
+# artifacts/step1_sam3_text is the hand-off.
 artifacts/auto_masks/
+artifacts/concept_masks/
+
+# The SAM 3 weights, copied into the project so a run does not depend on the
+# Hugging Face cache. 3.3 GB -- reproduce it, never commit it. The *.safetensors
+# rule below would catch the weights but not the tokenizer and config JSONs.
+SAM-modals/
 
 __pycache__/
 *.py[cod]

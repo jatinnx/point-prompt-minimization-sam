@@ -1,0 +1,625 @@
+{
+  "backend": "sam3",
+  "recognition": "automatic",
+  "class_names": [
+    "airplane",
+    "bare soil",
+    "buildings",
+    "cars",
+    "chaparral",
+    "court",
+    "dock",
+    "field",
+    "grass",
+    "mobile home",
+    "pavement",
+    "sand",
+    "sea",
+    "ship",
+    "tanks",
+    "trees",
+    "water"
+  ],
+  "device": "cuda",
+  "images": [
+    "agric_1901",
+    "baseb_1000",
+    "build_1601",
+    "dense_1401",
+    "freew_301",
+    "harbo_401",
+    "mediu_1201",
+    "overp_1501",
+    "river_1301",
+    "spars_101"
+  ],
+  "config": {
+    "min_region_area": 24,
+    "connectivity": 8,
+    "coverage_threshold": 0.9,
+    "iou_threshold": 0.75,
+    "match_mode": "greedy_union",
+    "recognition": "automatic",
+    "sam3_prompt_template": "{name}",
+    "sam3_score_threshold": 0.5,
+    "sam3_mask_threshold": 0.5,
+    "auto_points_per_side": 16,
+    "auto_pred_iou_thresh": 0.7,
+    "auto_stability_score_thresh": 0.85,
+    "auto_min_area_frac": 0.0004,
+    "auto_max_area_frac": 0.92
+  },
+  "area_stats": {
+    "count": 179,
+    "min": 28,
+    "p25": 188,
+    "median": 808,
+    "p75": 2816,
+    "max": 61782,
+    "mean": 3661.122905027933
+  },
+  "region_counts_by_area_floor": {
+    "0": 184,
+    "24": 179
+  },
+  "per_image": {
+    "agric_1901": {
+      "floor_0": 2,
+      "floor_24": 2,
+      "n_unrecognized": 1,
+      "recognition_s": 0.005,
+      "n_masks": 12
+    },
+    "baseb_1000": {
+      "floor_0": 16,
+      "floor_24": 16,
+      "n_unrecognized": 13,
+      "recognition_s": 0.011,
+      "n_masks": 79
+    },
+    "build_1601": {
+      "floor_0": 19,
+      "floor_24": 18,
+      "n_unrecognized": 15,
+      "recognition_s": 0.007,
+      "n_masks": 46
+    },
+    "dense_1401": {
+      "floor_0": 33,
+      "floor_24": 32,
+      "n_unrecognized": 29,
+      "recognition_s": 0.008,
+      "n_masks": 73
+    },
+    "freew_301": {
+      "floor_0": 21,
+      "floor_24": 21,
+      "n_unrecognized": 20,
+      "recognition_s": 0.004,
+      "n_masks": 20
+    },
+    "harbo_401": {
+      "floor_0": 25,
+      "floor_24": 24,
+      "n_unrecognized": 12,
+      "recognition_s": 0.004,
+      "n_masks": 24
+    },
+    "mediu_1201": {
+      "floor_0": 23,
+      "floor_24": 22,
+      "n_unrecognized": 22,
+      "recognition_s": 0.009,
+      "n_masks": 88
+    },
+    "overp_1501": {
+      "floor_0": 11,
+      "floor_24": 11,
+      "n_unrecognized": 8,
+      "recognition_s": 0.003,
+      "n_masks": 15
+    },
+    "river_1301": {
+      "floor_0": 13,
+      "floor_24": 12,
+      "n_unrecognized": 12,
+      "recognition_s": 0.003,
+      "n_masks": 7
+    },
+    "spars_101": {
+      "floor_0": 21,
+      "floor_24": 21,
+      "n_unrecognized": 17,
+      "recognition_s": 0.006,
+      "n_masks": 54
+    }
+  },
+  "by_match_mode": {
+    "best_single": {
+      "n_regions": 179,
+      "n_recognized": 29,
+      "recognized_frac": 0.162,
+      "n_no_match": 19,
+      "masks_per_region_mean": 0.89,
+      "coverage": {
+        "count": 179,
+        "mean": 0.5008603762541436,
+        "min": 0.0,
+        "max": 1.0,
+        "p5": 0.0,
+        "p25": 0.03055940851947856,
+        "p50": 0.5389344262295082,
+        "p75": 0.9254255182175164,
+        "p95": 1.0
+      },
+      "iou": {
+        "count": 179,
+        "mean": 0.40759331273085136,
+        "min": 0.0,
+        "max": 0.9411092052601486,
+        "p5": 0.0,
+        "p25": 0.014921784361872085,
+        "p50": 0.41333333333333333,
+        "p75": 0.7470763843684766,
+        "p95": 0.9060807208457339
+      },
+      "threshold_grid": {
+        "cov>=0.80,iou>=0.50": {
+          "recognized": 62,
+          "unrecognized": 117,
+          "recognized_frac": 0.346
+        },
+        "cov>=0.80,iou>=0.60": {
+          "recognized": 56,
+          "unrecognized": 123,
+          "recognized_frac": 0.313
+        },
+        "cov>=0.80,iou>=0.70": {
+          "recognized": 48,
+          "unrecognized": 131,
+          "recognized_frac": 0.268
+        },
+        "cov>=0.80,iou>=0.75": {
+          "recognized": 42,
+          "unrecognized": 137,
+          "recognized_frac": 0.235
+        },
+        "cov>=0.80,iou>=0.80": {
+          "recognized": 34,
+          "unrecognized": 145,
+          "recognized_frac": 0.19
+        },
+        "cov>=0.85,iou>=0.50": {
+          "recognized": 54,
+          "unrecognized": 125,
+          "recognized_frac": 0.302
+        },
+        "cov>=0.85,iou>=0.60": {
+          "recognized": 49,
+          "unrecognized": 130,
+          "recognized_frac": 0.274
+        },
+        "cov>=0.85,iou>=0.70": {
+          "recognized": 42,
+          "unrecognized": 137,
+          "recognized_frac": 0.235
+        },
+        "cov>=0.85,iou>=0.75": {
+          "recognized": 36,
+          "unrecognized": 143,
+          "recognized_frac": 0.201
+        },
+        "cov>=0.85,iou>=0.80": {
+          "recognized": 29,
+          "unrecognized": 150,
+          "recognized_frac": 0.162
+        },
+        "cov>=0.90,iou>=0.50": {
+          "recognized": 44,
+          "unrecognized": 135,
+          "recognized_frac": 0.246
+        },
+        "cov>=0.90,iou>=0.60": {
+          "recognized": 39,
+          "unrecognized": 140,
+          "recognized_frac": 0.218
+        },
+        "cov>=0.90,iou>=0.70": {
+          "recognized": 34,
+          "unrecognized": 145,
+          "recognized_frac": 0.19
+        },
+        "cov>=0.90,iou>=0.75": {
+          "recognized": 29,
+          "unrecognized": 150,
+          "recognized_frac": 0.162
+        },
+        "cov>=0.90,iou>=0.80": {
+          "recognized": 24,
+          "unrecognized": 155,
+          "recognized_frac": 0.134
+        },
+        "cov>=0.95,iou>=0.50": {
+          "recognized": 30,
+          "unrecognized": 149,
+          "recognized_frac": 0.168
+        },
+        "cov>=0.95,iou>=0.60": {
+          "recognized": 27,
+          "unrecognized": 152,
+          "recognized_frac": 0.151
+        },
+        "cov>=0.95,iou>=0.70": {
+          "recognized": 22,
+          "unrecognized": 157,
+          "recognized_frac": 0.123
+        },
+        "cov>=0.95,iou>=0.75": {
+          "recognized": 18,
+          "unrecognized": 161,
+          "recognized_frac": 0.101
+        },
+        "cov>=0.95,iou>=0.80": {
+          "recognized": 14,
+          "unrecognized": 165,
+          "recognized_frac": 0.078
+        }
+      },
+      "per_class": {
+        "bare soil": {
+          "class_id": 2,
+          "n_regions": 14,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.203,
+          "mean_iou": 0.191,
+          "median_area_px": 1036,
+          "total_area_px": 50981
+        },
+        "buildings": {
+          "class_id": 3,
+          "n_regions": 35,
+          "n_recognized": 5,
+          "recognized_frac": 0.143,
+          "mean_coverage": 0.61,
+          "mean_iou": 0.509,
+          "median_area_px": 1047,
+          "total_area_px": 107358
+        },
+        "cars": {
+          "class_id": 4,
+          "n_regions": 29,
+          "n_recognized": 5,
+          "recognized_frac": 0.172,
+          "mean_coverage": 0.793,
+          "mean_iou": 0.578,
+          "median_area_px": 116,
+          "total_area_px": 4396
+        },
+        "dock": {
+          "class_id": 7,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.073,
+          "mean_iou": 0.062,
+          "median_area_px": 9907,
+          "total_area_px": 9907
+        },
+        "field": {
+          "class_id": 8,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.013,
+          "mean_iou": 0.013,
+          "median_area_px": 61782,
+          "total_area_px": 61782
+        },
+        "grass": {
+          "class_id": 9,
+          "n_regions": 23,
+          "n_recognized": 2,
+          "recognized_frac": 0.087,
+          "mean_coverage": 0.312,
+          "mean_iou": 0.206,
+          "median_area_px": 705,
+          "total_area_px": 102494
+        },
+        "pavement": {
+          "class_id": 11,
+          "n_regions": 9,
+          "n_recognized": 2,
+          "recognized_frac": 0.222,
+          "mean_coverage": 0.38,
+          "mean_iou": 0.354,
+          "median_area_px": 4955,
+          "total_area_px": 125408
+        },
+        "sand": {
+          "class_id": 12,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.883,
+          "mean_iou": 0.864,
+          "median_area_px": 4563,
+          "total_area_px": 4563
+        },
+        "ship": {
+          "class_id": 14,
+          "n_regions": 15,
+          "n_recognized": 11,
+          "recognized_frac": 0.733,
+          "mean_coverage": 0.956,
+          "mean_iou": 0.838,
+          "median_area_px": 1171,
+          "total_area_px": 17192
+        },
+        "trees": {
+          "class_id": 16,
+          "n_regions": 41,
+          "n_recognized": 3,
+          "recognized_frac": 0.073,
+          "mean_coverage": 0.362,
+          "mean_iou": 0.308,
+          "median_area_px": 1449,
+          "total_area_px": 125914
+        },
+        "water": {
+          "class_id": 17,
+          "n_regions": 10,
+          "n_recognized": 1,
+          "recognized_frac": 0.1,
+          "mean_coverage": 0.173,
+          "mean_iou": 0.161,
+          "median_area_px": 1083,
+          "total_area_px": 45346
+        }
+      }
+    },
+    "greedy_union": {
+      "n_regions": 179,
+      "n_recognized": 30,
+      "recognized_frac": 0.168,
+      "n_no_match": 19,
+      "masks_per_region_mean": 1.84,
+      "coverage": {
+        "count": 179,
+        "mean": 0.5423410408347318,
+        "min": 0.0,
+        "max": 1.0,
+        "p5": 0.0,
+        "p25": 0.04826459027107122,
+        "p50": 0.6807511737089202,
+        "p75": 0.9287671040337543,
+        "p95": 1.0
+      },
+      "iou": {
+        "count": 179,
+        "mean": 0.4446602597891197,
+        "min": 0.0,
+        "max": 0.9411092052601486,
+        "p5": 0.0,
+        "p25": 0.023103852428463818,
+        "p50": 0.5267175572519084,
+        "p75": 0.7567123287671234,
+        "p95": 0.907579634464752
+      },
+      "threshold_grid": {
+        "cov>=0.80,iou>=0.50": {
+          "recognized": 68,
+          "unrecognized": 111,
+          "recognized_frac": 0.38
+        },
+        "cov>=0.80,iou>=0.60": {
+          "recognized": 62,
+          "unrecognized": 117,
+          "recognized_frac": 0.346
+        },
+        "cov>=0.80,iou>=0.70": {
+          "recognized": 55,
+          "unrecognized": 124,
+          "recognized_frac": 0.307
+        },
+        "cov>=0.80,iou>=0.75": {
+          "recognized": 45,
+          "unrecognized": 134,
+          "recognized_frac": 0.251
+        },
+        "cov>=0.80,iou>=0.80": {
+          "recognized": 37,
+          "unrecognized": 142,
+          "recognized_frac": 0.207
+        },
+        "cov>=0.85,iou>=0.50": {
+          "recognized": 60,
+          "unrecognized": 119,
+          "recognized_frac": 0.335
+        },
+        "cov>=0.85,iou>=0.60": {
+          "recognized": 55,
+          "unrecognized": 124,
+          "recognized_frac": 0.307
+        },
+        "cov>=0.85,iou>=0.70": {
+          "recognized": 48,
+          "unrecognized": 131,
+          "recognized_frac": 0.268
+        },
+        "cov>=0.85,iou>=0.75": {
+          "recognized": 39,
+          "unrecognized": 140,
+          "recognized_frac": 0.218
+        },
+        "cov>=0.85,iou>=0.80": {
+          "recognized": 32,
+          "unrecognized": 147,
+          "recognized_frac": 0.179
+        },
+        "cov>=0.90,iou>=0.50": {
+          "recognized": 45,
+          "unrecognized": 134,
+          "recognized_frac": 0.251
+        },
+        "cov>=0.90,iou>=0.60": {
+          "recognized": 40,
+          "unrecognized": 139,
+          "recognized_frac": 0.223
+        },
+        "cov>=0.90,iou>=0.70": {
+          "recognized": 35,
+          "unrecognized": 144,
+          "recognized_frac": 0.196
+        },
+        "cov>=0.90,iou>=0.75": {
+          "recognized": 30,
+          "unrecognized": 149,
+          "recognized_frac": 0.168
+        },
+        "cov>=0.90,iou>=0.80": {
+          "recognized": 25,
+          "unrecognized": 154,
+          "recognized_frac": 0.14
+        },
+        "cov>=0.95,iou>=0.50": {
+          "recognized": 30,
+          "unrecognized": 149,
+          "recognized_frac": 0.168
+        },
+        "cov>=0.95,iou>=0.60": {
+          "recognized": 27,
+          "unrecognized": 152,
+          "recognized_frac": 0.151
+        },
+        "cov>=0.95,iou>=0.70": {
+          "recognized": 22,
+          "unrecognized": 157,
+          "recognized_frac": 0.123
+        },
+        "cov>=0.95,iou>=0.75": {
+          "recognized": 18,
+          "unrecognized": 161,
+          "recognized_frac": 0.101
+        },
+        "cov>=0.95,iou>=0.80": {
+          "recognized": 14,
+          "unrecognized": 165,
+          "recognized_frac": 0.078
+        }
+      },
+      "per_class": {
+        "bare soil": {
+          "class_id": 2,
+          "n_regions": 14,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.245,
+          "mean_iou": 0.23,
+          "median_area_px": 1036,
+          "total_area_px": 50981
+        },
+        "buildings": {
+          "class_id": 3,
+          "n_regions": 35,
+          "n_recognized": 5,
+          "recognized_frac": 0.143,
+          "mean_coverage": 0.725,
+          "mean_iou": 0.614,
+          "median_area_px": 1047,
+          "total_area_px": 107358
+        },
+        "cars": {
+          "class_id": 4,
+          "n_regions": 29,
+          "n_recognized": 5,
+          "recognized_frac": 0.172,
+          "mean_coverage": 0.823,
+          "mean_iou": 0.604,
+          "median_area_px": 116,
+          "total_area_px": 4396
+        },
+        "dock": {
+          "class_id": 7,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.252,
+          "mean_iou": 0.157,
+          "median_area_px": 9907,
+          "total_area_px": 9907
+        },
+        "field": {
+          "class_id": 8,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.027,
+          "mean_iou": 0.027,
+          "median_area_px": 61782,
+          "total_area_px": 61782
+        },
+        "grass": {
+          "class_id": 9,
+          "n_regions": 23,
+          "n_recognized": 2,
+          "recognized_frac": 0.087,
+          "mean_coverage": 0.337,
+          "mean_iou": 0.229,
+          "median_area_px": 705,
+          "total_area_px": 102494
+        },
+        "pavement": {
+          "class_id": 11,
+          "n_regions": 9,
+          "n_recognized": 2,
+          "recognized_frac": 0.222,
+          "mean_coverage": 0.403,
+          "mean_iou": 0.376,
+          "median_area_px": 4955,
+          "total_area_px": 125408
+        },
+        "sand": {
+          "class_id": 12,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.888,
+          "mean_iou": 0.867,
+          "median_area_px": 4563,
+          "total_area_px": 4563
+        },
+        "ship": {
+          "class_id": 14,
+          "n_regions": 15,
+          "n_recognized": 11,
+          "recognized_frac": 0.733,
+          "mean_coverage": 0.956,
+          "mean_iou": 0.838,
+          "median_area_px": 1171,
+          "total_area_px": 17192
+        },
+        "trees": {
+          "class_id": 16,
+          "n_regions": 41,
+          "n_recognized": 4,
+          "recognized_frac": 0.098,
+          "mean_coverage": 0.384,
+          "mean_iou": 0.328,
+          "median_area_px": 1449,
+          "total_area_px": 125914
+        },
+        "water": {
+          "class_id": 17,
+          "n_regions": 10,
+          "n_recognized": 1,
+          "recognized_frac": 0.1,
+          "mean_coverage": 0.177,
+          "mean_iou": 0.163,
+          "median_area_px": 1083,
+          "total_area_px": 45346
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,266 @@
+[backend] using sam3 on cuda from /home/cse-sdpl/Videos/Point-project/SAM-modals/sam3
+Step 0 inspection: 10 images
+backend=sam3 device=cuda recognition=text
+  SAM gets the image and these 17 names, nothing else: airplane, bare soil, buildings, cars, chaparral, court, dock, field, grass, mobile home, pavement, sand, sea, ship, tanks, trees, water
+  a region is recognized only by masks for its OWN class name (score >= 0.5)
+thresholds (PROVISIONAL, Step 6 calibrates them): coverage >= 0.9, IoU >= 0.75, match_mode=greedy_union
+
+agric_1901  (agricultural -- one large homogeneous field)
+  6 masks for the 17 class names, 2 regions at min_area=24 px
+  SAM answered 4/17 names: bare soil=3, buildings=1, field=1, trees=1
+   id class          area  fill    cov    IoU masks  status
+    0 field         61782  0.94  0.963  0.963     1  recognized
+    1 trees          3754  0.83  0.873  0.873     1  unrecognized
+
+baseb_1000  (baseb -- explicit list, no stress rationale)
+  17 masks for the 17 class names, 16 regions at min_area=24 px
+  SAM answered 7/17 names: bare soil=1, cars=3, field=2, grass=1, pavement=1, sand=1, trees=8
+  silent on 1 name(s) that ARE in the ground truth: buildings
+   id class          area  fill    cov    IoU masks  status
+    9 grass         27163  0.53  0.924  0.919     1  recognized
+    0 bare soil     24276  0.37  0.382  0.382     1  unrecognized
+    1 bare soil      6005  0.48  0.000  0.000     0  unrecognized
+   15 trees          4861  0.67  0.861  0.858     3  unrecognized
+    3 buildings       719  0.71  0.000  0.000     0  unrecognized
+    5 buildings       488  0.80  0.000  0.000     0  unrecognized
+   10 trees           356  0.71  0.000  0.000     0  unrecognized
+    4 buildings       246  0.79  0.000  0.000     0  unrecognized
+    6 buildings       234  0.72  0.000  0.000     0  unrecognized
+    8 cars            227  0.87  0.775  0.772     1  unrecognized
+   14 trees           202  0.51  0.000  0.000     0  unrecognized
+   13 trees           190  0.53  0.000  0.000     0  unrecognized
+    2 bare soil       164  0.57  0.000  0.000     0  unrecognized
+    7 cars            146  0.91  0.877  0.624     1  unrecognized
+   12 trees           137  0.57  0.927  0.819     1  recognized
+   11 trees           122  0.79  0.844  0.613     1  unrecognized
+
+build_1601  (build -- explicit list, no stress rationale)
+  20 masks for the 17 class names, 18 regions at min_area=24 px
+  SAM answered 3/17 names: buildings=9, cars=10, pavement=1
+  silent on 1 name(s) that ARE in the ground truth: trees
+   id class          area  fill    cov    IoU masks  status
+    4 buildings     20265  0.73  0.650  0.650     4  unrecognized
+   15 pavement      16885  0.26  0.809  0.807     1  unrecognized
+    0 buildings     16201  0.51  0.422  0.422     2  unrecognized
+   16 trees          4101  0.45  0.000  0.000     0  unrecognized
+   17 trees          4097  0.29  0.000  0.000     0  unrecognized
+    2 buildings      1604  0.38  0.751  0.746     1  unrecognized
+    5 buildings      1047  0.62  0.246  0.246     1  unrecognized
+   13 cars            170  0.29  0.894  0.585     2  unrecognized
+    3 buildings       167  0.76  0.000  0.000     0  unrecognized
+    1 buildings       139  0.69  0.986  0.801     1  recognized
+    7 cars            139  0.64  0.878  0.663     1  unrecognized
+   14 cars            133  0.57  0.767  0.586     1  unrecognized
+   10 cars            121  0.58  1.000  0.587     1  unrecognized
+    9 cars            116  0.62  0.991  0.676     1  unrecognized
+    8 cars            115  0.69  0.983  0.801     1  recognized
+   11 cars             86  0.68  0.988  0.654     1  unrecognized
+   12 cars             76  0.60  1.000  0.580     1  unrecognized
+    6 cars             73  0.49  1.000  0.490     1  unrecognized
+
+dense_1401  (dense residential -- many small buildings packed together)
+  35 masks for the 17 class names, 32 regions at min_area=24 px
+  SAM answered 6/17 names: buildings=22, cars=6, field=1, grass=2, pavement=1, trees=3
+  silent on 1 name(s) that ARE in the ground truth: bare soil
+   id class          area  fill    cov    IoU masks  status
+   11 buildings     12055  0.47  0.398  0.398     6  unrecognized
+    4 bare soil      6959  0.44  0.000  0.000     0  unrecognized
+    8 buildings      6534  0.59  0.571  0.563     4  unrecognized
+    2 bare soil      6215  0.34  0.000  0.000     0  unrecognized
+   23 pavement       4955  0.08  0.709  0.654     1  unrecognized
+   29 trees          4610  0.39  0.432  0.429     2  unrecognized
+   17 buildings      3198  0.66  0.390  0.385     2  unrecognized
+   28 trees          2891  0.37  0.000  0.000     0  unrecognized
+   16 buildings      2581  0.57  0.693  0.644     3  unrecognized
+   25 trees          1813  0.71  0.103  0.097     1  unrecognized
+   12 buildings      1634  0.52  0.955  0.921     1  recognized
+   15 buildings      1422  0.48  0.954  0.900     1  recognized
+   31 trees          1352  0.51  0.000  0.000     0  unrecognized
+   13 buildings      1320  0.53  0.667  0.627     1  unrecognized
+    7 buildings      1183  0.61  0.586  0.578     1  unrecognized
+   27 trees           784  0.57  0.000  0.000     0  unrecognized
+    3 bare soil       773  0.36  0.000  0.000     0  unrecognized
+   30 trees           727  0.33  0.000  0.000     0  unrecognized
+   20 cars            711  0.39  0.695  0.653     3  unrecognized
+   14 buildings       656  0.58  0.831  0.783     1  unrecognized
+    1 bare soil       575  0.39  0.000  0.000     0  unrecognized
+    6 bare soil       555  0.51  0.000  0.000     0  unrecognized
+   22 cars            403  0.45  0.000  0.000     0  unrecognized
+    5 bare soil       391  0.64  0.000  0.000     0  unrecognized
+   19 cars            285  0.69  0.000  0.000     0  unrecognized
+    0 bare soil       233  0.56  0.000  0.000     0  unrecognized
+   24 trees           211  0.31  0.000  0.000     0  unrecognized
+   26 trees           192  0.74  0.000  0.000     0  unrecognized
+   10 buildings        94  0.41  0.000  0.000     0  unrecognized
+   18 buildings        86  0.64  0.000  0.000     0  unrecognized
+    9 buildings        70  0.73  0.000  0.000     0  unrecognized
+   21 cars             67  0.62  0.000  0.000     0  unrecognized
+
+freew_301  (freeway -- sprawling pavement, the connected-component worry)
+  18 masks for the 17 class names, 21 regions at min_area=24 px
+  SAM answered 3/17 names: cars=13, grass=1, pavement=4
+  silent on 1 name(s) that ARE in the ground truth: trees
+   id class          area  fill    cov    IoU masks  status
+   13 pavement      50060  0.76  0.801  0.801     3  unrecognized
+   11 grass          4885  0.27  0.522  0.508     1  unrecognized
+   14 pavement       2842  0.49  0.764  0.760     1  unrecognized
+    8 grass          2790  0.15  0.000  0.000     0  unrecognized
+   15 trees          1158  0.26  0.000  0.000     0  unrecognized
+   17 trees           829  0.37  0.000  0.000     0  unrecognized
+   18 trees           808  0.11  0.000  0.000     0  unrecognized
+   19 trees           636  0.27  0.000  0.000     0  unrecognized
+    9 grass           289  0.70  0.000  0.000     0  unrecognized
+   16 trees           193  0.49  0.000  0.000     0  unrecognized
+    6 cars            187  0.66  0.813  0.809     1  unrecognized
+   20 trees           150  0.71  0.000  0.000     0  unrecognized
+    3 cars            145  0.66  0.903  0.697     1  unrecognized
+   12 grass           113  0.30  0.000  0.000     0  unrecognized
+    4 cars             94  0.50  1.000  0.560     1  unrecognized
+    7 cars             87  0.56  1.000  0.640     1  unrecognized
+    1 cars             83  0.49  1.000  0.516     1  unrecognized
+    0 cars             60  0.58  1.000  0.455     1  unrecognized
+    5 cars             59  0.49  1.000  0.381     1  unrecognized
+   10 grass            40  0.64  0.000  0.000     0  unrecognized
+    2 cars             28  0.93  1.000  0.226     1  unrecognized
+
+harbo_401  (harbour -- ships and docks, thin repeated structures)
+  22 masks for the 17 class names, 24 regions at min_area=24 px
+  SAM answered 4/17 names: dock=5, sea=1, ship=15, water=1
+   id class          area  fill    cov    IoU masks  status
+   17 water         19118  0.46  0.883  0.473     1  unrecognized
+   20 water         14881  0.47  0.910  0.389     1  unrecognized
+    0 dock           9907  0.15  0.565  0.543     5  unrecognized
+   11 ship           2020  0.45  0.966  0.861     1  recognized
+    6 ship           1827  0.47  0.926  0.873     1  recognized
+    7 ship           1721  0.48  0.934  0.924     1  recognized
+   13 ship           1677  0.48  0.970  0.841     1  recognized
+    9 ship           1518  0.44  0.962  0.897     1  recognized
+   10 ship           1417  0.38  0.938  0.903     1  recognized
+    8 ship           1278  0.42  0.914  0.847     1  recognized
+    5 ship           1171  0.46  0.908  0.881     1  recognized
+   23 water          1126  0.40  0.611  0.020     1  unrecognized
+   22 water          1040  0.52  0.760  0.023     1  unrecognized
+   12 ship           1023  0.44  0.944  0.780     1  recognized
+    4 ship            904  0.52  0.945  0.922     1  recognized
+   15 ship            781  0.53  0.967  0.778     1  recognized
+   19 water           773  0.20  0.542  0.012     1  unrecognized
+    2 ship            759  0.45  0.945  0.905     1  recognized
+   16 water           730  0.55  0.826  0.018     1  unrecognized
+   18 water           642  0.58  0.799  0.015     1  unrecognized
+    3 ship            519  0.41  0.996  0.742     1  unrecognized
+    1 ship            370  0.53  0.997  0.742     1  unrecognized
+   14 ship            207  0.62  0.860  0.856     1  unrecognized
+   21 water           126  0.33  0.000  0.000     0  unrecognized
+
+mediu_1201  (mediu -- explicit list, no stress rationale)
+  36 masks for the 17 class names, 22 regions at min_area=24 px
+  SAM answered 6/17 names: buildings=5, cars=3, field=10, grass=9, pavement=1, trees=8
+   id class          area  fill    cov    IoU masks  status
+   13 grass         34769  0.53  0.174  0.174     7  unrecognized
+   19 trees          5072  0.50  0.687  0.646     1  unrecognized
+    7 buildings      4895  0.55  0.698  0.606     2  unrecognized
+    1 buildings      4122  0.61  0.438  0.400     1  unrecognized
+    6 buildings      3772  0.59  0.683  0.610     1  unrecognized
+    0 buildings      3281  0.65  0.459  0.441     1  unrecognized
+    4 buildings      2067  0.45  0.000  0.000     0  unrecognized
+   21 trees          1945  0.60  0.825  0.675     1  unrecognized
+   18 grass          1780  0.52  0.247  0.247     1  unrecognized
+   20 trees          1449  0.61  0.744  0.742     1  unrecognized
+    2 buildings       592  0.72  0.000  0.000     0  unrecognized
+    9 buildings       507  0.61  0.858  0.151     1  unrecognized
+    5 buildings       394  0.65  0.000  0.000     0  unrecognized
+    8 buildings       169  0.61  0.000  0.000     0  unrecognized
+   11 cars            165  0.69  0.764  0.689     1  unrecognized
+   16 grass           165  0.52  0.000  0.000     0  unrecognized
+   14 grass           122  0.22  0.000  0.000     0  unrecognized
+   12 cars             73  0.69  0.932  0.739     1  unrecognized
+   17 grass            64  0.41  0.000  0.000     0  unrecognized
+   10 buildings        45  0.64  0.000  0.000     0  unrecognized
+   15 grass            42  0.88  0.000  0.000     0  unrecognized
+    3 buildings        31  0.74  0.000  0.000     0  unrecognized
+
+overp_1501  (overp -- explicit list, no stress rationale)
+  5 masks for the 17 class names, 11 regions at min_area=24 px
+  SAM answered 3/17 names: cars=3, field=1, grass=1
+  silent on 2 name(s) that ARE in the ground truth: pavement, trees
+   id class          area  fill    cov    IoU masks  status
+    6 pavement      43047  0.66  0.000  0.000     0  unrecognized
+   10 trees          5818  0.80  0.000  0.000     0  unrecognized
+    9 trees          5320  0.89  0.000  0.000     0  unrecognized
+    3 grass          3816  0.59  0.000  0.000     0  unrecognized
+    4 grass          2440  0.56  1.000  0.577     1  unrecognized
+    7 trees          2192  0.54  0.000  0.000     0  unrecognized
+    8 trees          2157  0.62  0.000  0.000     0  unrecognized
+    5 grass           341  0.59  0.000  0.000     0  unrecognized
+    0 cars            198  0.73  0.955  0.818     1  recognized
+    1 cars            147  0.83  0.898  0.841     1  unrecognized
+    2 grass            60  0.86  0.033  0.000     1  unrecognized
+
+river_1301  (river -- explicit list, no stress rationale)
+  5 masks for the 17 class names, 12 regions at min_area=24 px
+  SAM answered 4/17 names: field=1, grass=1, trees=1, water=2
+  silent on 2 name(s) that ARE in the ground truth: bare soil, sand
+   id class          area  fill    cov    IoU masks  status
+    9 trees         38099  0.58  0.000  0.000     0  unrecognized
+    8 trees          5984  0.59  0.579  0.571     1  unrecognized
+   11 water          4788  0.14  0.266  0.198     1  unrecognized
+    7 sand           4563  0.21  0.000  0.000     0  unrecognized
+    4 grass          3283  0.76  0.935  0.818     1  recognized
+   10 water          2122  0.40  0.687  0.680     1  unrecognized
+    2 bare soil      1506  0.33  0.000  0.000     0  unrecognized
+    1 bare soil      1256  0.20  0.000  0.000     0  unrecognized
+    0 bare soil      1246  0.46  0.000  0.000     0  unrecognized
+    5 grass          1156  0.21  0.001  0.000     1  unrecognized
+    3 bare soil       827  0.55  0.000  0.000     0  unrecognized
+    6 grass           705  0.35  0.000  0.000     0  unrecognized
+
+spars_101  (spars -- explicit list, no stress rationale)
+  32 masks for the 17 class names, 21 regions at min_area=24 px
+  SAM answered 6/17 names: buildings=3, cars=3, field=5, grass=6, pavement=5, trees=10
+   id class          area  fill    cov    IoU masks  status
+    4 grass         16415  0.37  0.656  0.654     3  unrecognized
+    0 buildings     15203  0.54  0.787  0.781     2  unrecognized
+   17 trees          8087  0.40  0.149  0.149     2  unrecognized
+   14 trees          6513  0.32  0.000  0.000     0  unrecognized
+    8 pavement       5285  0.16  0.806  0.790     3  unrecognized
+   18 trees          2390  0.48  0.000  0.000     0  unrecognized
+   13 trees          1896  0.57  0.972  0.577     1  unrecognized
+   12 trees          1592  0.50  0.697  0.679     2  unrecognized
+   11 pavement       1414  0.38  0.932  0.883     1  recognized
+   19 trees           918  0.77  0.472  0.472     1  unrecognized
+   16 trees           908  0.65  0.583  0.581     1  unrecognized
+    7 grass           840  0.21  0.854  0.808     1  unrecognized
+   10 pavement        780  0.67  0.972  0.933     1  recognized
+   15 trees           761  0.47  0.950  0.764     1  recognized
+    6 grass           650  0.68  0.412  0.140     1  unrecognized
+   20 trees           639  0.53  0.433  0.433     1  unrecognized
+    5 grass           566  0.62  0.000  0.000     0  unrecognized
+    1 buildings       337  0.75  0.000  0.000     0  unrecognized
+    9 pavement        140  0.41  0.000  0.000     0  unrecognized
+    2 cars            105  0.78  0.848  0.530     1  unrecognized
+    3 cars             97  0.57  0.907  0.822     1  recognized
+
+minimum-area sweep -- is 24 px sensible?
+  floor  regions  per img   max  GT px kept
+      0      184     18.4    33      1.0000
+      8      180     18.0    32      1.0000
+     16      179     17.9    32      1.0000
+     24      179     17.9    32      1.0000
+     48      174     17.4    32      0.9997
+     96      159     15.9    28      0.9980
+
+sprawl check -- does one component per class hold up?
+  0/179 regions erode to nothing under a 3x3 kernel, i.e. they are one pixel wide everywhere
+  eight lowest bbox fill ratios:
+    dense_1401#23    pavement     area=  4955 fill=0.08 cov=0.709 iou=0.654
+    freew_301#18     trees        area=   808 fill=0.11 cov=0.000 iou=0.000
+    river_1301#11    water        area=  4788 fill=0.14 cov=0.266 iou=0.198
+    freew_301#8      grass        area=  2790 fill=0.15 cov=0.000 iou=0.000
+    harbo_401#0      dock         area=  9907 fill=0.15 cov=0.565 iou=0.543
+    spars_101#8      pavement     area=  5285 fill=0.16 cov=0.806 iou=0.790
+    harbo_401#19     water        area=   773 fill=0.20 cov=0.542 iou=0.012
+    river_1301#1     bare soil    area=  1256 fill=0.20 cov=0.000 iou=0.000
+
+154/179 regions unrecognized -- these are what the point selector has to fix
+
+wrote 10 figures, coverage_vs_iou.png and step0_summary.json to /home/cse-sdpl/Videos/Point-project/artifacts/step0_sam3_text

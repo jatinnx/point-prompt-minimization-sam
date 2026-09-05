@@ -30,11 +30,11 @@ for region in h.unrecognized("harbo_401"):   # regions SAM's automatic pass miss
     print(region.key, sess.num_sam_calls)
 ```
 
-No GPU and no checkpoint? Replace two lines:
+No GPU and no weights? Replace two lines:
 
 ```python
 from pointmin import load_dataset
-regions_by_image = load_dataset("artifacts/step1")   # real scored regions, from disk
+regions_by_image = load_dataset("artifacts/step1_sam3_text")   # scored regions, from disk
 with h.open_fake(image_id) as sess:                  # deterministic model-free SAM
     ...
 ```
@@ -99,10 +99,10 @@ from pointmin import PointSelectionResult, save_results, load_results
 r = PointSelectionResult(
     image_id="freew_301",
     region_id=5,
-    points=[(95, 66), (95, 72)],   # final list, AFTER pruning
+    points=[(96, 67), (98, 62)],   # final list, AFTER pruning
     labels=[1, 0],                 # additive; omit entirely if all positive
-    final_coverage=1.000,
-    final_iou=0.621,
+    final_coverage=0.983,
+    final_iou=0.624,
     num_sam_calls=2,               # read it off sess.num_sam_calls
 )
 save_results([r], "artifacts/step5/results.json")
@@ -128,7 +128,7 @@ report.
 
 ```python
 from pointmin import prompt_sam3
-mask = prompt_sam3(image, [(95, 66)], region=region)   # region optional
+mask = prompt_sam3(image, [(96, 67)], region=region)   # region optional
 ```
 
 A tested wrapper with the exact published signature. It re-encodes the image on
@@ -139,16 +139,21 @@ every call, which is what §4 is about — use it to get moving, not in a loop.
 ## 4. Prompting SAM — a session, not `prompt_sam3`
 
 The document specifies `prompt_sam3(image, points)`, taking a raw image every
-call. Measured here: the encoder pass is **349 ms**, a warm decode is **12 ms** —
-**28×**. An iterative loop pays that on every iteration, so the encode moved out
-of the call.
+call. Measured here on SAM 3: the first prompt of a session costs **~1050 ms**, an
+extra prompt inside that open session **~25 ms** — **40×**. An iterative loop pays
+that gap on every iteration, so the image encode moved out of the call.
 
 ```python
-with h.open(image_id) as sess:            # 349 ms once
-    m1 = sess.predict([(120, 64)], region=region)             # ~12 ms
-    m2 = sess.predict([(120, 64), (130, 70)], region=region)  # ~12 ms
+with h.open(image_id) as sess:
+    m1 = sess.predict([(120, 64)], region=region)             # ~1050 ms, encodes
+    m2 = sess.predict([(120, 64), (130, 70)], region=region)  # ~25 ms
 print(sess.num_sam_calls)                 # 2
 ```
+
+SAM 3 encodes lazily inside the first `predict` rather than inside `open()`, so the
+first call of a session is the expensive one, not `open()` — time your loop
+accordingly. Building the model costs a further ~2.9 s, once per process, inside
+the first thing that touches it.
 
 `predict(points, labels=None, region=None, multimask=True) -> (H, W) bool`
 
@@ -221,93 +226,196 @@ h.is_recognized(coverage, iou)       # both thresholds, per the document
 ```
 
 `Harness()` builds SAM lazily, so `gt_regions`, `score` and `is_recognized` work
-with no checkpoint present. Only `regions`, `automatic_masks` and `open` need it.
+with no weights present. Only `regions`, `automatic_masks` and `open` need them.
 
 ### Loading regions from disk instead
 
-`artifacts/step1/` holds the pilot's scored regions, bit-packed, a few kB each:
+`artifacts/step1_sam3_text/` holds the pilot's scored regions, bit-packed, a few kB
+each:
 
 ```python
 from pointmin import load_dataset
-regions_by_image = load_dataset("artifacts/step1")   # dict[str, list[Region]]
+regions_by_image = load_dataset("artifacts/step1_sam3_text")   # dict[str, list[Region]]
 ```
 
-Identical `Region` objects, no checkpoint, no GPU, no inference. Use this for
+Identical `Region` objects, no weights, no GPU, no inference. Use this for
 Steps 2–3 so we are both looking at the same numbers.
 
 ---
 
 ## 7. What the Step 1 pilot actually found — read this before designing
 
-Ten images, one per land-use category, 179 regions, SAM 1 ViT-B, thresholds
-coverage ≥ 0.90 and IoU ≥ 0.75. Full numbers in `artifacts/step1/step1_report.json`.
+Ten images, one per land-use category, 179 regions, **SAM 3 prompted with the 17
+class names**, thresholds coverage ≥ 0.90 and IoU ≥ 0.75. Full numbers in
+`artifacts/step1_sam3_text/step1_report.json`, the run itself in
+`step1_console.txt` beside it.
 
-**131 of 179 regions (73%) are unrecognized.** That is your workload. Only 2 have
-no matching automatic mask at all — the overwhelming majority are *partial*
-failures, so an algorithm that only handles "SAM found nothing" addresses about
-1.5% of the problem.
+**154 of 179 regions (86%) are unrecognized. That is your workload.** Of those,
+**71 (40% of all regions) have no matching mask at all** — SAM returned nothing
+under that region's own class name. The remaining 83 are partial failures: a mask
+exists, it is just wrong.
 
-Mean coverage 0.765, mean IoU 0.637 (`greedy_union`). Per class:
+You therefore need both halves of the plan, in roughly equal measure. Steps 2–3
+(choose a first point with nothing but the region to go on) carry the 40% where
+there is no mask to improve on. Step 4 (place the next point in the remaining
+missed area) carries the rest.
+
+> Earlier versions of this section said only 2 regions (1.5%) had no mask at all,
+> and told you an algorithm for that case addressed 1.5% of the problem. Those were
+> numbers from the class-agnostic pass, where SAM is given the image and no names.
+> Under SAM 3 + the 17 class names — which is the hand-off — that figure is 40%, and
+> the advice inverts. If you designed against the old paragraph, this is the change
+> that matters most.
+
+Mean coverage 0.458, mean IoU 0.363 (`greedy_union`). Per class:
 
 | class | regions | recognized | mean coverage | mean IoU |
 | --- | --- | --- | --- | --- |
-| field | 1 | 1 | 0.994 | 0.990 |
-| ship | 15 | 4 | 0.908 | 0.791 |
-| sand | 1 | 1 | 0.906 | 0.883 |
-| cars | 29 | 4 | 0.875 | 0.661 |
-| buildings | 35 | 13 | 0.861 | 0.726 |
-| trees | 41 | 12 | 0.740 | 0.605 |
-| grass | 23 | 4 | 0.669 | 0.530 |
-| water | 10 | 5 | 0.650 | 0.638 |
-| pavement | 9 | 2 | 0.647 | 0.569 |
-| bare soil | 14 | 2 | 0.532 | 0.495 |
-| dock | 1 | 0 | 0.418 | 0.344 |
+| field | 1 | 1 | 0.963 | 0.963 |
+| ship | 15 | 12 | 0.945 | 0.850 |
+| cars | 29 | 3 | 0.823 | 0.565 |
+| pavement | 9 | 2 | 0.644 | 0.625 |
+| water | 10 | 0 | 0.628 | 0.183 |
+| dock | 1 | 0 | 0.565 | 0.543 |
+| buildings | 35 | 3 | 0.372 | 0.333 |
+| trees | 41 | 2 | 0.271 | 0.243 |
+| grass | 23 | 2 | 0.250 | 0.211 |
+| bare soil | 14 | 0 | 0.027 | 0.027 |
+| sand | 1 | 0 | 0.000 | 0.000 |
 
-Three things worth designing around:
+Four things worth designing around:
 
-**`cars`: coverage 0.875 but IoU 0.661, and only 4 of 29 recognized.** SAM finds
-the cars and then spills well past them. `freew_301#5` is the clearest instance:
-59 px of cars, coverage **1.000**, IoU **0.376**. Adding positive points cannot fix
-this — that is what `labels=0` is for, and it works: one positive point inside
-that region plus one negative point on a spilled pixel takes IoU from 0.373 to
-**0.615** with coverage still at 1.000.
+**A name SAM does not return is a region you get nothing for.** Instances returned
+per class name, against ground-truth regions of that class: `water` 3 for 10,
+`bare soil` 4 for 14, `trees` 31 for 41, `sand` 1 for 1 but with zero overlap. The
+five names absent from these ten images (airplane, chaparral, court, mobile home,
+tanks) were never returned, which is correct, not a failure. `buildings` 40 for 35
+and `field` 21 for 1 are the opposite problem — over-answering, which is where
+spill comes from.
 
-**Sprawling background classes are the hard cases,** not the small objects.
-`bare soil`, `pavement`, `dock` and `grass` are worst. A single DLRSD `grass`
-component snakes between buildings, and SAM has no reason to return that as one
-mask. Region `harbo_401#0` is a dock of 9907 px that fills 15% of its bounding
-box, coverage 0.418.
+**Spill is still the `cars` story, and negative points still fix it — but placing
+them is part of your Step 4.** `labels=0` (§4) is the only tool that can shrink an
+over-large mask; more positive points cannot. Measured on SAM 3, one positive at
+the region's deepest interior pixel, then one negative chosen two different ways:
 
-**Thresholds are provisional and the choice is enormously consequential.** At
-coverage ≥ 0.80 / IoU ≥ 0.50, 54% of regions are already recognized; at
-0.95 / 0.80, only 8%. The whole grid is in the report JSON. Calibrating this is
-Step 6, jointly, from your Step 4–5 numbers — don't tune to it in the meantime.
+| region | 1 positive | + negative at deepest spill pixel | + negative at spill pixel farthest from the region |
+| --- | --- | --- | --- |
+| `freew_301#5` cars, 59 px | cov 1.000 IoU 0.518 | 0.763 / 0.517 | **0.983 / 0.624** |
+| `build_1601#6` cars, 73 px | cov 0.973 IoU 0.542 | 0.767 / 0.602 | **0.877 / 0.610** |
+| `overp_1501#4` grass, 2440 px | cov 0.798 IoU 0.600 | **0.954 / 0.792** | 1.000 / 0.545 |
+| `spars_101#13` trees, 1896 px | cov 0.974 IoU 0.593 | 0.694 / 0.678 | **0.823 / 0.681** |
+
+Six of those eight negatives improved IoU, so the mechanism works — but neither
+placement rule wins everywhere. "Farthest from the region" wins on the small car
+regions and degenerates to an image corner on the large grass one. Record whichever
+you use: `PointSelectionResult.labels` exists because a mixed point set replayed as
+all-positive gives a different mask.
+
+**Sprawling background classes are the hard cases, not the small objects.**
+`bare soil`, `grass`, `trees` and `buildings` are worst, and they are worst for two
+different reasons — SAM often does not return the name at all, and when it does,
+one DLRSD component snaking between other objects is not a thing SAM has any reason
+to return as one mask. `harbo_401#0` is a dock of 9907 px filling 15% of its
+bounding box.
+
+**Thresholds are provisional and the choice dominates the headline.** At
+coverage ≥ 0.80 / IoU ≥ 0.50, 30.2% of regions are already recognized; at
+0.90 / 0.75, 14.0%; at 0.95 / 0.80, 5.6%. The whole 4×5 grid is in the report
+JSON. Calibrating this is Step 6, jointly, from your Step 4–5 numbers — don't tune
+to it in the meantime.
+
+### The other side of the toggle, for comparison only
+
+The same model, the same 10 images and the same 179 regions, with the class names
+withheld — SAM 3 given the image alone and asked to segment everything on a 16×16
+point grid, matched class-agnostically:
+
+| | SAM 3, image only | SAM 3, text (17 names) |
+| --- | --- | --- |
+| unrecognized | 149 / 179 (83%) | **154 / 179 (86%)** |
+| no matching mask at all | 19 (10.6%) | **71 (40%)** |
+| masks matched per region | 1.84 | 0.83 |
+| mean coverage / IoU | 0.542 / 0.445 | 0.458 / 0.363 |
+
+Text mode is harder on purpose: SAM has to *name* the region, not merely outline
+something that overlaps it. The two columns are **not** interchangeable and should
+never be averaged or quoted side by side as progress. `artifacts/step1_sam3/` holds
+the image-only numbers if you want them; `artifacts/step1_sam3_text/` is the
+hand-off.
 
 ---
 
 ## 8. Matching, and why there are two modes
 
-A ground-truth region often corresponds to several automatic masks, because SAM
-splits one object into parts. Two modes, in `Config.match_mode`:
+A ground-truth region often corresponds to several masks, because SAM splits one
+object into parts. Two modes, in `Config.match_mode`:
 
-- `best_single` — highest-IoU single mask. 17.3% recognized, mean coverage 0.668.
+- `best_single` — highest-IoU single mask. Mean coverage 0.440, mean IoU 0.348.
 - `greedy_union` — start there, keep adding whichever mask improves IoU most,
-  stop when none does. **26.8% recognized, mean coverage 0.765. This is the
-  default.** 2.79 masks per region on average.
+  stop when none does. **Mean coverage 0.458, mean IoU 0.363. This is the
+  default.**
 
 `best_single` would mark a correctly-but-piecewise segmented region as
 unrecognized and send you to fix something that is not broken.
 
+In text mode the choice barely moves the headline: both modes recognize the same
+25 of 179 regions, because restricting candidates to one class name has already
+done most of the narrowing — 0.83 masks matched per region, against 1.84 when the
+names are withheld and the two modes differ 16.2% → 16.8%. Keep
+`greedy_union` regardless: it is strictly better on the regions where several
+same-name instances do tile one component, and Step 6 may move the thresholds to
+where the difference matters again.
+
 ---
 
-## 9. Backend status
+## 9. The recognition toggle — one model, asked two ways
 
-The plan says SAM 3. `facebook/sam3` is gated on Hugging Face and this machine
-has no approved token, so **SAM 1 ViT-B is what runs** — per Jatin's instruction
-to use what is available. `Sam3Backend` is written and `build_backend` prefers it;
-granting access makes it the default with no other code change, and nothing in
-this document is backend-specific. Absolute numbers in §7 would change; the
-interface would not.
+The plan says SAM 3, and **SAM 3 is the only model here.** Everything in §7 was
+produced with it. There is no second backend: `--recognition` decides what SAM 3 is
+*told*, not which model runs. On `Config`, or as a flag on `scripts/01_inspect.py`
+(Step 0) and `scripts/02_harness_report.py` (Step 1):
+
+| | what SAM 3 is given | artifacts |
+| --- | --- | --- |
+| `--recognition text` | the image **and the 17 DLRSD class names** | `step0_sam3_text/` `step1_sam3_text/` — **the hand-off** |
+| `--recognition automatic` | the image **alone**, segment-everything on a 16×16 point grid | `step0_sam3/` `step1_sam3/` |
+
+`--recognition text` is the project's actual design: SAM gets the image and the 17
+DLRSD class names, nothing else — no points, no boxes, no ground truth — and a
+region counts as recognized **only if masks returned for its own class name** cover
+it. `automatic` is class-agnostic: any blob that overlaps a region can credit it,
+which asks whether SAM can outline the thing, not whether it can name it.
+
+`--recognition auto` (the default) means text whenever the model can be handed a
+phrase, so plain `Config()` gives you the hand-off configuration. A model that
+cannot take a phrase — which in practice means a stub in `tests/` — is refused
+rather than silently downgraded: `Harness.recognition` raises `ValueError` and
+`concepts.concept_masks` raises `TypeError` if you reach it directly. The two
+modes' numbers are far apart (§7), and quietly swapping one for the other would
+corrupt every comparison built on top.
+
+Both of SAM 3's prompt paths are exercised, and they are separate models behind one
+id:
+
+- **concept branch** — `Sam3Model` + `Sam3Processor`, for the 17 names. One image
+  encode serves all 17 prompts.
+- **tracker branch** — `Sam3TrackerModel` + `Sam3TrackerProcessor`, for the `(x, y)`
+  points your Steps 2–5 send through `sess.predict`. Text never reaches it.
+
+`scripts/04_handoff_check.py --with-sam` runs both and is how you confirm the point
+path works on your machine.
+
+The weights are in the project at **`SAM-modals/sam3`** (3.3 GB, gitignored,
+revision in `REVISION.txt`), so a run needs neither the Hugging Face cache nor the
+network — verified under `HF_HUB_OFFLINE=1`. `Config().sam3_model_id` resolves to it;
+set `POINTMIN_SAM3_PATH` if your copy lives elsewhere, and with neither the code
+falls back to the gated hub id `facebook/sam3`. See README, "Where the weights live".
+
+Text-mode masks are cached under `artifacts/concept_masks/`, keyed by the prompt
+template and score thresholds, so a Step 6 retune cannot be served stale masks.
+Automatic masks cache the same way under `artifacts/auto_masks/`. Neither key
+includes the model path, so moving the weights invalidates nothing. Neither cache
+is committed; both regenerate.
 
 ---
 

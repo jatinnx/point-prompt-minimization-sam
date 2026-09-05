@@ -13,7 +13,17 @@ that settle the three open questions in Section 8:
 Images are chosen to stress the region definition rather than flatter it.
 
     python scripts/01_inspect.py
-    python scripts/01_inspect.py --per-category 2 --backend sam1
+    python scripts/01_inspect.py --images harbo_401 chapa_1701   # explicit ids
+
+The toggle -- one model, SAM 3, asked two ways:
+
+    --recognition text        image + the 17 DLRSD class names, and a region
+                              counts as found only via its own name. The
+                              default, and the project's design.
+    --recognition automatic   the image alone: segment everything on a point
+                              grid, then match class-agnostically. Says whether
+                              SAM can outline the region at all, ignoring what
+                              it would call it.
 """
 from __future__ import annotations
 
@@ -27,7 +37,8 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from pointmin import Config, Harness, viz                   # noqa: E402
+from pointmin import Config, Harness, dlrsd, viz                # noqa: E402
+from pointmin.concepts import class_prompts                 # noqa: E402
 from pointmin.config import PROJECT_ROOT, resolve           # noqa: E402
 from pointmin.regions import Region, region_area_stats      # noqa: E402
 
@@ -42,6 +53,18 @@ STRESS_CATEGORIES = {
 }
 
 AREA_FLOORS = (0, 8, 16, 24, 48, 96)
+
+
+def default_out(step: str, harness) -> str:
+    """``artifacts/<step>_sam3_text`` for the hand-off, ``artifacts/<step>_sam3``
+    for the image-only side.
+
+    Both sides of the toggle are SAM 3 and their numbers are far apart, so the
+    mode is in the directory name: a run in one mode cannot land on top of the
+    other's figures and reports under a name that no longer says which.
+    """
+    suffix = "_text" if harness.recognition == "text" else ""
+    return f"artifacts/{step}_sam3{suffix}"
 
 
 def pick_images(harness: Harness, per_category: int) -> list[tuple[str, str]]:
@@ -74,19 +97,51 @@ def shape_stats(region: Region) -> dict:
     }
 
 
+def figure_ref(path: Path) -> str:
+    """Project-relative if it can be, absolute otherwise.
+
+    ``--out`` takes any path, including one outside the tree. Recording the
+    reference used to be an unguarded ``relative_to(PROJECT_ROOT)``, which threw
+    *after* every image had been segmented -- the whole run lost to the choice of
+    output directory.
+    """
+    try:
+        return str(path.relative_to(PROJECT_ROOT))
+    except ValueError:
+        return str(path)
+
+
 def report_image(harness: Harness, image_id: str, why: str, out_dir: Path) -> dict:
     image = harness.load_image(image_id)
     colour = harness.load_colour(image_id)
-    masks = harness.automatic_masks(image_id)
     regions = harness.regions(image_id)
+
+    text_mode = harness.recognition == "text"
+    concept = harness.concept_masks(image_id) if text_mode else None
+    masks = concept.masks if text_mode else harness.automatic_masks(image_id)
+    label = "masks for the 17 class names" if text_mode else "automatic masks"
+    # One class name per mask -- only text mode knows which name produced which
+    # mask, so only text mode can colour the panel by what SAM called things.
+    mask_labels = ([dlrsd.class_name(int(c)) for c in concept.class_ids]
+                   if text_mode else None)
 
     fig_path = out_dir / f"{image_id}.png"
     viz.inspection_figure(image, colour, regions, masks, image_id,
-                          harness.backend_name, fig_path)
+                          harness.backend_name, fig_path, masks_label=label,
+                          mask_labels=mask_labels)
 
     print(f"\n{image_id}  ({why})")
-    print(f"  {len(masks)} automatic masks, {len(regions)} regions "
+    print(f"  {len(masks)} {label}, {len(regions)} regions "
           f"at min_area={harness.cfg.min_region_area} px")
+    if text_mode:
+        answered = {c: n for c, n in concept.counts().items() if n}
+        present = sorted({r.class_id for r in regions})
+        print(f"  SAM answered {len(answered)}/17 names: "
+              + ", ".join(f"{concept.prompts[c]}={n}" for c, n in answered.items()))
+        silent = [concept.prompts[c] for c in present if not answered.get(c)]
+        if silent:
+            print(f"  silent on {len(silent)} name(s) that ARE in the ground "
+                  f"truth: {', '.join(silent)}")
     print(f"  {'id':>3} {'class':<12} {'area':>6} {'fill':>5} {'cov':>6} "
           f"{'IoU':>6} {'masks':>5}  status")
     rows = []
@@ -99,16 +154,25 @@ def report_image(harness: Harness, image_id: str, why: str, out_dir: Path) -> di
         rows.append({**r.summary(), **s})
 
     n_px = image.shape[0] * image.shape[1]
-    return {
+    record = {
         "image_id": image_id,
         "why_chosen": why,
-        "n_auto_masks": int(len(masks)),
+        "n_sam_masks": int(len(masks)),
         "n_regions": len(regions),
         "n_unrecognized": sum(1 for r in regions if r.status == "unrecognized"),
         "gt_fraction_in_regions": round(sum(r.area_px for r in regions) / n_px, 4),
-        "figure": str(fig_path.relative_to(PROJECT_ROOT)),
+        "figure": figure_ref(fig_path),
         "regions": rows,
     }
+    if text_mode:
+        record["prompt_instance_counts"] = {
+            concept.prompts[c]: n for c, n in concept.counts().items()}
+        record["prompts_silent_but_present"] = [
+            concept.prompts[c] for c in sorted({r.class_id for r in regions})
+            if not concept.counts().get(c)]
+    else:
+        record["n_auto_masks"] = int(len(masks))    # kept: older summaries use it
+    return record
 
 
 def area_floor_sweep(harness: Harness, image_ids: list[str]) -> dict:
@@ -130,26 +194,69 @@ def area_floor_sweep(harness: Harness, image_ids: list[str]) -> dict:
     return sweep
 
 
+def require_image(known_ids: set, image_id: str) -> None:
+    """Fail fast on a typo in an explicit --images list."""
+    if image_id not in known_ids:
+        known = sorted({i.split("_")[0] for i in known_ids})
+        raise SystemExit(
+            f"unknown image id {image_id!r} -- known prefixes: {', '.join(known)}")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--per-category", type=int, default=1,
                     help="images per stress category (default 1 -> 6 images)")
-    ap.add_argument("--backend", default="auto", choices=["auto", "sam3", "sam1"])
-    ap.add_argument("--out", default="artifacts/step0")
+    ap.add_argument("--images", nargs="*", default=None,
+                    help="explicit image ids, overrides --per-category")
+    ap.add_argument("--points-per-side", type=int, default=None,
+                    help="override cfg.auto_points_per_side; only used by "
+                         "--recognition automatic. Cost is quadratic in it, and "
+                         "the committed figures used the default 16")
+    ap.add_argument("--recognition", default="auto",
+                    choices=["auto", "text", "automatic"],
+                    help="how SAM 3 is asked what it can find: 'text' = image + "
+                         "the 17 class names, 'automatic' = the image alone, "
+                         "segment everything (default: text)")
+    ap.add_argument("--out", default=None,
+                    help="output directory (default: artifacts/step0_sam3_text,\n"
+                         "or artifacts/step0_sam3 under --recognition automatic,\n"
+                         "so one mode cannot overwrite the other)")
     args = ap.parse_args()
 
-    cfg = Config(backend=args.backend)
+    cfg = Config(recognition=args.recognition)
+    if args.points_per_side is not None:
+        cfg.auto_points_per_side = args.points_per_side
     harness = Harness(cfg)
-    out_dir = resolve(args.out)
+    out_dir = resolve(args.out or default_out("step0", harness))
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    chosen = pick_images(harness, args.per_category)
+    if args.images:
+        known_ids = set(harness.image_ids())
+        chosen = []
+        for image_id in args.images:
+            prefix = image_id.split("_")[0]
+            why = STRESS_CATEGORIES.get(prefix,
+                                        f"{prefix} -- explicit list, no stress rationale")
+            require_image(known_ids, image_id)
+            chosen.append((image_id, why))
+    else:
+        chosen = pick_images(harness, args.per_category)
     if not chosen:
         print("no images found -- run scripts/00_extract_data.py first")
         return 1
 
     print(f"Step 0 inspection: {len(chosen)} images")
-    print(f"backend={harness.backend_name} device={cfg.device}")
+    print(f"backend={harness.backend_name} device={cfg.device} "
+          f"recognition={harness.recognition}")
+    if harness.recognition == "text":
+        print(f"  SAM gets the image and these 17 names, nothing else: "
+              f"{', '.join(name for _, name in class_prompts(cfg))}")
+        print(f"  a region is recognized only by masks for its OWN class name "
+              f"(score >= {cfg.sam3_score_threshold})")
+    else:
+        print(f"  SAM gets the image and a {cfg.auto_points_per_side}x"
+              f"{cfg.auto_points_per_side} point grid, no class names; matching "
+              f"is class-agnostic")
     print(f"thresholds (PROVISIONAL, Step 6 calibrates them): "
           f"coverage >= {cfg.coverage_threshold}, IoU >= {cfg.iou_threshold}, "
           f"match_mode={cfg.match_mode}")
@@ -185,12 +292,18 @@ def main() -> int:
 
     summary = {
         "backend": harness.backend_name,
+        "recognition": harness.recognition,
+        "class_names": [name for _, name in class_prompts(cfg)],
         "config": {
             "min_region_area": cfg.min_region_area,
             "connectivity": cfg.connectivity,
             "coverage_threshold": cfg.coverage_threshold,
             "iou_threshold": cfg.iou_threshold,
             "match_mode": cfg.match_mode,
+            "recognition": cfg.recognition,
+            "sam3_prompt_template": cfg.sam3_prompt_template,
+            "sam3_score_threshold": cfg.sam3_score_threshold,
+            "sam3_mask_threshold": cfg.sam3_mask_threshold,
             "auto_points_per_side": cfg.auto_points_per_side,
             "auto_pred_iou_thresh": cfg.auto_pred_iou_thresh,
             "auto_stability_score_thresh": cfg.auto_stability_score_thresh,

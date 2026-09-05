@@ -1,0 +1,31 @@
+hand-off: /home/cse-sdpl/Videos/Point-project/artifacts/step1_sam3
+  backend=sam3 recognition=automatic match_mode=greedy_union
+  10 images, 179 regions, 149 unrecognized
+  Region contract holds for all 179 regions (8 required fields, scores recomputed from the masks, bbox checked against gt_mask extent)
+
+workload per image
+  image            regions  unrec  mean cov  mean IoU
+  agric_1901             2      1     0.478     0.478
+  baseb_1000            16     13     0.665     0.591
+  build_1601            18     15     0.650     0.484
+  dense_1401            32     29     0.427     0.396
+  freew_301             21     20     0.457     0.304
+  harbo_401             24     12     0.654     0.571
+  mediu_1201            22     22     0.642     0.496
+  overp_1501            11      8     0.739     0.451
+  river_1301            12     12     0.182     0.176
+  spars_101             21     17     0.494     0.463
+
+19 regions have no matching mask at all (SAM's automatic pass found nothing there): build_1601#12, dense_1401#0, dense_1401#21, freew_301#9, freew_301#10, freew_301#12, freew_301#16, freew_301#17, freew_301#18, freew_301#19, harbo_401#16, mediu_1201#3, overp_1501#9, river_1301#2, river_1301#3, river_1301#5, river_1301#6, spars_101#13, spars_101#18
+the rest are partial failures -- a mask exists, it is just wrong
+
+model-free check  FakeSession on agric_1901#0 at (134, 133): cov=0.503 iou=0.503  (no weights, no GPU, no image files)
+
+prompting check   skipped (pass --with-sam to run it; it needs the SAM 3 weights and the DLRSD tiles under data/)
+
+return-leg check  PointSelectionResult(agric_1901#0 n_points=1 cov=0.027 iou=0.027 calls=1)
+  points_by_image -> {'agric_1901': [(57, 0)]}
+  summarise       -> {'count': 1, 'total_points': 1, 'points_per_region_mean': 1.0, 'points_per_region_max': 1, 'total_sam_calls': 1, 'mean_final_coverage': 0.0271, 'mean_final_iou': 0.0271}
+  wrote artifacts/step1_sam3/example_results.json
+
+hand-off OK

@@ -1,0 +1,644 @@
+{
+  "backend": "sam3",
+  "recognition": "text",
+  "class_names": [
+    "airplane",
+    "bare soil",
+    "buildings",
+    "cars",
+    "chaparral",
+    "court",
+    "dock",
+    "field",
+    "grass",
+    "mobile home",
+    "pavement",
+    "sand",
+    "sea",
+    "ship",
+    "tanks",
+    "trees",
+    "water"
+  ],
+  "device": "cuda",
+  "images": [
+    "agric_1901",
+    "baseb_1000",
+    "build_1601",
+    "dense_1401",
+    "freew_301",
+    "harbo_401",
+    "mediu_1201",
+    "overp_1501",
+    "river_1301",
+    "spars_101"
+  ],
+  "config": {
+    "min_region_area": 24,
+    "connectivity": 8,
+    "coverage_threshold": 0.9,
+    "iou_threshold": 0.75,
+    "match_mode": "greedy_union",
+    "recognition": "text",
+    "sam3_prompt_template": "{name}",
+    "sam3_score_threshold": 0.5,
+    "sam3_mask_threshold": 0.5,
+    "auto_points_per_side": 16,
+    "auto_pred_iou_thresh": 0.7,
+    "auto_stability_score_thresh": 0.85,
+    "auto_min_area_frac": 0.0004,
+    "auto_max_area_frac": 0.92
+  },
+  "area_stats": {
+    "count": 179,
+    "min": 28,
+    "p25": 188,
+    "median": 808,
+    "p75": 2816,
+    "max": 61782,
+    "mean": 3661.122905027933
+  },
+  "region_counts_by_area_floor": {
+    "0": 184,
+    "24": 179
+  },
+  "per_image": {
+    "agric_1901": {
+      "floor_0": 2,
+      "floor_24": 2,
+      "n_unrecognized": 1,
+      "recognition_s": 0.011,
+      "n_masks": 6
+    },
+    "baseb_1000": {
+      "floor_0": 16,
+      "floor_24": 16,
+      "n_unrecognized": 14,
+      "recognition_s": 0.013,
+      "n_masks": 17
+    },
+    "build_1601": {
+      "floor_0": 19,
+      "floor_24": 18,
+      "n_unrecognized": 16,
+      "recognition_s": 0.013,
+      "n_masks": 20
+    },
+    "dense_1401": {
+      "floor_0": 33,
+      "floor_24": 32,
+      "n_unrecognized": 30,
+      "recognition_s": 0.016,
+      "n_masks": 35
+    },
+    "freew_301": {
+      "floor_0": 21,
+      "floor_24": 21,
+      "n_unrecognized": 21,
+      "recognition_s": 0.012,
+      "n_masks": 18
+    },
+    "harbo_401": {
+      "floor_0": 25,
+      "floor_24": 24,
+      "n_unrecognized": 12,
+      "recognition_s": 0.013,
+      "n_masks": 22
+    },
+    "mediu_1201": {
+      "floor_0": 23,
+      "floor_24": 22,
+      "n_unrecognized": 22,
+      "recognition_s": 0.014,
+      "n_masks": 36
+    },
+    "overp_1501": {
+      "floor_0": 11,
+      "floor_24": 11,
+      "n_unrecognized": 10,
+      "recognition_s": 0.009,
+      "n_masks": 5
+    },
+    "river_1301": {
+      "floor_0": 13,
+      "floor_24": 12,
+      "n_unrecognized": 11,
+      "recognition_s": 0.009,
+      "n_masks": 5
+    },
+    "spars_101": {
+      "floor_0": 21,
+      "floor_24": 21,
+      "n_unrecognized": 17,
+      "recognition_s": 0.016,
+      "n_masks": 32
+    }
+  },
+  "by_match_mode": {
+    "best_single": {
+      "n_regions": 179,
+      "n_recognized": 25,
+      "recognized_frac": 0.14,
+      "n_no_match": 71,
+      "masks_per_region_mean": 0.6,
+      "coverage": {
+        "count": 179,
+        "mean": 0.44022790311182025,
+        "min": 0.0,
+        "max": 1.0,
+        "p5": 0.0,
+        "p25": 0.0,
+        "p50": 0.4339121552604699,
+        "p75": 0.8804746139274373,
+        "p95": 1.0
+      },
+      "iou": {
+        "count": 179,
+        "mean": 0.34760105395734936,
+        "min": 0.0,
+        "max": 0.9631721169560363,
+        "p5": 0.0,
+        "p25": 0.0,
+        "p50": 0.24641833810888253,
+        "p75": 0.6841224349421071,
+        "p95": 0.8976648700786631
+      },
+      "threshold_grid": {
+        "cov>=0.80,iou>=0.50": {
+          "recognized": 51,
+          "unrecognized": 128,
+          "recognized_frac": 0.285
+        },
+        "cov>=0.80,iou>=0.60": {
+          "recognized": 44,
+          "unrecognized": 135,
+          "recognized_frac": 0.246
+        },
+        "cov>=0.80,iou>=0.70": {
+          "recognized": 36,
+          "unrecognized": 143,
+          "recognized_frac": 0.201
+        },
+        "cov>=0.80,iou>=0.75": {
+          "recognized": 33,
+          "unrecognized": 146,
+          "recognized_frac": 0.184
+        },
+        "cov>=0.80,iou>=0.80": {
+          "recognized": 29,
+          "unrecognized": 150,
+          "recognized_frac": 0.162
+        },
+        "cov>=0.85,iou>=0.50": {
+          "recognized": 44,
+          "unrecognized": 135,
+          "recognized_frac": 0.246
+        },
+        "cov>=0.85,iou>=0.60": {
+          "recognized": 38,
+          "unrecognized": 141,
+          "recognized_frac": 0.212
+        },
+        "cov>=0.85,iou>=0.70": {
+          "recognized": 32,
+          "unrecognized": 147,
+          "recognized_frac": 0.179
+        },
+        "cov>=0.85,iou>=0.75": {
+          "recognized": 29,
+          "unrecognized": 150,
+          "recognized_frac": 0.162
+        },
+        "cov>=0.85,iou>=0.80": {
+          "recognized": 26,
+          "unrecognized": 153,
+          "recognized_frac": 0.145
+        },
+        "cov>=0.90,iou>=0.50": {
+          "recognized": 38,
+          "unrecognized": 141,
+          "recognized_frac": 0.212
+        },
+        "cov>=0.90,iou>=0.60": {
+          "recognized": 32,
+          "unrecognized": 147,
+          "recognized_frac": 0.179
+        },
+        "cov>=0.90,iou>=0.70": {
+          "recognized": 28,
+          "unrecognized": 151,
+          "recognized_frac": 0.156
+        },
+        "cov>=0.90,iou>=0.75": {
+          "recognized": 25,
+          "unrecognized": 154,
+          "recognized_frac": 0.14
+        },
+        "cov>=0.90,iou>=0.80": {
+          "recognized": 22,
+          "unrecognized": 157,
+          "recognized_frac": 0.123
+        },
+        "cov>=0.95,iou>=0.50": {
+          "recognized": 23,
+          "unrecognized": 156,
+          "recognized_frac": 0.128
+        },
+        "cov>=0.95,iou>=0.60": {
+          "recognized": 17,
+          "unrecognized": 162,
+          "recognized_frac": 0.095
+        },
+        "cov>=0.95,iou>=0.70": {
+          "recognized": 14,
+          "unrecognized": 165,
+          "recognized_frac": 0.078
+        },
+        "cov>=0.95,iou>=0.75": {
+          "recognized": 12,
+          "unrecognized": 167,
+          "recognized_frac": 0.067
+        },
+        "cov>=0.95,iou>=0.80": {
+          "recognized": 10,
+          "unrecognized": 169,
+          "recognized_frac": 0.056
+        }
+      },
+      "per_class": {
+        "bare soil": {
+          "class_id": 2,
+          "n_regions": 14,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.027,
+          "mean_iou": 0.027,
+          "median_area_px": 1036,
+          "total_area_px": 50981
+        },
+        "buildings": {
+          "class_id": 3,
+          "n_regions": 35,
+          "n_recognized": 3,
+          "recognized_frac": 0.086,
+          "mean_coverage": 0.328,
+          "mean_iou": 0.292,
+          "median_area_px": 1047,
+          "total_area_px": 107358
+        },
+        "cars": {
+          "class_id": 4,
+          "n_regions": 29,
+          "n_recognized": 3,
+          "recognized_frac": 0.103,
+          "mean_coverage": 0.793,
+          "mean_iou": 0.544,
+          "median_area_px": 116,
+          "total_area_px": 4396
+        },
+        "dock": {
+          "class_id": 7,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.435,
+          "mean_iou": 0.42,
+          "median_area_px": 9907,
+          "total_area_px": 9907
+        },
+        "field": {
+          "class_id": 8,
+          "n_regions": 1,
+          "n_recognized": 1,
+          "recognized_frac": 1.0,
+          "mean_coverage": 0.963,
+          "mean_iou": 0.963,
+          "median_area_px": 61782,
+          "total_area_px": 61782
+        },
+        "grass": {
+          "class_id": 9,
+          "n_regions": 23,
+          "n_recognized": 2,
+          "recognized_frac": 0.087,
+          "mean_coverage": 0.244,
+          "mean_iou": 0.205,
+          "median_area_px": 705,
+          "total_area_px": 102494
+        },
+        "pavement": {
+          "class_id": 11,
+          "n_regions": 9,
+          "n_recognized": 2,
+          "recognized_frac": 0.222,
+          "mean_coverage": 0.631,
+          "mean_iou": 0.613,
+          "median_area_px": 4955,
+          "total_area_px": 125408
+        },
+        "sand": {
+          "class_id": 12,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.0,
+          "mean_iou": 0.0,
+          "median_area_px": 4563,
+          "total_area_px": 4563
+        },
+        "ship": {
+          "class_id": 14,
+          "n_regions": 15,
+          "n_recognized": 12,
+          "recognized_frac": 0.8,
+          "mean_coverage": 0.945,
+          "mean_iou": 0.85,
+          "median_area_px": 1171,
+          "total_area_px": 17192
+        },
+        "trees": {
+          "class_id": 16,
+          "n_regions": 41,
+          "n_recognized": 2,
+          "recognized_frac": 0.049,
+          "mean_coverage": 0.263,
+          "mean_iou": 0.236,
+          "median_area_px": 1449,
+          "total_area_px": 125914
+        },
+        "water": {
+          "class_id": 17,
+          "n_regions": 10,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.628,
+          "mean_iou": 0.183,
+          "median_area_px": 1083,
+          "total_area_px": 45346
+        }
+      }
+    },
+    "greedy_union": {
+      "n_regions": 179,
+      "n_recognized": 25,
+      "recognized_frac": 0.14,
+      "n_no_match": 71,
+      "masks_per_region_mean": 0.83,
+      "coverage": {
+        "count": 179,
+        "mean": 0.457766279222603,
+        "min": 0.0,
+        "max": 1.0,
+        "p5": 0.0,
+        "p25": 0.0,
+        "p50": 0.5220061412487206,
+        "p75": 0.8886845165935398,
+        "p95": 1.0
+      },
+      "iou": {
+        "count": 179,
+        "mean": 0.36296639198541086,
+        "min": 0.0,
+        "max": 0.9631721169560363,
+        "p5": 0.0,
+        "p25": 0.0,
+        "p50": 0.3854005567584287,
+        "p75": 0.6841224349421071,
+        "p95": 0.8976648700786631
+      },
+      "threshold_grid": {
+        "cov>=0.80,iou>=0.50": {
+          "recognized": 54,
+          "unrecognized": 125,
+          "recognized_frac": 0.302
+        },
+        "cov>=0.80,iou>=0.60": {
+          "recognized": 46,
+          "unrecognized": 133,
+          "recognized_frac": 0.257
+        },
+        "cov>=0.80,iou>=0.70": {
+          "recognized": 38,
+          "unrecognized": 141,
+          "recognized_frac": 0.212
+        },
+        "cov>=0.80,iou>=0.75": {
+          "recognized": 35,
+          "unrecognized": 144,
+          "recognized_frac": 0.196
+        },
+        "cov>=0.80,iou>=0.80": {
+          "recognized": 30,
+          "unrecognized": 149,
+          "recognized_frac": 0.168
+        },
+        "cov>=0.85,iou>=0.50": {
+          "recognized": 46,
+          "unrecognized": 133,
+          "recognized_frac": 0.257
+        },
+        "cov>=0.85,iou>=0.60": {
+          "recognized": 39,
+          "unrecognized": 140,
+          "recognized_frac": 0.218
+        },
+        "cov>=0.85,iou>=0.70": {
+          "recognized": 33,
+          "unrecognized": 146,
+          "recognized_frac": 0.184
+        },
+        "cov>=0.85,iou>=0.75": {
+          "recognized": 30,
+          "unrecognized": 149,
+          "recognized_frac": 0.168
+        },
+        "cov>=0.85,iou>=0.80": {
+          "recognized": 27,
+          "unrecognized": 152,
+          "recognized_frac": 0.151
+        },
+        "cov>=0.90,iou>=0.50": {
+          "recognized": 38,
+          "unrecognized": 141,
+          "recognized_frac": 0.212
+        },
+        "cov>=0.90,iou>=0.60": {
+          "recognized": 32,
+          "unrecognized": 147,
+          "recognized_frac": 0.179
+        },
+        "cov>=0.90,iou>=0.70": {
+          "recognized": 28,
+          "unrecognized": 151,
+          "recognized_frac": 0.156
+        },
+        "cov>=0.90,iou>=0.75": {
+          "recognized": 25,
+          "unrecognized": 154,
+          "recognized_frac": 0.14
+        },
+        "cov>=0.90,iou>=0.80": {
+          "recognized": 22,
+          "unrecognized": 157,
+          "recognized_frac": 0.123
+        },
+        "cov>=0.95,iou>=0.50": {
+          "recognized": 23,
+          "unrecognized": 156,
+          "recognized_frac": 0.128
+        },
+        "cov>=0.95,iou>=0.60": {
+          "recognized": 17,
+          "unrecognized": 162,
+          "recognized_frac": 0.095
+        },
+        "cov>=0.95,iou>=0.70": {
+          "recognized": 14,
+          "unrecognized": 165,
+          "recognized_frac": 0.078
+        },
+        "cov>=0.95,iou>=0.75": {
+          "recognized": 12,
+          "unrecognized": 167,
+          "recognized_frac": 0.067
+        },
+        "cov>=0.95,iou>=0.80": {
+          "recognized": 10,
+          "unrecognized": 169,
+          "recognized_frac": 0.056
+        }
+      },
+      "per_class": {
+        "bare soil": {
+          "class_id": 2,
+          "n_regions": 14,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.027,
+          "mean_iou": 0.027,
+          "median_area_px": 1036,
+          "total_area_px": 50981
+        },
+        "buildings": {
+          "class_id": 3,
+          "n_regions": 35,
+          "n_recognized": 3,
+          "recognized_frac": 0.086,
+          "mean_coverage": 0.372,
+          "mean_iou": 0.333,
+          "median_area_px": 1047,
+          "total_area_px": 107358
+        },
+        "cars": {
+          "class_id": 4,
+          "n_regions": 29,
+          "n_recognized": 3,
+          "recognized_frac": 0.103,
+          "mean_coverage": 0.823,
+          "mean_iou": 0.565,
+          "median_area_px": 116,
+          "total_area_px": 4396
+        },
+        "dock": {
+          "class_id": 7,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.565,
+          "mean_iou": 0.543,
+          "median_area_px": 9907,
+          "total_area_px": 9907
+        },
+        "field": {
+          "class_id": 8,
+          "n_regions": 1,
+          "n_recognized": 1,
+          "recognized_frac": 1.0,
+          "mean_coverage": 0.963,
+          "mean_iou": 0.963,
+          "median_area_px": 61782,
+          "total_area_px": 61782
+        },
+        "grass": {
+          "class_id": 9,
+          "n_regions": 23,
+          "n_recognized": 2,
+          "recognized_frac": 0.087,
+          "mean_coverage": 0.25,
+          "mean_iou": 0.211,
+          "median_area_px": 705,
+          "total_area_px": 102494
+        },
+        "pavement": {
+          "class_id": 11,
+          "n_regions": 9,
+          "n_recognized": 2,
+          "recognized_frac": 0.222,
+          "mean_coverage": 0.644,
+          "mean_iou": 0.625,
+          "median_area_px": 4955,
+          "total_area_px": 125408
+        },
+        "sand": {
+          "class_id": 12,
+          "n_regions": 1,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.0,
+          "mean_iou": 0.0,
+          "median_area_px": 4563,
+          "total_area_px": 4563
+        },
+        "ship": {
+          "class_id": 14,
+          "n_regions": 15,
+          "n_recognized": 12,
+          "recognized_frac": 0.8,
+          "mean_coverage": 0.945,
+          "mean_iou": 0.85,
+          "median_area_px": 1171,
+          "total_area_px": 17192
+        },
+        "trees": {
+          "class_id": 16,
+          "n_regions": 41,
+          "n_recognized": 2,
+          "recognized_frac": 0.049,
+          "mean_coverage": 0.271,
+          "mean_iou": 0.243,
+          "median_area_px": 1449,
+          "total_area_px": 125914
+        },
+        "water": {
+          "class_id": 17,
+          "n_regions": 10,
+          "n_recognized": 0,
+          "recognized_frac": 0.0,
+          "mean_coverage": 0.628,
+          "mean_iou": 0.183,
+          "median_area_px": 1083,
+          "total_area_px": 45346
+        }
+      }
+    }
+  },
+  "instances_per_class_name": {
+    "airplane": 0,
+    "bare soil": 4,
+    "buildings": 40,
+    "cars": 41,
+    "chaparral": 0,
+    "court": 0,
+    "dock": 5,
+    "field": 21,
+    "grass": 21,
+    "mobile home": 0,
+    "pavement": 13,
+    "sand": 1,
+    "sea": 1,
+    "ship": 15,
+    "tanks": 0,
+    "trees": 31,
+    "water": 3
+  }
+}

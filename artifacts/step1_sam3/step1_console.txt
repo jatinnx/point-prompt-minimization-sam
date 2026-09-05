@@ -1,0 +1,54 @@
+Step 1 harness report: 10 images
+[backend] using sam3 on cuda from /home/cse-sdpl/Videos/Point-project/SAM-modals/sam3
+backend=sam3 device=cuda recognition=automatic
+  SAM gets a 16x16 point grid and no class names; matching is class-agnostic
+  agric_1901, baseb_1000, build_1601, dense_1401, freew_301, harbo_401, mediu_1201, overp_1501, river_1301, spars_101
+
+matching mode comparison (thresholds cov>=0.9, iou>=0.75)
+
+best_single: 29/179 recognized (16.2%), 19 with no matching mask at all, 0.89 masks per region on average
+  coverage   mean=0.501  min=0.000  p5=0.000  p25=0.031  p50=0.539  p75=0.925  p95=1.000  max=1.000
+  IoU        mean=0.408  min=0.000  p5=0.000  p25=0.015  p50=0.413  p75=0.747  p95=0.906  max=0.941
+
+greedy_union: 30/179 recognized (16.8%), 19 with no matching mask at all, 1.84 masks per region on average
+  coverage   mean=0.542  min=0.000  p5=0.000  p25=0.048  p50=0.681  p75=0.929  p95=1.000  max=1.000
+  IoU        mean=0.445  min=0.000  p5=0.000  p25=0.023  p50=0.527  p75=0.757  p95=0.908  max=0.941
+
+per class, mode=greedy_union
+  class        regions  recog    cov    IoU median area
+  bare soil         14      0  0.245  0.230        1036
+  buildings         35      5  0.725  0.614        1047
+  cars              29      5  0.823  0.604         116
+  dock               1      0  0.252  0.157        9907
+  field              1      0  0.027  0.027       61782
+  grass             23      2  0.337  0.229         705
+  pavement           9      2  0.403  0.376        4955
+  sand               1      0  0.888  0.867        4563
+  ship              15     11  0.956  0.838        1171
+  trees             41      4  0.384  0.328        1449
+  water             10      1  0.177  0.163        1083
+
+threshold grid, mode=greedy_union (recognized fraction of 179 regions)
+  cov\IoU     0.50    0.60    0.70    0.75    0.80
+     0.80    0.38    0.35    0.31    0.25    0.21
+     0.85    0.34    0.31    0.27    0.22    0.18
+     0.90    0.25    0.22    0.20    0.17    0.14
+     0.95    0.17    0.15    0.12    0.10    0.08
+
+region counts per image
+  image             masks  floor 0 floor 24  unrec
+  agric_1901           12        2        2      1
+  baseb_1000           79       16       16     13
+  build_1601           46       19       18     15
+  dense_1401           73       33       32     29
+  freew_301            20       21       21     20
+  harbo_401            24       25       24     12
+  mediu_1201           88       23       22     22
+  overp_1501           15       11       11      8
+  river_1301            7       13       12     12
+  spars_101            54       21       21     17
+  TOTAL                        184      179    149
+
+149/179 regions unrecognized under the provisional thresholds -- the point selector's workload
+wrote step1_report.json, coverage_vs_iou.png and 10 region files to /home/cse-sdpl/Videos/Point-project/artifacts/step1_sam3
+round-trip check: reloaded 179 regions from disk, matches in-memory count: True

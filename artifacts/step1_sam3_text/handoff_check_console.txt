@@ -1,0 +1,44 @@
+[transformers] You are using a model of type `sam3_video` to instantiate a model of type `sam3_tracker`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+hand-off: /home/cse-sdpl/Videos/Point-project/artifacts/step1_sam3_text
+  backend=sam3 recognition=text match_mode=greedy_union
+  10 images, 179 regions, 154 unrecognized
+  Region contract holds for all 179 regions (8 required fields, scores recomputed from the masks, bbox checked against gt_mask extent)
+
+workload per image
+  image            regions  unrec  mean cov  mean IoU
+  agric_1901             2      1     0.918     0.918
+  baseb_1000            16     14     0.349     0.312
+  build_1601            18     16     0.687     0.516
+  dense_1401            32     30     0.250     0.239
+  freew_301             21     21     0.467     0.302
+  harbo_401             24     12     0.836     0.594
+  mediu_1201            22     22     0.341     0.278
+  overp_1501            11     10     0.262     0.203
+  river_1301            12     11     0.206     0.189
+  spars_101             21     17     0.544     0.476
+
+71 regions have no matching mask at all (SAM returned nothing under this region's own class name): baseb_1000#1, baseb_1000#2, baseb_1000#3, baseb_1000#4, baseb_1000#5, baseb_1000#6, baseb_1000#10, baseb_1000#13, baseb_1000#14, build_1601#3, build_1601#16, build_1601#17, dense_1401#0, dense_1401#1, dense_1401#2, dense_1401#3, dense_1401#4, dense_1401#5, dense_1401#6, dense_1401#9, dense_1401#10, dense_1401#18, dense_1401#19, dense_1401#21, dense_1401#22, dense_1401#24, dense_1401#26, dense_1401#27, dense_1401#28, dense_1401#30, dense_1401#31, freew_301#8, freew_301#9, freew_301#10, freew_301#12, freew_301#15, freew_301#16, freew_301#17, freew_301#18, freew_301#19, freew_301#20, harbo_401#21, mediu_1201#2, mediu_1201#3, mediu_1201#4, mediu_1201#5, mediu_1201#8, mediu_1201#10, mediu_1201#14, mediu_1201#15, mediu_1201#16, mediu_1201#17, overp_1501#3, overp_1501#5, overp_1501#6, overp_1501#7, overp_1501#8, overp_1501#9, overp_1501#10, river_1301#0, river_1301#1, river_1301#2, river_1301#3, river_1301#6, river_1301#7, river_1301#9, spars_101#1, spars_101#5, spars_101#9, spars_101#14, spars_101#18
+the rest are partial failures -- a mask exists, it is just wrong
+
+model-free check  FakeSession on agric_1901#0 at (134, 133): cov=0.503 iou=0.503  (no weights, no GPU, no image files)
+[backend] using sam3 on cuda from /home/cse-sdpl/Videos/Point-project/SAM-modals/sam3
+
+prompting check   backend=sam3 device=cuda
+Loading weights:   0%|          | 0/685 [00:00<?, ?it/s]Loading weights:  51%|█████     | 348/685 [00:00<00:00, 3474.36it/s]Loading weights: 100%|██████████| 685/685 [00:00<00:00, 3372.66it/s]
+  agric_1901#1     trees      area=  3754 point=(0, 0)     auto: cov=0.873 iou=0.873  ->  1 point: cov=0.823 iou=0.823
+  baseb_1000#0     bare soil  area= 24276 point=(22, 0)    auto: cov=0.382 iou=0.382  ->  1 point: cov=0.002 iou=0.002
+  build_1601#4     buildings  area= 20265 point=(247, 120) auto: cov=0.650 iou=0.650  ->  1 point: cov=0.693 iou=0.692
+  dense_1401#11    buildings  area= 12055 point=(0, 17)    auto: cov=0.398 iou=0.398  ->  1 point: cov=0.102 iou=0.082
+  freew_301#13     pavement   area= 50060 point=(0, 0)     auto: cov=0.801 iou=0.801  ->  1 point: cov=0.282 iou=0.282
+  harbo_401#17     water      area= 19118 point=(86, 0)    auto: cov=0.883 iou=0.473  ->  1 point: cov=0.004 iou=0.004
+  mediu_1201#13    grass      area= 34769 point=(0, 0)     auto: cov=0.174 iou=0.174  ->  1 point: cov=0.012 iou=0.012
+  overp_1501#6     pavement   area= 43047 point=(78, 0)    auto: cov=0.000 iou=0.000  ->  1 point: cov=0.002 iou=0.002
+  river_1301#9     trees      area= 38099 point=(195, 0)   auto: cov=0.000 iou=0.000  ->  1 point: cov=0.728 iou=0.666
+  spars_101#4      grass      area= 16415 point=(0, 0)     auto: cov=0.656 iou=0.654  ->  1 point: cov=0.257 iou=0.256
+
+return-leg check  PointSelectionResult(agric_1901#0 n_points=1 cov=0.963 iou=0.963 calls=1)
+  points_by_image -> {'agric_1901': [(57, 0)]}
+  summarise       -> {'count': 1, 'total_points': 1, 'points_per_region_mean': 1.0, 'points_per_region_max': 1, 'total_sam_calls': 1, 'mean_final_coverage': 0.9635, 'mean_final_iou': 0.9632}
+  wrote artifacts/step1_sam3_text/example_results.json
+
+hand-off OK

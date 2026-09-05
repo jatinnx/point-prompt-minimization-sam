@@ -1,0 +1,76 @@
+[backend] using sam3 on cuda from /home/cse-sdpl/Videos/Point-project/SAM-modals/sam3
+Step 1 harness report: 10 images
+backend=sam3 device=cuda recognition=text
+  SAM gets the image and these 17 names, nothing else: airplane, bare soil, buildings, cars, chaparral, court, dock, field, grass, mobile home, pavement, sand, sea, ship, tanks, trees, water
+  a region is recognized only by masks for its OWN class name (score >= 0.5)
+  agric_1901, baseb_1000, build_1601, dense_1401, freew_301, harbo_401, mediu_1201, overp_1501, river_1301, spars_101
+
+matching mode comparison (thresholds cov>=0.9, iou>=0.75)
+
+best_single: 25/179 recognized (14.0%), 71 with no matching mask at all, 0.60 masks per region on average
+  coverage   mean=0.440  min=0.000  p5=0.000  p25=0.000  p50=0.434  p75=0.880  p95=1.000  max=1.000
+  IoU        mean=0.348  min=0.000  p5=0.000  p25=0.000  p50=0.246  p75=0.684  p95=0.898  max=0.963
+
+greedy_union: 25/179 recognized (14.0%), 71 with no matching mask at all, 0.83 masks per region on average
+  coverage   mean=0.458  min=0.000  p5=0.000  p25=0.000  p50=0.522  p75=0.889  p95=1.000  max=1.000
+  IoU        mean=0.363  min=0.000  p5=0.000  p25=0.000  p50=0.385  p75=0.684  p95=0.898  max=0.963
+
+per class, mode=greedy_union
+  class        regions  recog    cov    IoU median area
+  bare soil         14      0  0.027  0.027        1036
+  buildings         35      3  0.372  0.333        1047
+  cars              29      3  0.823  0.565         116
+  dock               1      0  0.565  0.543        9907
+  field              1      1  0.963  0.963       61782
+  grass             23      2  0.250  0.211         705
+  pavement           9      2  0.644  0.625        4955
+  sand               1      0  0.000  0.000        4563
+  ship              15     12  0.945  0.850        1171
+  trees             41      2  0.271  0.243        1449
+  water             10      0  0.628  0.183        1083
+
+threshold grid, mode=greedy_union (recognized fraction of 179 regions)
+  cov\IoU     0.50    0.60    0.70    0.75    0.80
+     0.80    0.30    0.26    0.21    0.20    0.17
+     0.85    0.26    0.22    0.18    0.17    0.15
+     0.90    0.21    0.18    0.16    0.14    0.12
+     0.95    0.13    0.10    0.08    0.07    0.06
+
+region counts per image
+  image             masks  floor 0 floor 24  unrec
+  agric_1901            6        2        2      1
+  baseb_1000           17       16       16     14
+  build_1601           20       19       18     16
+  dense_1401           35       33       32     30
+  freew_301            18       21       21     21
+  harbo_401            22       25       24     12
+  mediu_1201           36       23       22     22
+  overp_1501            5       11       11     10
+  river_1301            5       13       12     11
+  spars_101            32       21       21     17
+  TOTAL                        184      179    154
+
+per class name, over all 10 images
+  name         instances GT regions  recog    cov    IoU
+  airplane             0          -     -     -     -
+  bare soil            4         14     0 0.027 0.027
+  buildings           40         35     3 0.372 0.333
+  cars                41         29     3 0.823 0.565
+  chaparral            0          -     -     -     -
+  court                0          -     -     -     -
+  dock                 5          1     0 0.565 0.543
+  field               21          1     1 0.963 0.963
+  grass               21         23     2 0.250 0.211
+  mobile home          0          -     -     -     -
+  pavement            13          9     2 0.644 0.625
+  sand                 1          1     0 0.000 0.000
+  sea                  1          -     -     -     -
+  ship                15         15    12 0.945 0.850
+  tanks                0          -     -     -     -
+  trees               31         41     2 0.271 0.243
+  water                3         10     0 0.628 0.183
+  never answered on any image: airplane, chaparral, court, mobile home, tanks
+
+154/179 regions unrecognized under the provisional thresholds -- the point selector's workload
+wrote step1_report.json, coverage_vs_iou.png and 10 region files to /home/cse-sdpl/Videos/Point-project/artifacts/step1_sam3_text
+round-trip check: reloaded 179 regions from disk, matches in-memory count: True

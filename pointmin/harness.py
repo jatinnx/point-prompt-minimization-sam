@@ -2,7 +2,8 @@
 
     from pointmin import Harness
 
-    h = Harness()
+    h = Harness()                                 # SAM 3 + the 17 class names
+    h = Harness(Config(recognition="automatic"))  # or SAM 3 + the image alone
     for region in h.regions("harbo_451"):
         if region.status == "unrecognized":
             with h.open(region.image_id) as sess:
@@ -11,13 +12,14 @@
                 if h.is_recognized(cov, iou):
                     ...
 
-Nothing above depends on which SAM backend is active.
+Nothing above depends on which side of the recognition toggle is active.
 """
 from __future__ import annotations
 
 import numpy as np
 
-from . import autoseg, dlrsd, metrics
+from . import autoseg, concepts, dlrsd, metrics
+from .concepts import ConceptMasks
 from .config import Config
 from .regions import Region, extract_regions
 from .sam_backend import SamBackend, build_backend
@@ -46,6 +48,26 @@ class Harness:
     @property
     def backend_name(self) -> str:
         return self.backend.name
+
+    @property
+    def recognition(self) -> str:
+        """``"text"`` or ``"automatic"`` -- never ``"auto"``.
+
+        Resolving ``"auto"`` needs to know what actually built, so this builds it.
+        SAM 3 answers phrases, so ``"auto"`` means ``"text"`` in practice; the
+        refusal below is for a stub or future model that cannot be handed a name,
+        because the two modes' numbers are not comparable and a silent downgrade
+        would put both in one table under one heading.
+        """
+        mode = self.cfg.recognition
+        if mode == "auto":
+            return "text" if getattr(self.backend, "supports_text", False) else "automatic"
+        if mode == "text" and not getattr(self.backend, "supports_text", False):
+            raise ValueError(
+                f"recognition='text' needs a model that can be prompted with a "
+                f"class name; {self.backend.name} cannot. Use "
+                f"recognition='automatic' for the class-agnostic pass instead.")
+        return mode
 
     # ---- data -------------------------------------------------------------
     def image_ids(self) -> list[str]:
@@ -80,21 +102,32 @@ class Harness:
             self.backend, self.load_image(image_id), self.cfg, image_id,
             use_cache=self.use_cache)
 
+    def concept_masks(self, image_id: str) -> ConceptMasks:
+        """What SAM returns for this image given only the 17 class names."""
+        return concepts.concept_masks_cached(
+            self.backend, self.load_image(image_id), self.cfg, image_id,
+            use_cache=self.use_cache)
+
     def regions(self, image_id: str) -> list[Region]:
-        """Ground-truth regions scored against SAM's automatic output.
+        """Ground-truth regions scored against what SAM found unprompted.
 
         This is what the plan document's Section 4 hands over: coverage, IoU and
         recognised/unrecognised filled in. Cached per image.
+
+        ``self.recognition`` decides what "found" means -- masks for the region's
+        own class name, or any mask from a class-agnostic pass.
         """
         if image_id not in self._regions:
             regions = self.gt_regions(image_id)
-            masks = self.automatic_masks(image_id)
-            self._regions[image_id] = metrics.score_regions(
-                regions, masks,
-                coverage_threshold=self.cfg.coverage_threshold,
-                iou_threshold=self.cfg.iou_threshold,
-                match_mode=self.cfg.match_mode,
-            )
+            common = dict(coverage_threshold=self.cfg.coverage_threshold,
+                          iou_threshold=self.cfg.iou_threshold,
+                          match_mode=self.cfg.match_mode)
+            if self.recognition == "text":
+                self._regions[image_id] = metrics.score_regions_by_class(
+                    regions, self.concept_masks(image_id), **common)
+            else:
+                self._regions[image_id] = metrics.score_regions(
+                    regions, self.automatic_masks(image_id), **common)
         return self._regions[image_id]
 
     def unrecognized(self, image_id: str) -> list[Region]:
@@ -122,4 +155,5 @@ class Harness:
 
     def __repr__(self) -> str:
         state = self._backend.name if self._backend is not None else "not built"
-        return f"Harness(backend={state}, images={len(self.image_ids())})"
+        return (f"Harness(model={state}, recognition={self.cfg.recognition}, "
+                f"images={len(self.image_ids())})")

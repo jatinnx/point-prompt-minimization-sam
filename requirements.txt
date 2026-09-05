@@ -2,8 +2,8 @@
 #
 # These are the versions resolved in /home/cse-sdpl/pytorch-env on this machine,
 # pinned so a rerun reproduces the numbers in artifacts/. torch is listed for the
-# record but was already present -- reinstalling it pulls ~4 GB and this machine
-# has ~13 GB free, so install the rest into that environment rather than a new one:
+# record but was already present -- reinstalling it into a fresh venv pulls ~4 GB
+# on top of SAM 3's 3.3 GB, so install the rest into that environment instead:
 #
 #   /home/cse-sdpl/pytorch-env/bin/pip install -r requirements.txt
 #
@@ -16,11 +16,13 @@ pytest==8.4.2
 
 # torch==2.13.0+cu130   # pre-existing; CUDA 13.0 wheel, from the PyTorch index
 
-# SAM 1, built from the local clone at commit dca509fe793f601edb92606367a655c15ac00fdf.
-# Not on PyPI under this name; install with:
-#   pip install git+https://github.com/facebookresearch/segment-anything.git@dca509fe793f601edb92606367a655c15ac00fdf
-segment-anything==1.0
-
-# SAM 3 (optional, and currently unusable here -- facebook/sam3 is gated).
-# Uncomment once access is approved; Sam3Backend then activates automatically.
-# transformers>=5.0.0
+# SAM 3 -- the only model here. The weights are not a pip dependency: they sit in
+# the project at SAM-modals/sam3 (3.3 GB, gitignored), copied out of the Hugging
+# Face cache with the blob symlinks dereferenced, and both branches load from
+# there. Reproduce that copy on a fresh machine with
+#
+#   hf download facebook/sam3 --local-dir SAM-modals/sam3
+#
+# which needs `hf auth login` because the repo is gated. Sam3Model and
+# Sam3TrackerModel need transformers 5.x; 5.16.1 produced everything in artifacts/.
+transformers==5.16.1

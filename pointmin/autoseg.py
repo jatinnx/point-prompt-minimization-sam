@@ -1,13 +1,14 @@
 """Automatic ("segment everything") mode (Section 4, item 2).
 
-The area-fraction filter runs here rather than inside a backend so that both
-backends are filtered identically and their numbers stay comparable.
+The area-fraction filter runs here rather than inside the backend, so the filter
+is one thing described by one cache key rather than a model-side setting the key
+would not see.
 
 Automatic masks are cached to ``artifacts/auto_masks/`` because the pass is the
 expensive part of the harness and Step 0 and Step 1 both need the same output.
 The cache key includes the settings that change the output, not just the image
-and backend -- Step 6 tunes those settings, and a key that ignored them would
-quietly serve stale masks and make the tuning look like it did nothing.
+-- Step 6 tunes those settings, and a key that ignored them would quietly serve
+stale masks and make the tuning look like it did nothing.
 """
 from __future__ import annotations
 
