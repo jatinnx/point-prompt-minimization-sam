@@ -28,10 +28,7 @@ from pointmin import (Config, PointSelectionResult, load_dataset,  # noqa: E402
                       load_results, points_by_image, save_results, summarise)
 from pointmin.config import resolve                               # noqa: E402
 from pointmin.metrics import score                                # noqa: E402
-
-# Section 5's Region, field for field.
-REQUIRED_FIELDS = ("image_id", "class_id", "region_id", "gt_mask",
-                   "matched_sam_mask", "coverage", "iou", "status")
+from pointmin.regions import SPEC_FIELDS as REQUIRED_FIELDS       # noqa: E402
 
 
 class CheckFailed(AssertionError):

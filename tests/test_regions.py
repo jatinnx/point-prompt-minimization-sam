@@ -2,7 +2,8 @@
 import numpy as np
 import pytest
 
-from pointmin.regions import extract_regions, interior_mask, region_area_stats
+from pointmin.regions import (RECOGNIZED, SPEC_FIELDS, UNRECOGNIZED,
+                              extract_regions, interior_mask, region_area_stats)
 
 
 def test_two_blobs_of_one_class_are_two_regions():
@@ -100,3 +101,42 @@ def test_labels_outside_the_dlrsd_range_are_ignored():
     labels[0:5, 0:5] = 3
     regions = extract_regions(labels, "t", min_area=1)
     assert [r.class_id for r in regions] == [3]
+
+
+def test_spec_dict_is_exactly_the_documents_eight_fields():
+    """Section 5's Region, key for key, in order, with the additive ones gone."""
+    labels = np.zeros((10, 10), np.uint8)
+    labels[2:8, 2:8] = 3          # 36 px, above the 24 px area floor
+    region = extract_regions(labels, "airplane_00")[0]
+
+    d = region.to_dict(spec_only=True)
+    assert list(d) == ["image_id", "class_id", "region_id", "gt_mask",
+                       "matched_sam_mask", "coverage", "iou", "status"]
+    assert list(d) == list(SPEC_FIELDS)
+
+    assert isinstance(d["image_id"], str) and d["image_id"] == "airplane_00"
+    assert isinstance(d["class_id"], int) and d["class_id"] == 3   # the document's example
+    assert isinstance(d["region_id"], int)
+    assert d["gt_mask"].shape == labels.shape and d["gt_mask"].dtype == bool
+    assert d["matched_sam_mask"] is None                            # unscored region
+    assert isinstance(d["coverage"], float) and 0.0 <= d["coverage"] <= 1.0
+    assert isinstance(d["iou"], float) and 0.0 <= d["iou"] <= 1.0
+    assert d["status"] in (RECOGNIZED, UNRECOGNIZED)
+
+
+def test_spec_dict_drops_masks_too_when_asked():
+    labels = np.zeros((10, 10), np.uint8)
+    labels[2:8, 2:8] = 3          # 36 px, above the 24 px area floor
+    region = extract_regions(labels, "airplane_00")[0]
+    assert list(region.to_dict(include_masks=False, spec_only=True)) == [
+        "image_id", "class_id", "region_id", "coverage", "iou", "status"]
+
+
+def test_full_dict_still_carries_the_additive_fields():
+    labels = np.zeros((10, 10), np.uint8)
+    labels[2:8, 2:8] = 3          # 36 px, above the 24 px area floor
+    region = extract_regions(labels, "airplane_00")[0]
+    d = region.to_dict()
+    assert set(SPEC_FIELDS) <= set(d)
+    assert {"area_px", "bbox", "class_name", "class_region_index",
+            "matched_mask_indices"} <= set(d)

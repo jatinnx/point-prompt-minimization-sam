@@ -8,7 +8,8 @@ from .compat import prompt_sam3
 from .config import Config, resolve
 from .harness import Harness
 from .metrics import coverage, iou, is_recognized, score, score_regions
-from .regions import RECOGNIZED, UNRECOGNIZED, Region, extract_regions, interior_mask
+from .regions import (RECOGNIZED, SPEC_FIELDS, UNRECOGNIZED, Region,
+                      extract_regions, interior_mask)
 from .results import (PointSelectionResult, load_results, points_by_image,
                       save_results, summarise)
 from .sam_backend import BackendUnavailable, build_backend
@@ -20,6 +21,7 @@ __all__ = [
     "Config", "resolve", "Harness",
     "coverage", "iou", "is_recognized", "score", "score_regions",
     "Region", "extract_regions", "interior_mask", "RECOGNIZED", "UNRECOGNIZED",
+    "SPEC_FIELDS",
     "BackendUnavailable", "build_backend", "SamSession", "FakeSession",
     "save_regions", "load_regions", "dump_dataset", "load_dataset",
     "PointSelectionResult", "save_results", "load_results", "points_by_image",

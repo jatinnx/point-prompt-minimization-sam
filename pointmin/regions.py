@@ -24,6 +24,12 @@ from .dlrsd import class_name, classes_present
 RECOGNIZED = "recognized"
 UNRECOGNIZED = "unrecognized"
 
+# Section 5's ``Region``, field for field and in its order. The dataclass carries
+# five additive fields after these; ``to_dict(spec_only=True)`` drops them for a
+# consumer that wants the document's dict and nothing else.
+SPEC_FIELDS = ("image_id", "class_id", "region_id", "gt_mask",
+               "matched_sam_mask", "coverage", "iou", "status")
+
 
 @dataclass(eq=False)
 class Region:
@@ -57,8 +63,15 @@ class Region:
     def shape(self) -> tuple[int, int]:
         return self.gt_mask.shape        # type: ignore[return-value]
 
-    def to_dict(self, include_masks: bool = True) -> dict:
+    def to_dict(self, include_masks: bool = True, spec_only: bool = False) -> dict:
+        """This region as a dict.
+
+        ``spec_only`` returns exactly ``SPEC_FIELDS``, in the document's order,
+        with the additive fields dropped.
+        """
         d = asdict(self)
+        if spec_only:
+            d = {name: d[name] for name in SPEC_FIELDS}
         if not include_masks:
             d.pop("gt_mask")
             d.pop("matched_sam_mask")

@@ -56,6 +56,7 @@ ignore them if you do not need them.
 | `coverage` | `float` 0..1 | share of `gt_mask` that `matched_sam_mask` found |
 | `iou` | `float` 0..1 | IoU of `gt_mask` and `matched_sam_mask` |
 | `status` | `str` | `"recognized"` or `"unrecognized"` |
+| | | *— the document ends here; the rest are additive —* |
 | `area_px` | `int` | `gt_mask.sum()`, precomputed |
 | `bbox` | `(x, y, w, h)` | **x and y first**, matching the coordinate convention |
 | `class_name` | `str` | e.g. `"buildings"` — for printing, never for logic |
@@ -64,6 +65,11 @@ ignore them if you do not need them.
 
 Convenience: `region.key` is `f"{image_id}#{region_id}"`, and `region.summary()`
 returns a JSON-safe dict with no arrays in it.
+
+Want the document's dict and nothing else? `region.to_dict(spec_only=True)` returns
+exactly the eight fields above that marker, in that order, with the additive five
+dropped. The tuple is `pointmin.SPEC_FIELDS`, and it is the same tuple
+`scripts/04_handoff_check.py` asserts against, so the two cannot drift apart.
 
 ### Two deviations from the document, both deliberate
 
