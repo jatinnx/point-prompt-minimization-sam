@@ -18,7 +18,7 @@ workload per image
 2 regions have no matching automatic mask at all (SAM found nothing there): freew_301#12, river_1301#3
 the rest are partial failures -- a mask exists, it is just wrong
 
-model-free check  FakeSession on agric_1901#0 at (134, 133): cov=0.503 iou=0.503  (no checkpoint, no GPU)
+model-free check  FakeSession on agric_1901#0 at (134, 133): cov=0.503 iou=0.503  (no checkpoint, no GPU, no image files)
 [backend] sam3 unavailable, falling back
 [backend] using sam1_vit_b on cuda
 

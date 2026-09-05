@@ -104,7 +104,11 @@ def first_interior_point(region) -> tuple[int, int]:
 
 
 def check_prompting(image_ids: list[str], data: dict, cfg: Config) -> dict:
-    """Open a real session and prompt it, the way Raven's loop will."""
+    """Open a real session and prompt it, the way Raven's loop will.
+
+    Needs the SAM checkpoint and the DLRSD tiles under data/, unlike everything
+    else here.
+    """
     from pointmin import Harness
 
     harness = Harness(cfg)
@@ -132,14 +136,22 @@ def check_prompting(image_ids: list[str], data: dict, cfg: Config) -> dict:
     return {"n": len(rows), "rows": rows}
 
 
-def check_fake_session(image_ids: list[str], data: dict, cfg: Config) -> None:
-    """The model-free session, which is what makes Steps 2-5 startable today."""
-    from pointmin import Harness
+def check_fake_session(data: dict) -> None:
+    """The model-free session, which is what makes Steps 2-5 startable today.
 
-    harness = Harness(cfg, verbose=False)
-    image_id = image_ids[0]
-    region = max(data[image_id], key=lambda r: r.area_px)
-    with harness.open_fake(image_id) as fake:
+    Built straight from the stored regions rather than through the harness, so
+    this runs on a bare clone: FakeSession only reads the image's shape, and the
+    DLRSD tiles themselves are not in the repository.
+    """
+    from pointmin.session import FakeSession
+
+    image_id = sorted(data)[0]
+    regions = data[image_id]
+    region = max(regions, key=lambda r: r.area_px)
+    h, w = region.gt_mask.shape
+    stand_in = np.zeros((h, w, 3), dtype=np.uint8)
+
+    with FakeSession(stand_in, image_id, regions) as fake:
         # FakeSession needs a point inside the region; the centroid of a compact
         # region is inside it, unlike the first raster pixel on a curved edge.
         ys, xs = np.nonzero(region.gt_mask)
@@ -151,7 +163,7 @@ def check_fake_session(image_ids: list[str], data: dict, cfg: Config) -> None:
         require(mask.shape == region.gt_mask.shape, "fake session shape")
         require(fake.num_sam_calls == 1, "fake session call count")
     print(f"\nmodel-free check  FakeSession on {region.key} at ({cx}, {cy}): "
-          f"cov={cov:.3f} iou={iou:.3f}  (no checkpoint, no GPU)")
+          f"cov={cov:.3f} iou={iou:.3f}  (no checkpoint, no GPU, no image files)")
 
 
 def check_result_format(data: dict, out_dir: Path) -> Path:
@@ -222,11 +234,12 @@ def main() -> int:
           f"(SAM found nothing there): {', '.join(no_match) or 'none'}")
     print("the rest are partial failures -- a mask exists, it is just wrong")
 
-    check_fake_session(image_ids, data, cfg)
+    check_fake_session(data)
     if args.with_sam:
         check_prompting(image_ids, data, cfg)
     else:
-        print("\nprompting check   skipped (pass --with-sam to run it)")
+        print("\nprompting check   skipped (pass --with-sam to run it; it needs "
+              "the checkpoint and the DLRSD tiles under data/)")
 
     check_result_format(data, in_dir)
     print("\nhand-off OK")

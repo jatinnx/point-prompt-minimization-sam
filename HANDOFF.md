@@ -46,7 +46,15 @@ python scripts/04_handoff_check.py       # no GPU, no checkpoint
 compares them to the stored floats, checks `bbox` against the actual mask extent,
 and asserts all eight Section 5 fields exist on all 179 regions. If it prints
 `hand-off OK`, the two halves agree. If it fails, that is my bug — send me the
-line it printed. Run it again after every pull.
+line it printed. Run it again after every pull. Verified from a bare clone: 74
+tests pass and the check prints `hand-off OK` with no DLRSD tiles, no checkpoint
+and no GPU.
+
+The 2100 DLRSD tiles are **not** in the repository — 264 MB of dataset that does
+not belong in git. You do not need them to consume the hand-off, because every
+region carries its own `gt_mask` and `matched_sam_mask`. You need them only to
+prompt SAM for real (§4), and by then you need the checkpoint too; tell me and
+I will get you both.
 
 Its actual output on this machine, so you know what "intact" looks like:
 
@@ -180,7 +188,20 @@ progress and converge, so you can write and unit-test Steps 2–5 before touchin
 checkpoint. `open_fake(image_id, leak_px=3)` makes the mask spill past the region
 so coverage hits 1.0 while IoU does not — use it to test the over-large branch.
 
-Write the loop against `open_fake`, then change one word to `open`.
+`h.open_fake` reads the image file for its shape, so on a bare clone build the
+session from the stored regions instead:
+
+```python
+import numpy as np
+from pointmin.session import FakeSession
+
+regions = regions_by_image["freew_301"]
+stand_in = np.zeros((*regions[0].gt_mask.shape, 3), dtype=np.uint8)
+with FakeSession(stand_in, "freew_301", regions) as sess:
+    mask = sess.predict([(95, 66)], region=region)
+```
+
+Write the loop against `FakeSession`, then change one word to `open`.
 
 ---
 
