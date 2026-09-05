@@ -373,7 +373,7 @@ class Sam3NativeBackend:
             for k, v in state.items():
                 if "tracker" in k:
                     tracker_state[k.replace("tracker.", "")] = v
-                if "detector.backbone.visual" in k:
+                elif "detector" in k and "freqs_cis" not in k:
                     tracker_state[k.replace("detector.", "")] = v
             tracker.load_state_dict(tracker_state, strict=False)
             tracker.eval()
