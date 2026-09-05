@@ -18,6 +18,20 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SAM3_LOCAL_DIR = "SAM-modals/sam3"
 SAM3_HUB_ID = "facebook/sam3"        # fallback: gated, needs `hf auth login`
 
+# Native SAM 3 (Meta repo clone + sam3.pt checkpoint) candidate paths.
+# These are generic relative paths that work on any machine.
+# Machine-specific paths should only be supplied via env vars:
+#   POINTMIN_SAM3_NATIVE_CHECKPOINT=/path/to/sam3.pt
+#   POINTMIN_SAM3_NATIVE_REPO=/path/to/sam3_repo
+SAM3_NATIVE_CHECKPOINT_CANDIDATES = (
+    "SAM-modals/sam3.pt",
+    "SAM-modals/sam3_native/sam3.pt",
+)
+SAM3_NATIVE_REPO_CANDIDATES = (
+    "SAM-modals/sam3_native/sam3",
+    "SAM-modals/sam3_native",
+)
+
 
 def resolve(path: str | Path) -> Path:
     """Absolute paths pass through; relative ones anchor to the project root."""
@@ -49,8 +63,55 @@ def sam3_source(local_dir: str | Path = SAM3_LOCAL_DIR,
     return str(local) if (local / "config.json").is_file() else hub_id
 
 
+def sam3_native_checkpoint_source(
+    candidates: tuple[str, ...] = SAM3_NATIVE_CHECKPOINT_CANDIDATES,
+) -> str | None:
+    """Path to the native sam3.pt checkpoint file.
+
+    Follows the convention of candidate paths with an environment variable
+    override (POINTMIN_SAM3_NATIVE_CHECKPOINT).
+    """
+    override = os.environ.get("POINTMIN_SAM3_NATIVE_CHECKPOINT")
+    if override:
+        return override
+    for c in candidates:
+        p = resolve(c)
+        if p.is_file():
+            return str(p)
+    return None
+
+
+def sam3_native_repo_source(
+    candidates: tuple[str, ...] = SAM3_NATIVE_REPO_CANDIDATES,
+) -> str | None:
+    """Path to Meta's native sam3 repository root.
+
+    Follows the convention of candidate paths with an environment variable
+    override (POINTMIN_SAM3_NATIVE_REPO).
+    """
+    override = os.environ.get("POINTMIN_SAM3_NATIVE_REPO")
+    if override:
+        return override
+    for c in candidates:
+        p = resolve(c)
+        if p.is_dir() and ((p / "sam3").is_dir() or (p / "model_builder.py").is_file()):
+            return str(p)
+    return None
+
+
 @dataclass
 class Config:
+    # ---- backend selection ------------------------------------------------
+    # "auto"        picks native SAM 3 if a local checkpoint is present,
+    #               falling back to HF transformers Sam3Backend.
+    # "sam3"        HF transformers port (facebook/sam3, gated).
+    # "sam3_native" Meta's native sam3 repository + sam3.pt checkpoint.
+    backend: str = "auto"
+    sam3_native_checkpoint: str | None = field(
+        default_factory=sam3_native_checkpoint_source)
+    sam3_native_repo: str | None = field(
+        default_factory=sam3_native_repo_source)
+
     # ---- data -------------------------------------------------------------
     images_dir: str = "data/dlrsd/images"    # RGB PNG, 256x256
     labels_dir: str = "data/dlrsd/labels"    # mode L PNG, pixel values 1..17
@@ -121,9 +182,14 @@ class Config:
 
     seed: int = 42
 
+    BACKEND_MODES = ("auto", "sam3", "sam3_native")
     RECOGNITION_MODES = ("auto", "text", "automatic")
 
     def __post_init__(self) -> None:
+        if self.backend not in self.BACKEND_MODES:
+            raise ValueError(
+                f"backend must be one of {list(self.BACKEND_MODES)}, "
+                f"got {self.backend!r}")
         if self.recognition not in self.RECOGNITION_MODES:
             raise ValueError(
                 f"recognition must be one of {list(self.RECOGNITION_MODES)}, "

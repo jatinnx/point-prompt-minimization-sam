@@ -67,3 +67,36 @@ def test_artifacts_dir_is_created_on_access(tmp_path):
     assert not target.exists()
     assert Config(artifacts_dir=str(target)).artifacts == target
     assert target.is_dir()
+
+
+def test_sam3_native_checkpoint_env_override(monkeypatch):
+    monkeypatch.setenv("POINTMIN_SAM3_NATIVE_CHECKPOINT", "/custom/sam3.pt")
+    cfg = Config()
+    assert cfg.sam3_native_checkpoint == "/custom/sam3.pt"
+
+
+def test_sam3_native_repo_env_override(monkeypatch):
+    monkeypatch.setenv("POINTMIN_SAM3_NATIVE_REPO", "/custom/sam3_repo")
+    cfg = Config()
+    assert cfg.sam3_native_repo == "/custom/sam3_repo"
+
+
+def test_config_backend_validation():
+    import pytest
+    cfg = Config(backend="sam3_native")
+    assert cfg.backend == "sam3_native"
+    cfg2 = Config(backend="sam3")
+    assert cfg2.backend == "sam3"
+    with pytest.raises(ValueError, match="backend must be one of"):
+        Config(backend="invalid_backend")
+
+
+def test_native_backend_missing_checkpoint_raises(tmp_path):
+    import pytest
+    from pointmin.sam_backend import BackendUnavailable, Sam3NativeBackend
+    cfg = Config(
+        backend="sam3_native",
+        sam3_native_checkpoint=str(tmp_path / "absent.pt"),
+    )
+    with pytest.raises(BackendUnavailable, match="Native SAM 3 checkpoint not found"):
+        Sam3NativeBackend(cfg)

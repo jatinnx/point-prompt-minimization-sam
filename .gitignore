@@ -12,6 +12,8 @@ artifacts/concept_masks/
 # Hugging Face cache. 3.3 GB -- reproduce it, never commit it. The *.safetensors
 # rule below would catch the weights but not the tokenizer and config JSONs.
 SAM-modals/
+sam3/
+sam3_working_in_shavak/
 
 __pycache__/
 *.py[cod]
