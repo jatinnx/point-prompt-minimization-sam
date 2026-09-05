@@ -38,7 +38,7 @@ SAM 3: §9 of `INTERFACE.md`.
 ```bash
 git clone <repo> && cd Point-project
 pip install -r requirements.txt          # numpy, opencv, matplotlib, pytest
-python -m pytest -q                      # 74 passed
+python -m pytest -q                      # 77 passed
 python scripts/04_handoff_check.py       # no GPU, no checkpoint
 ```
 
@@ -46,7 +46,7 @@ python scripts/04_handoff_check.py       # no GPU, no checkpoint
 compares them to the stored floats, checks `bbox` against the actual mask extent,
 and asserts all eight Section 5 fields exist on all 179 regions. If it prints
 `hand-off OK`, the two halves agree. If it fails, that is my bug — send me the
-line it printed. Run it again after every pull. Verified from a bare clone: 74
+line it printed. Run it again after every pull. Verified from a bare clone: 77
 tests pass and the check prints `hand-off OK` with no DLRSD tiles, no checkpoint
 and no GPU.
 
@@ -475,7 +475,7 @@ the baseline you are trying to beat. Recompute with `h.score` after every predic
 Section 7 of the plan makes an interface change a "stop and tell the other person
 immediately" moment, so:
 
-- `pytest -q` → 74 passed, and `scripts/04_handoff_check.py` → `hand-off OK`. If
+- `pytest -q` → 77 passed, and `scripts/04_handoff_check.py` → `hand-off OK`. If
   either breaks after a pull, that is on me; send me the failing line.
 - Adding a field to `Region` or `PointSelectionResult` is cheap. Changing what an
   existing one means is not — message me before, not after.

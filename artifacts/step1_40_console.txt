@@ -1,0 +1,90 @@
+Step 1 harness report: 40 images
+[backend] sam3 unavailable, falling back
+[backend] using sam1_vit_b on cuda
+backend=sam1_vit_b device=cuda
+  agric_1901, airpl_801, baseb_1000, beach_1101, build_1601, chapa_1701, dense_1401, fores_601, freew_301, golfc_1, harbo_401, inter_2001, mediu_1201, mobil_701, overp_1501, parki_201, river_1301, runwa_1801, spars_101, stora_501, tenni_1001, agric_1902, airpl_802, baseb_901, beach_1102, build_1602, chapa_1702, dense_1402, fores_602, freew_302, golfc_10, harbo_402, inter_2002, mediu_1202, mobil_702, overp_1502, parki_202, river_1302, runwa_1802, spars_102
+
+matching mode comparison (thresholds cov>=0.9, iou>=0.75)
+
+best_single: 133/891 recognized (14.9%), 137 with no matching mask at all, 0.85 masks per region on average
+  coverage   mean=0.535  min=0.000  p5=0.000  p25=0.162  p50=0.645  p75=0.876  p95=0.996  max=1.000
+  IoU        mean=0.472  min=0.000  p5=0.000  p25=0.146  p50=0.527  p75=0.772  p95=0.910  max=0.993
+
+greedy_union: 189/891 recognized (21.2%), 137 with no matching mask at all, 2.25 masks per region on average
+  coverage   mean=0.614  min=0.000  p5=0.000  p25=0.293  p50=0.772  p75=0.916  p95=0.998  max=1.000
+  IoU        mean=0.541  min=0.000  p5=0.000  p25=0.244  p50=0.676  p75=0.811  p95=0.921  max=0.993
+
+per class, mode=greedy_union
+  class        regions  recog    cov    IoU median area
+  airplane           5      3  0.845  0.676         663
+  bare soil         26      5  0.533  0.469        1529
+  buildings         77     26  0.862  0.752        1047
+  cars             149     28  0.828  0.725         169
+  chaparral        265     16  0.284  0.270          71
+  court              1      1  0.988  0.911        6765
+  dock               3      0  0.452  0.382        3364
+  field              2      1  0.502  0.500       63659
+  grass             77     19  0.671  0.601        1209
+  mobile home       35     18  0.915  0.762         360
+  pavement          55     13  0.671  0.602        3233
+  sand               6      4  0.933  0.910        3630
+  sea                2      1  0.875  0.867       36933
+  ship              38     17  0.896  0.744         954
+  tanks              3      2  0.927  0.913        3926
+  trees            116     30  0.678  0.585         872
+  water             31      5  0.564  0.455         392
+
+threshold grid, mode=greedy_union (recognized fraction of 891 regions)
+  cov\IoU     0.50    0.60    0.70    0.75    0.80
+     0.80    0.44    0.42    0.38    0.35    0.27
+     0.85    0.36    0.34    0.31    0.29    0.24
+     0.90    0.27    0.25    0.23    0.21    0.18
+     0.95    0.15    0.14    0.12    0.11    0.09
+
+region counts per image
+  image             masks  floor 0 floor 24  unrec
+  agric_1901           14        2        2      0
+  airpl_801            95       15       14      3
+  baseb_1000          120       16       16     11
+  beach_1101           18        2        2      2
+  build_1601          122       19       18     12
+  chapa_1701          107      174      143    137
+  dense_1401          264       33       32     23
+  fores_601            77        1        1      1
+  freew_301            68       21       21     17
+  golfc_1              40        7        7      5
+  harbo_401            93       25       24     15
+  inter_2001          163       31       29     20
+  mediu_1201          187       23       22     18
+  mobil_701           282       50       43     30
+  overp_1501           61       11       11      8
+  parki_201           220       41       41     32
+  river_1301           43       13       12     11
+  runwa_1801           43        3        3      1
+  spars_101           116       21       21     16
+  stora_501           116       23       21     13
+  tenni_1001           66       10        9      5
+  agric_1902            5        1        1      1
+  airpl_802            61        3        3      1
+  baseb_901            57        4        4      3
+  beach_1102           14        2        2      0
+  build_1602          139        5        5      5
+  chapa_1702          122      163      124    114
+  dense_1402          272       22       21     18
+  fores_602           122        1        1      1
+  freew_302            61       19       19     15
+  golfc_10             72       13       13      6
+  harbo_402           160       44       43     30
+  inter_2002          240       32       29     26
+  mediu_1202          182       21       19     13
+  mobil_702           273       44       40     28
+  overp_1502           92       18       18     14
+  parki_202           249       28       27     25
+  river_1302          112       15       12      9
+  runwa_1802           35        2        2      0
+  spars_102           104       16       16     13
+  TOTAL                        994      891    702
+
+702/891 regions unrecognized under the provisional thresholds -- the point selector's workload
+wrote step1_report.json, coverage_vs_iou.png and 40 region files to /home/cse-sdpl/Videos/Point-project/artifacts/step1_40
+round-trip check: reloaded 891 regions from disk, matches in-memory count: True

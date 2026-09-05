@@ -23,7 +23,7 @@ because a fresh torch install would not fit on this disk.
 ```bash
 PY=/home/cse-sdpl/pytorch-env/bin/python
 
-$PY -m pytest -q                      # 74 tests, ~3 s, no model needed
+$PY -m pytest -q                      # 77 tests, ~3 s, no model needed
 $PY scripts/00_extract_data.py        # DLRSD -> data/  (already done)
 $PY scripts/01_inspect.py             # Step 0: joint manual inspection
 $PY scripts/02_harness_report.py      # Step 1: harness measured on 10 images
@@ -54,7 +54,7 @@ pointmin/
   store.py        bit-packed Region persistence, so Raven needs no GPU
   viz.py          the Step 0 panel figures
 scripts/          00 extract, 01 Step 0, 02 Step 1, 03 settings sweep, 04 hand-off check
-tests/            74 tests: coordinates, metrics, regions, store, cache, results, compat, config
+tests/            77 tests: coordinates, metrics, regions, store, cache, results, compat, config
 artifacts/        step0/, step1/, auto_masks/  (generated; step0+step1 are committed)
 data/dlrsd/       images/ labels/ colour/  — 2100 each, 264 MB (not committed)
 ```
